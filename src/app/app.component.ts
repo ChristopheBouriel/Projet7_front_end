@@ -7,4 +7,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Front-end';
+
+  publications = [
+    {
+      name: 'Sur les ondes',
+      status: 'Pas encore lu'
+    },
+    {
+      name: 'Sur la matière',
+      status: 'Pas encore lu'
+    },
+    {
+      name: 'Sur le mouvement',
+      status: 'Lu'
+    }
+  ]
 }
