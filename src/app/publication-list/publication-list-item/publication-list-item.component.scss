@@ -1,0 +1,18 @@
+.list-group-item {
+    border: solid 1px;
+    list-style-type: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(215, 219, 219);
+    p {
+        font-style: italic;
+    }
+}
+
+.list-group-item-dislike {
+    background-color: rgb(253, 98, 124);
+}
+
+.list-group-item-like {
+    background-color: rgb(157, 194, 147);
+}

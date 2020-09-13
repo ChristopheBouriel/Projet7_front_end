@@ -8,10 +8,37 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PublicationListItemComponent implements OnInit {
   
   @Input() publicationName: string;
+  @Input() publicationContent: string;
+  @Input() publicationDate: string;
+
+  @Input() publicationLike;
+  @Input() publicationDislike;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onLike() {
+    if(this.publicationDislike === false) {
+      if(this.publicationLike === false) {
+        this.publicationLike=true;
+      } else {
+        this.publicationLike=false;
+      }
+    }
+    
+  }
+
+  onDislike() {
+    if(this.publicationLike === false) {
+      if(this.publicationDislike === false) {
+        this.publicationDislike=true;
+      } else {
+        this.publicationDislike=false;
+      }
+      
+    }
   }
 
 }
