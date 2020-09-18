@@ -1,19 +1,12 @@
-<div class="container mt-5">
-    <div class="row">
-      <div class="col-xs-12 col-sm-10 mx-auto">
-        <h2>Mes publications</h2>
-        <p>Mis à jour : {{ lastUpdate | async | date: 'short' | lowercase}}</p>
-        <ul class="list-group">
-            <app-publication-list-item  *ngFor="let publication of publications"
-                              [publicationName]="publication.name"
-                              [publicationContent]="publication.content"
-                              [publicationDate]="publication.date"
-                              [publicationLike]="publication.like"
-                              [publicationDislike]="publication.dislike">
-                            
-                            </app-publication-list-item>
-            
-          </ul>
-          
-      </div>
-    </div>
+
+<h2>Mes publications</h2>
+<p>Mis à jour : {{ lastUpdate | async | date: 'short' | lowercase}}</p>
+<ul class="list-group">
+    <app-publication-list-item  *ngFor="let publication of publications"
+          [publicationTitle]="publication.title"
+          [publicationContent]="publication.content"
+          [publicationDate]="publication.date_publication"
+          [publicationLikes]="publication.likes"
+          [publicationNumberComments]="publication.numberComments">
+    </app-publication-list-item>
+</ul>

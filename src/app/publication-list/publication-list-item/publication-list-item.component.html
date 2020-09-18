@@ -1,10 +1,9 @@
 <li [ngClass]="{'list-group-item': true,
-                'list-group-item-like': publicationLike === true,
-                'list-group-item-dislike': publicationDislike === true}">
-    <h4 [ngStyle]="{color: 'purple'}">Publication : {{publicationName}}</h4>
+                'list-group-item-like': publicationLikes === 1}">
+    <h4 [ngStyle]="{color: 'purple'}">{{publicationTitle}}</h4>
     <p>Date : {{publicationDate | date: 'short' | lowercase}}</p>
     <p>{{publicationContent}}</p>
     <button class="btn btn-success mb-1" (click)="onLike()">Like it</button>
-    <button class="btn btn-danger ml-2 mb-1" (click)="onDislike()">Don't like it</button>
+    <p>Commentaires : {{publicationNumberComments}}</p>
     
 </li>

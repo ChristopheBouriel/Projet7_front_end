@@ -7,12 +7,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PublicationListItemComponent implements OnInit {
   
-  @Input() publicationName: string;
+  @Input() publicationTitle: string;
   @Input() publicationContent: string;
   @Input() publicationDate: string;
-
-  @Input() publicationLike;
-  @Input() publicationDislike;
+  @Input() publicationNumberComments: number;
+  @Input() publicationLikes;
+  
 
   constructor() { }
 
@@ -20,25 +20,16 @@ export class PublicationListItemComponent implements OnInit {
   }
 
   onLike() {
-    if(this.publicationDislike === false) {
-      if(this.publicationLike === false) {
-        this.publicationLike=true;
+    
+      if(this.publicationLikes === 0) {
+        this.publicationLikes=1;
       } else {
-        this.publicationLike=false;
+        this.publicationLikes=0;
       }
-    }
+    
     
   }
 
-  onDislike() {
-    if(this.publicationLike === false) {
-      if(this.publicationDislike === false) {
-        this.publicationDislike=true;
-      } else {
-        this.publicationDislike=false;
-      }
-      
-    }
-  }
+  
 
 }
