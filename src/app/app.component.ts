@@ -10,25 +10,15 @@ import { Subscription } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'Front-end';
 
-  publications:any[];
+  
   publicationSubscription: Subscription;
 
   constructor(private publicationService: PublicationService) {
     
   }
 
-  ngOnInit() {
-    this.publicationSubscription = this.publicationService.publicationsSubject.subscribe(
-      (publications:any[]) => {
-        this.publications = publications;
-        
-      }
-    );
-    this.publicationService.getAllPublications();
+  ngOnInit(): void {
+
   }
   
-  ngOnDestroy() {
-    this.publicationSubscription.unsubscribe();
-  }
-
 }

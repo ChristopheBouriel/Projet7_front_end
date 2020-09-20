@@ -4,11 +4,11 @@
     padding: 10px;
     margin-bottom: 10px;
     background-color: rgb(215, 219, 219);
+    /*height: 300px;*/
+    overflow: hidden;
     p {
         font-style: italic;
+        
     }
 }
 
-.list-group-item-like {
-    background-color: rgb(157, 194, 147);
-}

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { PublicationService} from '../services/publication.service';
 
 @Component({
   selector: 'app-publication-list',
@@ -7,7 +9,10 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PublicationListComponent implements OnInit {
 
-  @Input() publications;
+  isAuth = false;
+
+  publications: any[];
+  publicationsSubscription: Subscription;
 
   lastUpdate = new Promise((resolve, reject) => {
     const date = new Date();
@@ -18,9 +23,22 @@ export class PublicationListComponent implements OnInit {
     )
   });
   
-  constructor() { }
+  constructor(private publicationService: PublicationService) {
+    
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.publicationsSubscription = this.publicationService.publicationsSubject.subscribe(
+      (publications:any[]) => {
+        this.publications = publications;
+        
+      }
+    );
+    this.publicationService.getAllPublications();
+  }
+  
+  ngOnDestroy() {
+    this.publicationsSubscription.unsubscribe();
   }
 
 }

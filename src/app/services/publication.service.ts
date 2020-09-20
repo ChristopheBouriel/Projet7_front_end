@@ -7,12 +7,21 @@ import { Subject } from 'rxjs';
 export class PublicationService {
 
     publicationsSubject = new Subject<any>();
+    publicationSubject = new Subject<any>();
 
-    private publications = [];
+    private publications: any[];
+    private publication: any[];
+
     constructor(private httpClient: HttpClient) { }
 
-    emitPublicationSubject( ) {
+    emitPublicationsSubject( ) {
         this.publicationsSubject.next(this.publications.slice());
+        
+    }
+
+    emitPublicationSubject( ) {
+        this.publicationSubject.next(this.publication);
+        console.log(this.publication);
     }
 
     getAllPublications() {
@@ -22,6 +31,22 @@ export class PublicationService {
             (response) => {
               this.publications = response;
               console.log(this.publications)
+              this.emitPublicationsSubject();
+            },
+            (error) => {
+              console.log('Erreur ! : ' + error);
+            }
+          );
+    }
+
+    getPublicationById(id: number) {
+        this.httpClient
+        .get<any[]>('http://localhost:3000/api/publications/' + id)
+          .subscribe(
+            (response) => {
+              this.publication = response;
+              
+              console.log(this.publication)
               this.emitPublicationSubject();
             },
             (error) => {

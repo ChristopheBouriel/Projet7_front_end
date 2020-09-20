@@ -1,0 +1,13 @@
+<div [ngClass]="{'single-publication': true,
+'single-publication-like': likes === 1
+                }">
+    <h4 [ngStyle]="{color: 'purple'}">{{publication.title}}</h4>
+    <p>Date : {{publication.date_publication | date: 'short' | lowercase}}</p>
+    <div>{{publication.content}}</div>
+    <br/>
+    <button class="btn btn-success mb-1" (click)="onLike()">Like it</button>
+    <p>Commentaires : {{publication.numberComments}}</p>
+    
+</div>
+
+<a routerLink="/publications">Retour à la liste</a>

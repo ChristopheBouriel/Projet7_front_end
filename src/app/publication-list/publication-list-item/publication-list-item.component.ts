@@ -12,6 +12,8 @@ export class PublicationListItemComponent implements OnInit {
   @Input() publicationDate: string;
   @Input() publicationNumberComments: number;
   @Input() publicationLikes;
+  @Input() index: number;
+  @Input() id: number;
   
 
   constructor() { }
@@ -19,16 +21,7 @@ export class PublicationListItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onLike() {
-    
-      if(this.publicationLikes === 0) {
-        this.publicationLikes=1;
-      } else {
-        this.publicationLikes=0;
-      }
-    
-    
-  }
+  
 
   
 

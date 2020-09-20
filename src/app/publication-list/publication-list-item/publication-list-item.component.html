@@ -3,7 +3,7 @@
     <h4 [ngStyle]="{color: 'purple'}">{{publicationTitle}}</h4>
     <p>Date : {{publicationDate | date: 'short' | lowercase}}</p>
     <p>{{publicationContent}}</p>
-    <button class="btn btn-success mb-1" (click)="onLike()">Like it</button>
-    <p>Commentaires : {{publicationNumberComments}}</p>
     
+    <a [routerLink]="[id]">Détail</a>
+    <p>Commentaires : {{publicationNumberComments}}</p>
 </li>
