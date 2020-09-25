@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { PublicationService} from '../services/publication.service';
 import { ActivatedRoute } from '@angular/router';
+import { Publication } from '../models/publication';
+import { CommentService } from '../services/comment.service'
 import { Subscription } from 'rxjs';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-single-publication',
@@ -11,31 +18,50 @@ import { Subscription } from 'rxjs';
 export class SinglePublicationComponent implements OnInit {
 
   //title: string = 'Title';
-  date: string = 'Date';
-  content: string;
-  numberComments: number;
-  likes: number;
+  //date: string = 'Date';
+  //content: string;
+  //numberComments: number;
+  likes = 0;
+  loading: boolean;
+  //postAnchor: string;
+  id: number;
 
+  publication: Publication;
   
-  publication: any;
  
+  commentForm: FormGroup;
+  errorMsg: string;
+
   //publicationSubscription: Subscription;
 
   constructor(private publicationService: PublicationService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
+              private commentService: CommentService,
+              private authService: AuthService,
+              private router: Router
+              ) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params['id'];
     
-
+    this.loading = true;
     //this.publicationSubscription = 
     this.publicationService.publicationSubject.subscribe(
-      (publication: any) => {
+      (publication: Publication) => {
         this.publication = publication[0];
-        console.log(publication)
+        //this.postAnchor = '/publications\#' + this.publication.id
+        //console.log(this.postAnchor)
       }
     );
-    this.publicationService.getPublicationById(+id);
+    this.publicationService.getPublicationById(+this.id);
+
+    this.commentForm = this.formBuilder.group({
+      comment: [null, Validators.required]
+      
+    });
+
+    this.loading = false;
   }
 
   onLike() {
@@ -48,7 +74,29 @@ export class SinglePublicationComponent implements OnInit {
       //this.publicationService.getPublicationById(+id).likes = 0;
     }
   
-  
-}
+  }
+
+  onComment() {
+
+    this.loading = true;
+    const comment = this.commentForm.get('comment').value;
+    const userId = this.authService.getUserId();
+    const username = this.authService.getUserName();
+    const date = new Date().toISOString();
+    const dbDate = date.split('.')[0].replace('T',' ');
+    console.log(dbDate);
+    this.commentService.postComment(comment, userId, username, this.id, dbDate).then(
+      (d) => {
+        console.log(d)
+        this.loading = false;
+        this.commentForm.reset('comment');
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
+  }
 
 }

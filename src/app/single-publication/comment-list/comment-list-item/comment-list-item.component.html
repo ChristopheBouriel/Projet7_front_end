@@ -1,0 +1,10 @@
+<li [ngClass]="{'list-group-item': true}"
+*ngIf="!deleted">
+    <p>De {{commentUserName}}, le {{commentDate | date: 'short' | lowercase}}</p>
+    <!--<p> Dernière modification le :</p>-->
+    
+    <p>{{commentContent}}</p>
+    <!--<p>{{i}}</p>-->
+    <button mat-raised-button color="purple" (click)="onDelete()" >Effacer</button>
+    {{id}}
+</li>

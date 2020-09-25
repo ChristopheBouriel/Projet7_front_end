@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Publication } from '../models/publication';
 import { Subject } from 'rxjs';
 
 
 @Injectable()
 export class PublicationService {
 
-    publicationsSubject = new Subject<any>();
-    publicationSubject = new Subject<any>();
+    publicationsSubject = new Subject<Publication[]>();
+    publicationSubject = new Subject<Publication>();
 
-    private publications: any[];
-    private publication: any[];
+    private publications: Publication[];
+    private publication: Publication;
 
     constructor(private httpClient: HttpClient) { }
 
@@ -26,7 +27,7 @@ export class PublicationService {
 
     getAllPublications() {
         this.httpClient
-          .get<any[]>('http://localhost:3000/api/publications')
+          .get<Publication[]>('http://localhost:3000/api/publications')
           .subscribe(
             (response) => {
               this.publications = response;
@@ -41,7 +42,7 @@ export class PublicationService {
 
     getPublicationById(id: number) {
         this.httpClient
-        .get<any[]>('http://localhost:3000/api/publications/' + id)
+        .get<Publication>('http://localhost:3000/api/publications/' + id)
           .subscribe(
             (response) => {
               this.publication = response;

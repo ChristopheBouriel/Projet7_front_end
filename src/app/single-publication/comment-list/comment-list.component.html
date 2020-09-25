@@ -1,0 +1,11 @@
+
+<ul class="list-group">
+    <app-comment-list-item  *ngFor="let comment of comments; let i = index"
+          [commentUserName]="comment.userName"
+          [commentContent]="comment.content"
+          [commentDate]="comment.date_comment"
+          [index]="i" 
+          [id]="comment.id">
+    </app-comment-list-item>
+    
+</ul>

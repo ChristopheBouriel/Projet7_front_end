@@ -1,0 +1,14 @@
+<form [formGroup]="loginForm" *ngIf="!loading">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="username" class="form-control" id="username" formControlName="username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password">
+    </div>
+    <button mat-raised-button color="purple" [disabled]="loginForm.invalid" (click)="onLogin()">LOGIN</button>
+    <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+    <button mat-raised-button color="purple"  (click)="onLogout()">LOGOUT</button>
+</form>

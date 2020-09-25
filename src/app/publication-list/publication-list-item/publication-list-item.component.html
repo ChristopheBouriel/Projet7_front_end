@@ -1,9 +1,13 @@
 <li [ngClass]="{'list-group-item': true,
-                'list-group-item-like': publicationLikes === 1}">
-    <h4 [ngStyle]="{color: 'purple'}">{{publicationTitle}}</h4>
-    <p>Date : {{publicationDate | date: 'short' | lowercase}}</p>
-    <p>{{publicationContent}}</p>
-    
-    <a [routerLink]="[id]">Détail</a>
-    <p>Commentaires : {{publicationNumberComments}}</p>
+                'list-group-item-like': publicationLikes === 1}"
+                id="{{id}}">
+    <div class="overview">
+        <h4 [ngStyle]="{color: 'purple'}">{{publicationTitle}}</h4>
+        <p>Date : {{publicationDate | date: 'short' | lowercase}}</p>
+        <p>{{publicationContent}}</p>
+    </div>
+    <div class="see-it">
+        <a [routerLink]="[id]">Détail</a>
+        <p>Commentaires : {{publicationNumberComments}}</p>
+    </div>
 </li>
