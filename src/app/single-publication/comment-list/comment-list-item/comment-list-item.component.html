@@ -5,6 +5,7 @@
     
     <p>{{commentContent}}</p>
     <!--<p>{{i}}</p>-->
-    <button mat-raised-button color="purple" (click)="onDelete()" >Effacer</button>
-    {{id}}
+    <button mat-raised-button color="purple" (click)="onDelete()" 
+    *ngIf="isAuthor">Effacer</button>
+    
 </li>

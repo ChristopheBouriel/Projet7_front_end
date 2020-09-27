@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 
 export class AuthService {
 
-    isAuth$ = new BehaviorSubject<boolean>(false);
+    //isAuth$ = new BehaviorSubject<boolean>(false);
     isAuth = false;
 
     userId: string='tonString';
@@ -33,8 +33,9 @@ export class AuthService {
             this.userId = response.userId;
             this.username = response.userName;
             //this.authToken = response.token;
-            this.isAuth = true;
-            console.log(this.isAuth$)
+            //this.isAuth$.next(true);
+            this.isAuth=true;
+            
             resolve();
           },
           (error) => {

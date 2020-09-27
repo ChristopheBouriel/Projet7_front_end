@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CommentListComponent implements OnInit {
  
-  @Input() id: number;
+  @Input() postId: number;
 
   comments: any[];
   commentsSubscription: Subscription;
@@ -27,7 +27,7 @@ export class CommentListComponent implements OnInit {
         
       }
     );
-    this.commentService.getAllComments(this.id);
+    this.commentService.getAllComments(this.postId);
   }
   
   ngOnDestroy() {

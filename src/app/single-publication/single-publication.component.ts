@@ -24,7 +24,7 @@ export class SinglePublicationComponent implements OnInit {
   likes = 0;
   loading: boolean;
   //postAnchor: string;
-  id: number;
+  postId: number;
 
   publication: Publication;
   
@@ -43,7 +43,7 @@ export class SinglePublicationComponent implements OnInit {
               ) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    this.postId = this.route.snapshot.params['id'];
     
     this.loading = true;
     //this.publicationSubscription = 
@@ -54,7 +54,7 @@ export class SinglePublicationComponent implements OnInit {
         //console.log(this.postAnchor)
       }
     );
-    this.publicationService.getPublicationById(+this.id);
+    this.publicationService.getPublicationById(+this.postId);
 
     this.commentForm = this.formBuilder.group({
       comment: [null, Validators.required]
@@ -78,23 +78,23 @@ export class SinglePublicationComponent implements OnInit {
 
   onComment() {
 
-    this.loading = true;
+    //this.loading = true;
     const comment = this.commentForm.get('comment').value;
     const userId = this.authService.getUserId();
     const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
     console.log(dbDate);
-    this.commentService.postComment(comment, userId, username, this.id, dbDate).then(
-      (d) => {
-        console.log(d)
+    this.commentService.postComment(comment, userId, username, this.postId, dbDate).then(
+      (response) => {
+        console.log(response);
         this.loading = false;
         this.commentForm.reset('comment');
       }
     ).catch(
       (error) => {
         this.loading = false;
-        this.errorMsg = error.message;
+        console.log(error);
       }
     );
   }

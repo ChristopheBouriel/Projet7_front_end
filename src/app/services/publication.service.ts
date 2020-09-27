@@ -41,18 +41,21 @@ export class PublicationService {
     }
 
     getPublicationById(id: number) {
+      return new Promise((resolve, reject) => {
         this.httpClient
         .get<Publication>('http://localhost:3000/api/publications/' + id)
           .subscribe(
-            (response) => {
+            (response: Publication) => {
               this.publication = response;
               
               console.log(this.publication)
               this.emitPublicationSubject();
             },
             (error) => {
-              console.log('Erreur ! : ' + error);
+              reject(error);
             }
           );
+      })
+        
     }
 }

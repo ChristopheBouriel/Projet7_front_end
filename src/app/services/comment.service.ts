@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Comment} from '../models/comment';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -13,16 +14,17 @@ export class CommentService {
     private comments: Comment[];
     
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient,
+                private router: Router) { }
 
     emitCommentsSubject( ) {
         this.commentsSubject.next(this.comments.slice());
         
     }
 
-    getAllComments(id: number) {
+    getAllComments(postId: number) {
         this.httpClient
-          .post<Comment[]>('http://localhost:3000/api/comments', {publicationId: id})
+          .post<Comment[]>('http://localhost:3000/api/comments', {publicationId: postId})
           .subscribe(
             (response) => {
               this.comments = response;
@@ -38,42 +40,30 @@ export class CommentService {
     postComment(comment: string, userId: string, username: string, postId: number, date: string) {
         console.log({comment, userId, postId, date})
 
-        this.httpClient
+        return new Promise((resolve,reject) => {
+            this.httpClient
           .post('http://localhost:3000/api/comments/add', {content: comment, userId: userId, userName: username, postId: postId, date_comment: date})
-          .subscribe(
-            (response) => {
-              console.log(response)
-                },
-            (error) => {
-              console.log('Erreur ! : ' + error);
-            }
-          );
-
-            this.getAllComments(postId);
-
-        const d="Post ok"
-        return new Promise((resolve, reject) => {
-            resolve(d);
+          .subscribe((response)=> {
+              resolve(response);
+              this.getAllComments(postId);
+          }),
+          (error) => {reject(error);}
         })
     }
 
-    deleteComment(id:number) {
-        this.httpClient
-          .post('http://localhost:3000/api/comments/delete', {id: id})
+    deleteComment(id:number, publication:number) {
+
+        return new Promise((resolve, reject) => {
+            this.httpClient
+          .post('http://localhost:3000/api/comments/delete', {id: id, postId: publication})
           .subscribe(
             (response) => {
-              console.log(response)
+              resolve(response)
                 },
             (error) => {
-              console.log('Erreur ! : ' + error);
+              reject(error);
             }
           );
-
-          
-
-        const c="Delete ok"
-        return new Promise((resolve, reject) => {
-            resolve(c);
         })
     }
 }

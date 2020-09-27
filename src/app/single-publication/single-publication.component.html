@@ -6,7 +6,7 @@
     <div>{{publication?.content}}</div>
     <br/>
     <button class="btn btn-success mb-1" (click)="onLike()">Like it</button>
-    <p>Commentaires : {{publication?.numberComments}}</p>
+    
     
 </div>
 
@@ -20,7 +20,7 @@
 </li>
 -->
 
-<app-comment-list [id]="id"></app-comment-list>
+<app-comment-list [postId]="postId"></app-comment-list>
 
 <form [formGroup]="commentForm" *ngIf="!loading">
     <div class="form-group">

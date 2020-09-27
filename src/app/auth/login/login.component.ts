@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMsg: string;
   loading: boolean;
+  isAuth: boolean;
+
+  //authSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -23,6 +27,12 @@ export class LoginComponent implements OnInit {
       username: [null, Validators.required],
       password: [null, Validators.required]
     });
+
+
+    //this.authSubscription = this.authService.isAuth$.subscribe(
+      //(auth) => {this.isAuth = auth;});
+      this.isAuth = this.authService.isAuth;
+      console.log(this.isAuth)
   }
 
   onLogin() {
@@ -33,6 +43,7 @@ export class LoginComponent implements OnInit {
       () => {
         console.log('There')
         this.loading = false;
+        
         this.router.navigate(['publications']);
       }
     ).catch(
@@ -41,10 +52,15 @@ export class LoginComponent implements OnInit {
         this.errorMsg = error.message;
       }
     );
+    
   }
 
 
   onLogout() {
     this.authService.logout();
+    this.isAuth=false
   }
+
+  //ngOnDestroy() {this.authSubscription.unsubscribe();}
+
 }
