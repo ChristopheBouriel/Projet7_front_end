@@ -66,4 +66,21 @@ export class CommentService {
           );
         })
     }
+
+    modifyComment(comment: string, id: number, modified: number, dbDate: string, postId: number) {
+
+        return new Promise((resolve, reject) => {
+            this.httpClient
+          .put('http://localhost:3000/api/comments/modify', {content: comment, commentId: id, modified: modified, date_modif: dbDate})
+          .subscribe(
+            (response) => {
+              resolve(response);
+              //this.getAllComments(postId);
+                },
+            (error) => {
+              reject(error);
+            }
+          );
+        })
+    }
 }

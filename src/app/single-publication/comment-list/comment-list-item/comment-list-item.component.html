@@ -1,11 +1,29 @@
 <li [ngClass]="{'list-group-item': true}"
 *ngIf="!deleted">
-    <p>De {{commentUserName}}, le {{commentDate | date: 'short' | lowercase}}</p>
-    <!--<p> Dernière modification le :</p>-->
-    
-    <p>{{commentContent}}</p>
+    <div class="infos">
+    <p>De <span>{{commentUserName}}</span>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm' | lowercase}}</p>
+    <a *ngIf="modified" (click)="onSeeDate()">Modifié</a>
+    </div>
+    <div *ngIf=!modifying class="comment-view">
+        <p>{{commentContent}}</p>
+    </div>
     <!--<p>{{i}}</p>-->
+    <p *ngIf="seeDate"> Dernière modification  le {{modifDate | date: 'd LLLL yyyy' | lowercase}} à {{modifDate | date: 'HH:mm' | lowercase}}</p>
+    <form [formGroup]="modifyForm" *ngIf="!loading && modifying">
+        <div class="form-group">
+          <label for="comment">Modifier</label>
+          <textarea type="comment" class="form-control" id="comment" formControlName="comment"  [(ngModel)]="commentContent"></textarea>
+        </div>
+        
+        <button mat-raised-button color="purple" (click)="onMakeModif()">Envoyer</button>
+        <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
+        <button mat-raised-button color="purple" (click)="onCancel()">Annuler</button>
+    </form>
+    
+
     <button mat-raised-button color="purple" (click)="onDelete()" 
-    *ngIf="isAuthor">Effacer</button>
+    *ngIf="isAuthor && !modifying">Effacer</button>
+    <button mat-raised-button color="purple" (click)="onModify()" 
+    *ngIf="isAuthor && !modifying">Modifier</button>
     
 </li>

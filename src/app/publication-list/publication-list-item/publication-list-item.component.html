@@ -2,12 +2,14 @@
                 'list-group-item-like': publicationLikes === 1}"
                 id="{{id}}">
     <div class="overview">
-        <h4 [ngStyle]="{color: 'purple'}">{{publicationTitle}}</h4>
+        <h4 [ngStyle]="{color: ' rgb(82, 105, 183)'}">{{publicationTitle}}</h4>
         <p>Date : {{publicationDate | date: 'short' | lowercase}}</p>
-        <p>{{publicationContent}}</p>
+        <div class="text-overview">
+            <p>{{publicationContent}}</p>
+        </div>
     </div>
     <div class="see-it">
-        <a [routerLink]="[id]">Détail</a>
+        <a [routerLink]="[id]">Voir</a>
         <p>Commentaires : {{publicationNumberComments}}</p>
     </div>
 </li>

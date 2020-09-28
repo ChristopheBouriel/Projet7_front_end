@@ -3,11 +3,18 @@
                 }" *ngIf="!loading">
     <h4 [ngStyle]="{color: 'purple'}">{{publication?.title}}</h4>
     <p>{{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}</p>
-    <div>{{publication?.content}}</div>
+    <div class="publication-view">
+        <p>{{publication?.content}}</p>
+    </div>
     <br/>
-    <button class="btn btn-success mb-1" (click)="onLike()">Like it</button>
-    
-    
+    <div class="post-buttons">
+        <div>
+        <button class="btn btn mb-1 mr-2" (click)="onLike()">Like it</button>
+        <button class="btn btn mb-1" (click)="onWantComment()">Comment it</button>
+        </div>
+        <button class="mb-1 text-center btn" routerLink="/publications">Retour à la liste</button>
+        
+    </div>
 </div>
 
 <!--
@@ -20,16 +27,20 @@
 </li>
 -->
 
-<app-comment-list [postId]="postId"></app-comment-list>
-
-<form [formGroup]="commentForm" *ngIf="!loading">
-    <div class="form-group">
+<form [formGroup]="commentForm" *ngIf="!loading && commenting">
+    <div class="form-group mt-3">
       <label for="comment">Commenter</label>
-      <input type="comment" class="form-control" id="comment" formControlName="comment">
+      <textarea type="comment" class="form-control" id="comment" formControlName="comment"></textarea>
     </div>
     
     <button mat-raised-button color="purple" [disabled]="commentForm.invalid" (click)="onComment()">Envoyer</button>
-    <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->  
+    <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>--> 
+    <button mat-raised-button color="purple" (click)="onCancel()">Annuler</button> 
 </form>
 
-<a routerLink="/publications">Retour à la liste</a>
+
+<app-comment-list [postId]="postId"></app-comment-list>
+
+
+
+

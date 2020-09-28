@@ -23,6 +23,7 @@ export class SinglePublicationComponent implements OnInit {
   //numberComments: number;
   likes = 0;
   loading: boolean;
+  commenting: boolean;
   //postAnchor: string;
   postId: number;
 
@@ -65,7 +66,7 @@ export class SinglePublicationComponent implements OnInit {
   }
 
   onLike() {
-    const id = this.route.snapshot.params['id'];
+    //const id = this.route.snapshot.params['id'];
     if(this.likes === 0) {
       this.likes=1;
       //this.publicationService.getPublicationById(+id).likes = 1;
@@ -90,6 +91,7 @@ export class SinglePublicationComponent implements OnInit {
         console.log(response);
         this.loading = false;
         this.commentForm.reset('comment');
+        this.commenting = false;
       }
     ).catch(
       (error) => {
@@ -97,6 +99,14 @@ export class SinglePublicationComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  onWantComment() {
+    this.commenting = true;
+  }
+
+  onCancel() {
+    this.commenting = false;
   }
 
 }

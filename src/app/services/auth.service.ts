@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
     //isAuth$ = new BehaviorSubject<boolean>(false);
-    isAuth = false;
+    isAuth = true;
 
     userId: string='tonString';
     username: string='Snuggle';
