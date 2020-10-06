@@ -252,33 +252,25 @@
   <br/>
   
   
+    
+ 
+    
+    
+
     <div class="container">
       
-      
-      <div class="row">
-        <div class="bannier col-xs-12 col-sm-10 mx-auto">
-          <div class="job-place">
-            <img src="../assets/images/groupo.png">
-            <p class="ml-3 mt-5">SharePlace</p>
-          </div>
-          <div class="menu mt-5">
-            <div routerLinkActive="active"><a routerLink="login">Authentification</a></div>
-            <div routerLinkActive="active"><a routerLink="publications">Dernières publications</a></div>
-            <div routerLinkActive="active"><a routerLink="">Profil</a></div>
-          </div>
-        </div>
-      <div>
-          
         
-   
-    
+      <app-header></app-header>
+        
+     
+  
   </div>
-
   
   
   <div class="container mt-5">
     <div class="row">
       <div class="col-xs-12 col-sm-10 mx-auto">
+        
         <!--<app-publication-list [publications]="publications"> </app-publication-list>-->
         <router-outlet></router-outlet>
       </div>

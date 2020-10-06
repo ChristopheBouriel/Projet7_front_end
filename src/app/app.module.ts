@@ -17,6 +17,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { CommentListComponent } from './single-publication/comment-list/comment-list.component';
 import { CommentService } from './services/comment.service';
 import { CommentListItemComponent } from './single-publication/comment-list/comment-list-item/comment-list-item.component';
+import { HeaderComponent } from './header/header.component';
 
 
 const appRoutes: Routes = [
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   {path: 'publications/:id', canActivate: [AuthGuard], component: SinglePublicationComponent},
   {path: 'auth', component: AuthComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'signup', component: SignupComponent},
   {path: '', component: LoginComponent},
 ];
 
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     LoginComponent,
     SignupComponent,
     CommentListComponent,
-    CommentListItemComponent
+    CommentListItemComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

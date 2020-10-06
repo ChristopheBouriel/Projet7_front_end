@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="bannier col-xs-12 col-sm-10 mx-auto">
+        <div class="job-place">
+        <img src="../assets/images/groupo.png">
+        <p class="ml-3 mt-5">SharePlace</p>
+        </div>
+        <div class="menu mt-5">
+        <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="login">Connexion</a></div>
+        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="publications">Dernières publications</a></div>
+        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="">Profil</a></div>
+        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="login">Déconnexion</a></div>
+        </div>
+    </div>
+</div>    

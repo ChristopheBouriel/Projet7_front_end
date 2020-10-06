@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   isAuth: boolean;
 
-  //authSubscription: Subscription;
+  authSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -29,9 +29,9 @@ export class LoginComponent implements OnInit {
     });
 
 
-    //this.authSubscription = this.authService.isAuth$.subscribe(
-      //(auth) => {this.isAuth = auth;});
-      this.isAuth = this.authService.isAuth;
+    this.authSubscription = this.authService.isAuth$.subscribe(
+      (auth) => {this.isAuth = auth;});
+      //this.isAuth = this.authService.isAuth;
       console.log(this.isAuth)
   }
 
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       () => {
         console.log('There')
         this.loading = false;
-        
+        //this.isAuth = true;
         this.router.navigate(['publications']);
       }
     ).catch(
@@ -58,9 +58,9 @@ export class LoginComponent implements OnInit {
 
   onLogout() {
     this.authService.logout();
-    this.isAuth=false
+    //this.isAuth=false;
   }
 
-  //ngOnDestroy() {this.authSubscription.unsubscribe();}
+  ngOnDestroy() {this.authSubscription.unsubscribe();}
 
 }

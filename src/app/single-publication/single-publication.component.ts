@@ -26,9 +26,7 @@ export class SinglePublicationComponent implements OnInit {
   commenting: boolean;
   //postAnchor: string;
   postId: number;
-
   publication: Publication;
-  
  
   commentForm: FormGroup;
   errorMsg: string;
@@ -40,8 +38,7 @@ export class SinglePublicationComponent implements OnInit {
               private formBuilder: FormBuilder,
               private commentService: CommentService,
               private authService: AuthService,
-              private router: Router
-              ) { }
+              private router: Router) { }
 
   ngOnInit() {
     this.postId = this.route.snapshot.params['id'];

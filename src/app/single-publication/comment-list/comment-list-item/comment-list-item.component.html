@@ -12,7 +12,7 @@
     <form [formGroup]="modifyForm" *ngIf="!loading && modifying">
         <div class="form-group">
           <label for="comment">Modifier</label>
-          <textarea type="comment" class="form-control" id="comment" formControlName="comment"  [(ngModel)]="commentContent"></textarea>
+          <textarea class="form-control" id="comment" formControlName="comment"  [(ngModel)]="commentContent"></textarea>
         </div>
         
         <button mat-raised-button color="purple" (click)="onMakeModif()">Envoyer</button>

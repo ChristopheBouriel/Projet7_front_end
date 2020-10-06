@@ -20,9 +20,4 @@ export class PublicationListItemComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  
-
-  
-
 }
