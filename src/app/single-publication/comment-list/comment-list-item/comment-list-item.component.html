@@ -1,7 +1,7 @@
 <li [ngClass]="{'list-group-item': true}"
 *ngIf="!deleted">
     <div class="infos">
-    <p>De <span>{{commentUserName}}</span>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm' | lowercase}}</p>
+    <p>De <a routerLink="/profile/{{commentUserName}}"><span>{{commentUserName}}</span></a>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm' | lowercase}}</p>
     <a *ngIf="modified" (click)="onSeeDate()">Modifié</a>
     </div>
     <div *ngIf=!modifying class="comment-view">

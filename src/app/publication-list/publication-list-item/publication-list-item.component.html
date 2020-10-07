@@ -3,7 +3,7 @@
                 id="{{id}}">
     <div class="overview">
         <h4 [ngStyle]="{color: ' rgb(82, 105, 183)'}">{{publicationTitle}}</h4>
-        <p>Date : {{publicationDate | date: 'short' | lowercase}}</p>
+        <p>Par <a routerLink="/profile/{{publicationUserName}}"><span>{{publicationUserName}}</span></a>, le {{publicationDate | date: 'd LLLL yyyy'}}</p>
         <div class="text-overview">
             <p>{{publicationContent}}</p>
         </div>

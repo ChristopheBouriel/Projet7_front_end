@@ -13,6 +13,8 @@ export class PublicationService {
     private publications: Publication[];
     private publication: Publication;
 
+    lastSeen: number;
+
     constructor(private httpClient: HttpClient) { }
 
     emitPublicationsSubject( ) {
@@ -41,6 +43,7 @@ export class PublicationService {
     }
 
     getPublicationById(id: number) {
+      this.lastSeen = id;
       return new Promise((resolve, reject) => {
         this.httpClient
         .get<Publication>('http://localhost:3000/api/publications/' + id)

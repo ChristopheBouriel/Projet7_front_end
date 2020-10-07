@@ -6,9 +6,10 @@
         </div>
         <div class="menu mt-5">
         <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="login">Connexion</a></div>
+        <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="signup">Inscription</a></div>
         <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="publications">Dernières publications</a></div>
-        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="">Profil</a></div>
-        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="login">Déconnexion</a></div>
+        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="/profile/{{userName}}">Profil</a></div>
+        <div routerLinkActive="active" *ngIf="isAuth"><a (click)="onLogout()">Déconnexion</a></div>
         </div>
     </div>
 </div>    

@@ -1,6 +1,6 @@
 
 <h2>Les dernières publications</h2>
-<p>Mis à jour : {{ lastUpdate | async | date: 'short' | lowercase}}</p>
+<p>Mis à jour : {{ lastUpdate | async | date: 'EEEE d LLLL yyyy'}}</p>
 <ul class="list-group">
     <app-publication-list-item  *ngFor="let publication of publications; let i = index"
           [publicationTitle]="publication.title"
@@ -8,6 +8,7 @@
           [publicationDate]="publication.date_publication"
           [publicationLikes]="publication.likes"
           [publicationNumberComments]="publication.numberComments"
+          [publicationUserName]="publication.userName"
           [index]="i" 
           [id]="publication.id">
     </app-publication-list-item>

@@ -39,7 +39,7 @@ export class CommentListItemComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    if (this.commentUserName===this.authService.username) {this.isAuthor=true}
+    if (this.commentUserName === this.authService.userName) {this.isAuthor = true}
     this.modifyForm = this.formBuilder.group({
       comment: [null, Validators.required]});
       this.initialComment = this.commentContent; 

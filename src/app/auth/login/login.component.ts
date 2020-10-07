@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   isAuth: boolean;
 
+
   authSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -54,13 +55,7 @@ export class LoginComponent implements OnInit {
     );
     
   }
-
-
-  onLogout() {
-    this.authService.logout();
-    //this.isAuth=false;
-  }
-
-  ngOnDestroy() {this.authSubscription.unsubscribe();}
+  
+  //ngOnDestroy() {this.authSubscription.unsubscribe();}
 
 }

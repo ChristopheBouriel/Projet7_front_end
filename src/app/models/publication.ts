@@ -6,4 +6,5 @@ export class Publication {
         content: string;
         likes: number;
         numberComments: number;
+        userName: string;
 }

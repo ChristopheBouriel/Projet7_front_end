@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -12,22 +12,29 @@ import { Router } from '@angular/router';
 export class AuthService {
 
     isAuth$ = new BehaviorSubject<boolean>(false);
+    userName$ = new BehaviorSubject<string>('No one is connected');
     //isAuth: boolean=false;
 
     userId: string;
-    username: string;
+    userName: string;
 
     constructor(private httpClient: HttpClient,
       private router: Router) {}
+
+
+  emitUserNameSubject( ) {
+        this.userName$.next(this.userName);
+        console.log(this.userName);
+    }
   
-  signUp(firstname: string, lastname: string, username: string, password:string, 
+  signUp(firstname: string, lastname: string, userName: string, password:string, 
         dept: string, email: string, aboutMe: string) {
       return new Promise((resolve, reject) => {
         console.log({firstname, lastname, email})
         this.httpClient.post('http://localhost:3000/api/auth/signup', {
           firstname: firstname,
           lastname: lastname,
-          userName: username, 
+          userName: userName, 
           userPassword: password,
           service: dept,
           email: email,
@@ -37,7 +44,7 @@ export class AuthService {
             
             ) => {
             //this.userId = response.userId;
-            //this.username = response.userName;
+            //this.userName = response.userName;
             //this.authToken = response.token;
             this.isAuth$.next(true);
             //this.isAuth=true;
@@ -51,14 +58,16 @@ export class AuthService {
       });
     }  
 
-  loginUser(username: string, password) {
+  loginUser(userName: string, password) {
       return new Promise((resolve, reject) => {
-        console.log(username)
-        this.httpClient.post('http://localhost:3000/api/auth/login', {userName: username, userPassword: password}).subscribe(
+        
+        this.httpClient.post('http://localhost:3000/api/auth/login', {userName: userName, userPassword: password}).subscribe(
           (response :{userId: string, token: string, userName: string}
             ) => {
             this.userId = response.userId;
-            this.username = response.userName;
+            this.userName = response.userName;
+            this.emitUserNameSubject();
+            console.log(this.userName$)
             //this.authToken = response.token;
             this.isAuth$.next(true);
             //this.isAuth=true;
@@ -77,7 +86,7 @@ export class AuthService {
     }
 
     getUserName() {
-      return this.username;
+      return this.userName;
     }
 
     logout() {

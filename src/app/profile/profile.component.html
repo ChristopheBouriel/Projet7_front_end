@@ -1,0 +1,11 @@
+
+<p>{{userProfile}}</p>
+
+<p>{{profile?.firstname}}</p>
+<p>{{profile?.lastname}}</p>
+<p>{{profile?.service}}</p>
+<p>{{profile?.email}}</p>
+<p>{{profile?.aboutMe}}</p>
+
+<button *ngIf="!isMine" routerLink="/publications/{{fromPost}}">Retour</button>
+<button *ngIf="isMine" routerLink="/publications">Retour</button>

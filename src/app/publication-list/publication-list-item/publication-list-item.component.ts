@@ -12,6 +12,7 @@ export class PublicationListItemComponent implements OnInit {
   @Input() publicationDate: string;
   @Input() publicationNumberComments: number;
   @Input() publicationLikes;
+  @Input() publicationUserName;
   @Input() index: number;
   @Input() id: number;
   

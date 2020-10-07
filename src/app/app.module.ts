@@ -7,6 +7,7 @@ import { PublicationListComponent } from './publication-list/publication-list.co
 import { PublicationListItemComponent } from './publication-list/publication-list-item/publication-list-item.component';
 import { SinglePublicationComponent} from './single-publication/single-publication.component';
 import { PublicationService } from './services/publication.service';
+import { ProfileService } from './services/profile.service';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { RouterModule, Routes } from '@angular/router';
@@ -18,15 +19,24 @@ import { CommentListComponent } from './single-publication/comment-list/comment-
 import { CommentService } from './services/comment.service';
 import { CommentListItemComponent } from './single-publication/comment-list/comment-list-item/comment-list-item.component';
 import { HeaderComponent } from './header/header.component';
+import { ProfileComponent } from './profile/profile.component';
+
+
+import { LOCALE_ID } from '@angular/core';
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
 
 
 const appRoutes: Routes = [
   {path: 'publications', canActivate: [AuthGuard], component: PublicationListComponent},
   {path: 'publications/:id', canActivate: [AuthGuard], component: SinglePublicationComponent},
+  {path: 'profile/:userName', canActivate: [AuthGuard], component: ProfileComponent},
   {path: 'auth', component: AuthComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
-  {path: '', component: LoginComponent},
+  {path: '', pathMatch: 'full', redirectTo: 'auth'},
 ];
 
 @NgModule({
@@ -40,7 +50,8 @@ const appRoutes: Routes = [
     SignupComponent,
     CommentListComponent,
     CommentListItemComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -51,8 +62,10 @@ const appRoutes: Routes = [
   providers: [
     PublicationService,
     CommentService,
+    ProfileService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    { provide: LOCALE_ID, useValue: "fr" }
   ],
   bootstrap: [AppComponent],
 })

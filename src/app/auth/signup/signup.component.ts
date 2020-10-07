@@ -42,10 +42,18 @@ export class SignupComponent implements OnInit {
     const aboutMe = this.signUpForm.get('aboutMe').value;
     this.authService.signUp(firstname, lastname, username, password, dept, email, aboutMe).then(
       (response) => {
-        console.log(response)
-        this.loading = false;
-        
-        this.router.navigate(['publications']);
+        this.authService.loginUser(username, password).then(
+          () => {
+            this.loading = false;
+            this.router.navigate(['publications']);
+          }
+        ).catch(
+          (error) => {
+            this.loading = false;
+            console.error(error);
+            this.errorMsg = error.message;
+          }
+        );
       }
     ).catch(
       (error) => {

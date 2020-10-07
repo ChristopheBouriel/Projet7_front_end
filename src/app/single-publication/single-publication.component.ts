@@ -21,7 +21,7 @@ export class SinglePublicationComponent implements OnInit {
   //date: string = 'Date';
   //content: string;
   //numberComments: number;
-  likes = 0;
+  likes: boolean;
   loading: boolean;
   commenting: boolean;
   //postAnchor: string;
@@ -64,13 +64,14 @@ export class SinglePublicationComponent implements OnInit {
 
   onLike() {
     //const id = this.route.snapshot.params['id'];
-    if(this.likes === 0) {
-      this.likes=1;
+    if(this.likes === false) {
+      this.likes=true;
       //this.publicationService.getPublicationById(+id).likes = 1;
     } else {
-      this.likes=0;
+      this.likes=false;
       //this.publicationService.getPublicationById(+id).likes = 0;
     }
+    console.log(this.likes)
   
   }
 

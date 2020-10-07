@@ -13,6 +13,8 @@ export class HeaderComponent implements OnInit {
 
   isAuth: boolean;
   authSubscription: Subscription;
+  userNameSubscription: Subscription;
+  userName: string;
 
   ngOnInit() {
     this.authSubscription = this.authService.isAuth$.subscribe(
@@ -20,11 +22,23 @@ export class HeaderComponent implements OnInit {
         this.isAuth = auth;
       }
     );
-    console.log(this.isAuth)
+
+    this.userNameSubscription = this.authService.userName$.subscribe(
+      (userName: string) => {
+        this.userName = userName;
+        console.log(this.userName)
+      }
+    );
+  }
+
+  onLogout() {
+    this.authService.logout();
+    //this.isAuth=false;
   }
 
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
+    //this.userNameSubscription.unsubscribe();
   }
 
 }

@@ -1,8 +1,8 @@
 <div [ngClass]="{'single-publication': true,
-'single-publication-like': likes === 1
+'single-publication-like': likes === true
                 }" *ngIf="!loading">
     <h4 [ngStyle]="{color: 'purple'}">{{publication?.title}}</h4>
-    <p>{{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}</p>
+    <p>Publié le {{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}</p>
     <div class="publication-view">
         <p>{{publication?.content}}</p>
     </div>
@@ -30,7 +30,7 @@
 <form [formGroup]="commentForm" *ngIf="!loading && commenting">
     <div class="form-group mt-3">
       <label for="comment">Commenter</label>
-      <textarea type="comment" class="form-control" id="comment" formControlName="comment"></textarea>
+      <textarea class="form-control" id="comment" formControlName="comment"></textarea>
     </div>
     
     <button mat-raised-button color="purple" [disabled]="commentForm.invalid" (click)="onComment()">Envoyer</button>

@@ -15,17 +15,18 @@
         }
     }
     
-    a {
-        background-color: rgb(82, 105, 183);
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-    }
+    
 
     .see-it {
         display: flex;
         justify-content: space-between;
         margin-top: 10px;
+        a {
+        background-color: rgb(82, 105, 183);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        }
     }
 
     .text-overview {
