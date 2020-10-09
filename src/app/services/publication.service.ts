@@ -14,6 +14,8 @@ export class PublicationService {
     private publication: Publication;
 
     lastSeen: number;
+    fromList: boolean;
+    fromProfile: string;
 
     constructor(private httpClient: HttpClient) { }
 

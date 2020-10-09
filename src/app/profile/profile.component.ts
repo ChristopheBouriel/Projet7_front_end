@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Router } from '@angular/router';
 import { Profile } from '../models/profile';
+import { Publication } from '../models/publication';
 import { ProfileService} from '../services/profile.service';
 import { PublicationService} from '../services/publication.service';
 import { AuthService} from '../services/auth.service';
@@ -19,7 +20,10 @@ export class ProfileComponent implements OnInit {
   loading: boolean;
 
   profile: Profile;
+  publications: Publication[];
   fromPost: number;
+  fromProfile: string;
+  fromList: boolean = false;
   userName: string;
   isMine: boolean;
 
@@ -36,10 +40,15 @@ export class ProfileComponent implements OnInit {
       (userName) => {
         this.userName = userName
         console.log(userName)
-      })
+      });
+
     this.userProfile = this.route.snapshot.params['userName'];
+    this.fromProfile = this.userProfile;
+
     console.log(this.userProfile)
     this.fromPost = this.publicationService.lastSeen;
+    this.fromList = this.publicationService.fromList;
+    
     if (this.userProfile === this.userName) {this.isMine = true;}
     //this.publicationSubscription = 
     this.profileService.profileSubject.subscribe(
@@ -49,8 +58,17 @@ export class ProfileComponent implements OnInit {
         //console.log(this.postAnchor)
       }
     );
+
+    this.profileService.userPublicationsSubject.subscribe(
+      (publications:any[]) => {
+        this.publications = publications;
+        
+      }
+    );
+
     this.profileService.getProfileByUserName(this.userProfile);
     
+    console.log(this.publications)
     this.loading = false;
   }
 
@@ -60,5 +78,4 @@ export class ProfileComponent implements OnInit {
     this.isMine = true;
     this.profileService.getProfileByUserName(this.userName);}
   }
-
 }

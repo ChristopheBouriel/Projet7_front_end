@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Profile } from '../models/profile';
+import { Publication} from '../models/publication';
 import { Subject } from 'rxjs';
 
 
@@ -10,9 +11,11 @@ export class ProfileService {
 
     //profilesSubject = new Subject<Profile[]>();
     profileSubject = new Subject<Profile>();
+    userPublicationsSubject = new Subject<Publication[]>();
 
     //private profiles: Profile[];
     private profile: Profile;
+    private userPublications: Publication[];
 
     constructor(private httpClient: HttpClient) { }
 
@@ -26,13 +29,19 @@ export class ProfileService {
     getProfileByUserName(userName: string) {
         return new Promise((resolve, reject) => {
           this.httpClient
-          .get<Profile>('http://localhost:3000/api/profiles/' + userName)
+          .get('http://localhost:3000/api/profiles/' + userName)
             .subscribe(
-              (response: Profile) => {
-                this.profile = response;
-                
-                console.log(this.profile)
+              (response) => {
+
+                const resp = Object.values(response);
+                this.profile = resp[0];                
+                console.log(this.profile);
+
+                this.userPublications = resp[1];
+                console.log(this.userPublications);
+
                 this.emitProfileSubject();
+                this.userPublicationsSubject.next(this.userPublications);
               },
               (error) => {
                 reject(error);

@@ -20,12 +20,13 @@ import { CommentService } from './services/comment.service';
 import { CommentListItemComponent } from './single-publication/comment-list/comment-list-item/comment-list-item.component';
 import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { UserPublicationsComponent } from './profile/user-publications/user-publications.component';
 
 import { LOCALE_ID } from '@angular/core';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+
 registerLocaleData(localeFr, 'fr');
 
 
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
     CommentListComponent,
     CommentListItemComponent,
     HeaderComponent,
-    ProfileComponent
+    ProfileComponent,
+    UserPublicationsComponent
   ],
   imports: [
     BrowserModule,

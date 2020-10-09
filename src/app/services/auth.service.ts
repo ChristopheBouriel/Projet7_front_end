@@ -19,7 +19,7 @@ export class AuthService {
     userName: string;
 
     constructor(private httpClient: HttpClient,
-      private router: Router) {}
+                private router: Router) {}
 
 
   emitUserNameSubject( ) {

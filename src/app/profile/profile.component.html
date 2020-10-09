@@ -7,5 +7,23 @@
 <p>{{profile?.email}}</p>
 <p>{{profile?.aboutMe}}</p>
 
-<button *ngIf="!isMine" routerLink="/publications/{{fromPost}}">Retour</button>
+<button *ngIf="!isMine && !fromList" routerLink="/publications/{{fromPost}}">Retour publication</button>
+<button *ngIf="!isMine && fromList" routerLink="/publications">Retour liste</button>
 <button *ngIf="isMine" routerLink="/publications">Retour</button>
+
+<br/>
+<br/>
+<h3>Publications : </h3>
+<ul class="list-group">
+    <app-user-publications  *ngFor="let publication of publications; let i = index"
+          [publicationTitle]="publication.title"
+          [publicationContent]="publication.content"
+          [publicationDate]="publication.date_publication"
+          [publicationLikes]="publication.likes"
+          [publicationNumberComments]="publication.numberComments"
+          [publicationUserName]="publication.userName"
+          [fromProfile]="fromProfile"
+          [index]="i" 
+          [id]="publication.id">
+    </app-user-publications>
+</ul>

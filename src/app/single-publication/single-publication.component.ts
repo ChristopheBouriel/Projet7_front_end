@@ -27,11 +27,12 @@ export class SinglePublicationComponent implements OnInit {
   //postAnchor: string;
   postId: number;
   publication: Publication;
+
+  fromList: boolean;
+  fromProfile: string;
  
   commentForm: FormGroup;
   errorMsg: string;
-
-  //publicationSubscription: Subscription;
 
   constructor(private publicationService: PublicationService,
               private route: ActivatedRoute,
@@ -42,6 +43,10 @@ export class SinglePublicationComponent implements OnInit {
 
   ngOnInit() {
     this.postId = this.route.snapshot.params['id'];
+
+    
+    console.log(this.fromList);
+    console.log(this.fromProfile);
     
     this.loading = true;
     //this.publicationSubscription = 
@@ -55,11 +60,17 @@ export class SinglePublicationComponent implements OnInit {
     this.publicationService.getPublicationById(+this.postId);
 
     this.commentForm = this.formBuilder.group({
-      comment: [null, Validators.required]
-      
+      comment: [null, Validators.required] 
     });
 
+    
+
     this.loading = false;
+  }
+
+  ngDoCheck() {
+    this.fromList = this.publicationService.fromList;
+    this.fromProfile = this.publicationService.fromProfile;
   }
 
   onLike() {

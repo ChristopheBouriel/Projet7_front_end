@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommentService} from '../../../services/comment.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { PublicationService} from '../../../services/publication.service';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -34,6 +36,7 @@ export class CommentListItemComponent implements OnInit {
 
 
   constructor(private commentService: CommentService,
+              private publicationService: PublicationService,
               private authService: AuthService,
               private formBuilder: FormBuilder,
               private router: Router) { }
@@ -110,6 +113,10 @@ export class CommentListItemComponent implements OnInit {
   onCancel() {
     this.modifying = false;
     this.commentContent = this.initialComment;
+  }
+
+  onSeeProfile() {
+    this.publicationService.fromList = false;
   }
 
 }
