@@ -17,7 +17,7 @@ export class UserPublicationsComponent implements OnInit {
   @Input() publicationNumberComments: number;
   @Input() publicationLikes;
   @Input() publicationUserName;
-  //@Input() fromProfile;
+  @Input() fromProfile;
   @Input() index: number;
   @Input() id: number;
 
@@ -27,7 +27,6 @@ export class UserPublicationsComponent implements OnInit {
   }
 
   onGoToPublication() {
-    this.publicationService.fromList = false;
-    this.publicationService.fromProfile = this.publicationUserName;
+    this.publicationService.fromListSubject.next(false);
   }
 }

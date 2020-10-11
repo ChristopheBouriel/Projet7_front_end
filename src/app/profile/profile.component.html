@@ -1,29 +1,57 @@
 
-<p>{{userProfile}}</p>
+<div class="show-profile" *ngIf="!searching">
+    <p>{{userProfile}}</p>
+    <p>{{profile?.firstname}}</p>
+    <p>{{profile?.lastname}}</p>
+    <p>{{profile?.service}}</p>
+    <p>{{profile?.email}}</p>
+    <p>{{profile?.aboutMe}}</p>
+</div>
 
-<p>{{profile?.firstname}}</p>
-<p>{{profile?.lastname}}</p>
-<p>{{profile?.service}}</p>
-<p>{{profile?.email}}</p>
-<p>{{profile?.aboutMe}}</p>
-
-<button *ngIf="!isMine && !fromList" routerLink="/publications/{{fromPost}}">Retour publication</button>
-<button *ngIf="!isMine && fromList" routerLink="/publications">Retour liste</button>
-<button *ngIf="isMine" routerLink="/publications">Retour</button>
+<button *ngIf="!fromList && !searching && !fromUsersList" routerLink="/publications/{{fromPost}}">Retour publication</button>
+<button *ngIf="!searching" routerLink="/publications">Retour liste</button>
+<button *ngIf="isMine && !searching" routerLink="/publications">Modifier Profil</button>
+<button *ngIf="!searching" (click)="onGetList()">Rechercher</button>
 
 <br/>
 <br/>
-<h3>Publications : </h3>
-<ul class="list-group">
-    <app-user-publications  *ngFor="let publication of publications; let i = index"
-          [publicationTitle]="publication.title"
-          [publicationContent]="publication.content"
-          [publicationDate]="publication.date_publication"
-          [publicationLikes]="publication.likes"
-          [publicationNumberComments]="publication.numberComments"
-          [publicationUserName]="publication.userName"
-          [fromProfile]="fromProfile"
-          [index]="i" 
-          [id]="publication.id">
-    </app-user-publications>
+
+<div *ngIf="!searching">
+    <h3 *ngIf="publications?.length">Publications : </h3>
+    <ul class="list-group">
+        <app-user-publications  *ngFor="let publication of publications; let i = index"
+            [publicationTitle]="publication.title"
+            [publicationContent]="publication.content"
+            [publicationDate]="publication.date_publication"
+            [publicationLikes]="publication.likes"
+            [publicationNumberComments]="publication.numberComments"
+            [publicationUserName]="publication.userName"
+            [fromProfile]="fromProfile"
+            [index]="i" 
+            [id]="publication.id">
+        </app-user-publications>
+    </ul>
+</div>
+
+<div class="search" *ngIf="searching">
+    
+    <button (click)="onBackFromList()">Retour au profil</button>
+    
+    <button mat-raised-button color="purple" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
+    <input type="search" #inputUserName name="search">
+    
+</div>
+
+<br/>
+<p>{{noUser}}</p>
+<br/>
+
+<ul *ngIf="searching">
+    <app-users-list *ngFor="let shortProfile of shortProfiles; let j = index"
+        [userName]="shortProfile.userName"
+        [firstname]="shortProfile.firstname"
+        [lastname]="shortProfile.lastname"
+        [service]="shortProfile.service">
+
+    </app-users-list>
 </ul>

@@ -6,3 +6,10 @@ export class Profile {
     email: string;
     aboutMe: string;
 }
+
+export class ShortProfile {
+    userName: string;
+    firstname: string;
+    lastname: string;
+    service: string;
+}

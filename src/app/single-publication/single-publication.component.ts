@@ -44,10 +44,6 @@ export class SinglePublicationComponent implements OnInit {
   ngOnInit() {
     this.postId = this.route.snapshot.params['id'];
 
-    
-    console.log(this.fromList);
-    console.log(this.fromProfile);
-    
     this.loading = true;
     //this.publicationSubscription = 
     this.publicationService.publicationSubject.subscribe(
@@ -62,15 +58,26 @@ export class SinglePublicationComponent implements OnInit {
     this.commentForm = this.formBuilder.group({
       comment: [null, Validators.required] 
     });
-
     
+    this.publicationService.fromListSubject.subscribe(
+      (fromList:boolean) => {
+        this.fromList = fromList;
+      })
+    console.log(this.fromList)
+
+    this.publicationService.fromProfileSubject.subscribe(
+    (fromProfile) => {  this.fromProfile = fromProfile});
+
+    //this.publicationService.fromListSubject.next(true);
+
+    console.log(this.fromList);
+    console.log(this.fromProfile);
 
     this.loading = false;
   }
 
   ngDoCheck() {
-    this.fromList = this.publicationService.fromList;
-    this.fromProfile = this.publicationService.fromProfile;
+    //this.publicationService.fromProfileSubject.next(this.authService.getUserName());
   }
 
   onLike() {
@@ -116,6 +123,11 @@ export class SinglePublicationComponent implements OnInit {
 
   onCancel() {
     this.commenting = false;
+  }
+
+  onSeeProfile() {
+    this.publicationService.fromListSubject.next(false);
+    console.log('Ici')
   }
 
 }

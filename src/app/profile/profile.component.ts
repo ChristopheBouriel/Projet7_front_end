@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Router } from '@angular/router';
-import { Profile } from '../models/profile';
+import { Profile, ShortProfile } from '../models/profile';
 import { Publication } from '../models/publication';
 import { ProfileService} from '../services/profile.service';
 import { PublicationService} from '../services/publication.service';
@@ -21,54 +21,65 @@ export class ProfileComponent implements OnInit {
 
   profile: Profile;
   publications: Publication[];
+  shortProfiles: ShortProfile[];
+
+  usersNameList: string[] = new Array;
+
   fromPost: number;
-  fromProfile: string;
-  fromList: boolean = false;
+
+  fromUsersList: boolean;
+  noUser: string = '';
+  
+  fromList: boolean ;
   userName: string;
   isMine: boolean;
+  noPost: boolean;
+  searching: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private profileService: ProfileService,
               private publicationService: PublicationService,
-              private authService: AuthService)
-               { }
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.loading = true;
+    
     this.authService.userName$.subscribe(
       (userName) => {
-        this.userName = userName
-        console.log(userName)
+        this.userName = userName;
+        console.log(userName);
       });
-
+      
     this.userProfile = this.route.snapshot.params['userName'];
-    this.fromProfile = this.userProfile;
-
-    console.log(this.userProfile)
-    this.fromPost = this.publicationService.lastSeen;
-    this.fromList = this.publicationService.fromList;
     
+    this.publicationService.fromProfileSubject.next(this.userProfile);
+    
+    //this.fromList = this.publicationService.fromList;
+
     if (this.userProfile === this.userName) {this.isMine = true;}
-    //this.publicationSubscription = 
+     
     this.profileService.profileSubject.subscribe(
       (profile: Profile) => {
         this.profile = profile[0];
-        //this.postAnchor = '/publications\#' + this.publication.id
-        //console.log(this.postAnchor)
       }
     );
 
     this.profileService.userPublicationsSubject.subscribe(
       (publications:any[]) => {
-        this.publications = publications;
-        
+        this.publications = publications;  
       }
     );
-
-    this.profileService.getProfileByUserName(this.userProfile);
     
-    console.log(this.publications)
+    this.profileService.getProfileByUserName(this.userProfile);
+
+    this.profileService.searchingSubject.subscribe(
+      (search:boolean) => {
+        this.searching = search;
+      }
+    );
+    
+    
     this.loading = false;
   }
 
@@ -76,6 +87,57 @@ export class ProfileComponent implements OnInit {
     this.userProfile = this.route.snapshot.params['userName'];
     if (this.userProfile === this.userName && this.isMine !== true) {
     this.isMine = true;
-    this.profileService.getProfileByUserName(this.userName);}
+    this.profileService.getProfileByUserName(this.userName);
+    console.log('Là')
+    };
+
+    if(this.searching===false) {this.noUser = '';}
+    this.fromPost = this.publicationService.fromPost;
+    console.log(this.fromPost);
+  
+    this.publicationService.fromListSubject.subscribe(
+      (fromList:boolean) => {
+        this.fromList = fromList;
+      })      
+    console.log(this.fromList);
   }
+
+  
+
+  onGetList() {
+
+    this.profileService.usersListSubject.subscribe(
+      (users: any[]) => {
+        this.shortProfiles = users; 
+        for (let i of users) {
+          this.usersNameList.push(i.userName)
+        }
+      }
+    );
+
+    this.profileService.getUsersList();
+    this.searching = true;
+    this.fromUsersList = true;
+    console.log(this.usersNameList)
+  }
+
+  onBackFromList() {
+    this.searching = false;
+  }
+
+  onSearch(inputUserName) {
+
+    const check = this.usersNameList.includes(inputUserName);
+    if(check) {
+      this.profileService.getProfileByUserName(inputUserName);
+    console.log(inputUserName)
+    this.searching = false;
+    
+    } else {
+      this.noUser = 'Utilisateur inconnu';
+    }
+
+    
+  }
+
 }

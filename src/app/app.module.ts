@@ -26,6 +26,7 @@ import { LOCALE_ID } from '@angular/core';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { UsersListComponent } from './profile/users-list/users-list.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
     CommentListItemComponent,
     HeaderComponent,
     ProfileComponent,
-    UserPublicationsComponent
+    UserPublicationsComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,

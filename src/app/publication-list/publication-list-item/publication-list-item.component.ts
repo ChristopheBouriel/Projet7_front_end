@@ -18,7 +18,7 @@ export class PublicationListItemComponent implements OnInit {
   @Input() publicationNumberComments: number;
   @Input() publicationLikes;
   @Input() publicationUserName;
-  //@Input() fromProfile;
+  @Input() fromProfile;
   @Input() index: number;
   @Input() id: number;
   
@@ -30,12 +30,18 @@ export class PublicationListItemComponent implements OnInit {
   }
 
   onSeePublication() {
-    this.publicationService.fromList = true;
+    this.publicationService.fromListSubject.next(true);
+    //this.publicationService.fromList = true;
+    //this.publicationService.fromProfileSubject.next(this.fromProfile);
+
   }
 
   onSeeProfile() {
-    this.publicationService.fromList = true;
+    this.publicationService.fromListSubject.next(true);
   }
 
   //goToPublication() {this.router.navigate(['/publications', this.id], { relativeTo: this.route });}
 }
+
+
+// si on vient des liens des commentaires on le dit

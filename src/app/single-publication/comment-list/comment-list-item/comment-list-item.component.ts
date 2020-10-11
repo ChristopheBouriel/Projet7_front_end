@@ -22,6 +22,7 @@ export class CommentListItemComponent implements OnInit {
   @Input() modified: number;
   @Input() index: number;
   @Input() postId: number;
+  
   @Input() id: number;
 
 
@@ -46,6 +47,10 @@ export class CommentListItemComponent implements OnInit {
     this.modifyForm = this.formBuilder.group({
       comment: [null, Validators.required]});
       this.initialComment = this.commentContent; 
+
+      console.log(this.postId);
+      this.publicationService.fromPost = this.postId;
+      
   }
 
   onDelete() {
@@ -116,7 +121,8 @@ export class CommentListItemComponent implements OnInit {
   }
 
   onSeeProfile() {
-    this.publicationService.fromList = false;
+    this.publicationService.fromListSubject.next(false);
+    console.log('Ici')
   }
 
 }

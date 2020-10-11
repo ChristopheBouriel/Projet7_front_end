@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Profile } from '../models/profile';
 import { Publication} from '../models/publication';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 
 @Injectable()
@@ -12,10 +12,15 @@ export class ProfileService {
     //profilesSubject = new Subject<Profile[]>();
     profileSubject = new Subject<Profile>();
     userPublicationsSubject = new Subject<Publication[]>();
+    usersListSubject = new Subject();
+    searchingSubject = new BehaviorSubject(false);
 
     //private profiles: Profile[];
     private profile: Profile;
     private userPublications: Publication[];
+    //fromUsersList: boolean;
+
+    
 
     constructor(private httpClient: HttpClient) { }
 
@@ -51,5 +56,17 @@ export class ProfileService {
           
     }
 
-
+    getUsersList() {
+      
+        this.httpClient
+          .get('http://localhost:3000/api/auth/list')
+          .subscribe(
+            (response) => {
+              this.usersListSubject.next(response);
+            },
+            (error) => {
+              console.log('Erreur ! : ' + error);
+            }
+          );
+    }
 }

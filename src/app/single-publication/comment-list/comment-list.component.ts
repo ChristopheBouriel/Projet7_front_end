@@ -15,6 +15,7 @@ export class CommentListComponent implements OnInit {
   comments: any[];
   commentsSubscription: Subscription;
 
+  
   idCom:number;
 
   constructor(private commentService: CommentService,
@@ -28,6 +29,8 @@ export class CommentListComponent implements OnInit {
       }
     );
     this.commentService.getAllComments(this.postId);
+    
+    
   }
   
   ngOnDestroy() {

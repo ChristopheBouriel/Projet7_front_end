@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Publication } from '../models/publication';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 
 @Injectable()
@@ -9,24 +9,26 @@ export class PublicationService {
 
     publicationsSubject = new Subject<Publication[]>();
     publicationSubject = new Subject<Publication>();
+    fromProfileSubject = new BehaviorSubject<string>('');
+    fromPostSubject = new Subject<number>();
+    fromListSubject = new BehaviorSubject<boolean>(true);
 
     private publications: Publication[];
     private publication: Publication;
+    lastSeenInList: number;
 
-    lastSeen: number;
-    fromList: boolean;
+    //fromList: boolean;
+    fromPost: number;
     fromProfile: string;
 
     constructor(private httpClient: HttpClient) { }
 
     emitPublicationsSubject( ) {
         this.publicationsSubject.next(this.publications.slice());
-        
     }
 
     emitPublicationSubject( ) {
         this.publicationSubject.next(this.publication);
-        console.log(this.publication);
     }
 
     getAllPublications() {
@@ -45,15 +47,13 @@ export class PublicationService {
     }
 
     getPublicationById(id: number) {
-      this.lastSeen = id;
+      this.lastSeenInList = id;
       return new Promise((resolve, reject) => {
         this.httpClient
         .get<Publication>('http://localhost:3000/api/publications/' + id)
           .subscribe(
             (response: Publication) => {
               this.publication = response;
-              
-              console.log(this.publication)
               this.emitPublicationSubject();
             },
             (error) => {
@@ -61,6 +61,5 @@ export class PublicationService {
             }
           );
       })
-        
     }
 }
