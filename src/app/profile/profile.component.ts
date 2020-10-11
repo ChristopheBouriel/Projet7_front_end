@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
   profile: Profile;
   publications: Publication[];
   shortProfiles: ShortProfile[];
-
   usersNameList: string[] = new Array;
 
   fromPost: number;
@@ -33,7 +32,6 @@ export class ProfileComponent implements OnInit {
   fromList: boolean ;
   userName: string;
   isMine: boolean;
-  noPost: boolean;
   searching: boolean;
 
   constructor(private route: ActivatedRoute,
@@ -78,8 +76,6 @@ export class ProfileComponent implements OnInit {
         this.searching = search;
       }
     );
-    
-    
     this.loading = false;
   }
 
@@ -101,8 +97,6 @@ export class ProfileComponent implements OnInit {
       })      
     console.log(this.fromList);
   }
-
-  
 
   onGetList() {
 
@@ -126,18 +120,13 @@ export class ProfileComponent implements OnInit {
   }
 
   onSearch(inputUserName) {
-
     const check = this.usersNameList.includes(inputUserName);
     if(check) {
       this.profileService.getProfileByUserName(inputUserName);
     console.log(inputUserName)
     this.searching = false;
-    
     } else {
       this.noUser = 'Utilisateur inconnu';
     }
-
-    
   }
-
 }

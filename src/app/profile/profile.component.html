@@ -1,6 +1,6 @@
 
 <div class="show-profile" *ngIf="!searching">
-    <p>{{userProfile}}</p>
+    <p>{{profile?.userName}}</p>
     <p>{{profile?.firstname}}</p>
     <p>{{profile?.lastname}}</p>
     <p>{{profile?.service}}</p>
@@ -10,8 +10,9 @@
 
 <button *ngIf="!fromList && !searching && !fromUsersList" routerLink="/publications/{{fromPost}}">Retour publication</button>
 <button *ngIf="!searching" routerLink="/publications">Retour liste</button>
-<button *ngIf="isMine && !searching" routerLink="/publications">Modifier Profil</button>
+<button *ngIf="isMine && !searching" routerLink="modify">Modifier Profil</button>
 <button *ngIf="!searching" (click)="onGetList()">Rechercher</button>
+
 
 <br/>
 <br/>

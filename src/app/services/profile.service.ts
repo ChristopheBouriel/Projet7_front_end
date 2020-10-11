@@ -20,7 +20,7 @@ export class ProfileService {
     private userPublications: Publication[];
     //fromUsersList: boolean;
 
-    
+
 
     constructor(private httpClient: HttpClient) { }
 
@@ -45,6 +45,7 @@ export class ProfileService {
                 this.userPublications = resp[1];
                 console.log(this.userPublications);
 
+                resolve(this.profile);
                 this.emitProfileSubject();
                 this.userPublicationsSubject.next(this.userPublications);
               },
@@ -53,11 +54,9 @@ export class ProfileService {
               }
             );
         })
-          
     }
 
     getUsersList() {
-      
         this.httpClient
           .get('http://localhost:3000/api/auth/list')
           .subscribe(
@@ -69,4 +68,28 @@ export class ProfileService {
             }
           );
     }
+
+    modifyProfile(firstname: string, lastname: string, userName: string, 
+  dept: string, email: string, aboutMe: string) {
+      return new Promise((resolve, reject) => {
+        this.httpClient.post('http://localhost:3000/api/profiles/modify', {
+          firstname: firstname,
+          lastname: lastname,
+          userName: userName,
+          service: dept,
+          email: email,
+          aboutMe: aboutMe
+      }).subscribe(
+    (response :{message: string }
+      ) => {
+      resolve();
+    },
+    (error) => {
+      reject(error);
+    }
+  );
+});
+    }
 }
+
+

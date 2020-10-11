@@ -27,6 +27,7 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { UsersListComponent } from './profile/users-list/users-list.component';
+import { ProfileFormComponent } from './profile-form/profile-form.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -35,9 +36,10 @@ const appRoutes: Routes = [
   {path: 'publications', canActivate: [AuthGuard], component: PublicationListComponent},
   {path: 'publications/:id', canActivate: [AuthGuard], component: SinglePublicationComponent},
   {path: 'profile/:userName', canActivate: [AuthGuard], component: ProfileComponent},
+  {path: 'profile/:username/modify', canActivate: [AuthGuard], component: ProfileFormComponent},
   {path: 'auth', component: AuthComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'signup', component: SignupComponent},
+  {path: 'signup', component: ProfileFormComponent},
   {path: '', pathMatch: 'full', redirectTo: 'auth'},
 ];
 
@@ -55,7 +57,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     ProfileComponent,
     UserPublicationsComponent,
-    UsersListComponent
+    UsersListComponent,
+    ProfileFormComponent
   ],
   imports: [
     BrowserModule,
