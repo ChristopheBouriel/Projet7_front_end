@@ -1,0 +1,28 @@
+
+<div *ngIf="notChanging === true">
+<button (click)="onChangePassword()">Changer le mot de passe</button>
+<button (click)="onChangeUserName()">Changer le nom d'utilisateur</button>
+<button (click)="onDeleteAccount()">Se désinscrire</button>
+</div>
+
+<form [formGroup]="passwordForm" *ngIf="modPass">
+    <div class="form-group">
+      <label for="mot de passe">Saisissez votre mot de passe</label>
+      <input type="password" class="form-control" id="newPassword" formControlName="newPassword">
+    </div>
+    
+    <button mat-raised-button color="purple" (click)="onModifyPassword()">Valider</button>
+    <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
+    <button mat-raised-button color="purple" (click)="onCancel()">Annuler</button>
+</form>
+
+<form [formGroup]="userNameForm" *ngIf="modName">
+    <div class="form-group">
+      <label for="nom utilisateur">Saisissez votre nom d'utilisateur</label>
+      <input type="text" class="form-control" id="newUserName" formControlName="newUserName">
+    </div>
+    
+    <button mat-raised-button color="purple" (click)="onModifyUserName()">Valider</button>
+    <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
+    <button mat-raised-button color="purple" (click)="onCancel()">Annuler</button>
+</form>

@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
   userName: string;
   isMine: boolean;
   searching: boolean;
+  gotUsersList: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -76,16 +77,18 @@ export class ProfileComponent implements OnInit {
         this.searching = search;
       }
     );
+    this.gotUsersList = false;
     this.loading = false;
   }
 
   ngDoCheck() {
     this.userProfile = this.route.snapshot.params['userName'];
-    if (this.userProfile === this.userName && this.isMine !== true) {
+    if (this.userProfile === this.userName && this.profileService.seeMine === true) {
     this.isMine = true;
+    this.profileService.seeMine = false;
     this.profileService.getProfileByUserName(this.userName);
-    console.log('Là')
-    };
+    
+    } else if (this.userProfile !== this.userName) {this.isMine = false;}
 
     if(this.searching===false) {this.noUser = '';}
     this.fromPost = this.publicationService.fromPost;
@@ -96,19 +99,21 @@ export class ProfileComponent implements OnInit {
         this.fromList = fromList;
       })      
     console.log(this.fromList);
+    console.log('Là')
   }
 
   onGetList() {
-
-    this.profileService.usersListSubject.subscribe(
+      this.profileService.usersListSubject.subscribe(
       (users: any[]) => {
-        this.shortProfiles = users; 
-        for (let i of users) {
+        this.shortProfiles = users;
+        if (this.gotUsersList === false) {
+          for (let i of users) {
           this.usersNameList.push(i.userName)
+          }
         }
+        this.gotUsersList = true;
       }
-    );
-
+      );
     this.profileService.getUsersList();
     this.searching = true;
     this.fromUsersList = true;
@@ -117,6 +122,7 @@ export class ProfileComponent implements OnInit {
 
   onBackFromList() {
     this.searching = false;
+    
   }
 
   onSearch(inputUserName) {

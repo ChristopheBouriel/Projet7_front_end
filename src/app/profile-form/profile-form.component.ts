@@ -13,7 +13,7 @@ import { AuthService } from '../services/auth.service';
 export class ProfileFormComponent implements OnInit {
 
   profileForm: FormGroup;
-  mode: string;
+  editMode: boolean;
   loading: boolean;
   profile: Profile;
   errorMsg: string;
@@ -30,11 +30,11 @@ export class ProfileFormComponent implements OnInit {
       (params) => {
         console.log(params)
         if (!params.username) {
-          this.mode = 'new';
+          this.editMode = false;
           this.initEmptyForm();
           this.loading = false;
         } else {
-          this.mode = 'edit';
+          this.editMode = true;
           this.profileService.getProfileByUserName(params.username).then(
             (profile: Profile) => {
               this.profile = profile[0];
@@ -87,7 +87,7 @@ export class ProfileFormComponent implements OnInit {
     const email = this.profileForm.get('email').value;
     const aboutMe = this.profileForm.get('aboutMe').value;
     
-    if (this.mode === 'new') {
+    if (this.editMode === false) {
       this.authService.signUp(firstname, lastname, username, password, dept, email, aboutMe).then(
       (response) => {
         this.authService.loginUser(username, password).then(
@@ -109,7 +109,7 @@ export class ProfileFormComponent implements OnInit {
         this.errorMsg = error.message;
       }
     );
-    } else if (this.mode === 'edit') {
+    } else if (this.editMode === true) {
       this.profileService.modifyProfile(firstname, lastname, username, 
         dept, email, aboutMe).then(
           () => {

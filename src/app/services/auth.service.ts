@@ -86,7 +86,49 @@ export class AuthService {
     }
 
     getUserName() {
+      
       return this.userName;
+      //souscrire au subject ici -- ce sera peut-être suffisant
+    }
+
+    modifyPassword(password: string, email: string) {
+
+      return new Promise((resolve, reject) => {
+
+        this.httpClient.post('http://localhost:3000/api/auth/changeP', {
+          userPassword: password,
+          email: email          
+      }).subscribe(
+          (response :{message: string }
+            
+            ) => {
+            resolve(response);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      })
+    }
+
+    modifyUserName(userName: string, email: string) {
+      return new Promise((resolve, reject) => {
+        this.httpClient.post('http://localhost:3000/api/auth/changeU', {
+          userName: userName,
+          email: email          
+      }).subscribe(
+          (response :{message: string }
+            
+            ) => {
+          
+            
+            resolve(response);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      })
     }
 
     logout() {

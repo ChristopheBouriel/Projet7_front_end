@@ -20,7 +20,7 @@ export class ProfileService {
     private userPublications: Publication[];
     //fromUsersList: boolean;
 
-
+    seeMine: boolean;
 
     constructor(private httpClient: HttpClient) { }
 

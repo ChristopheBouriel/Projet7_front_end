@@ -14,7 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './auth/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SignupComponent } from './auth/signup/signup.component';
+import { SettingsComponent } from './auth/settings/settings.component';
 import { CommentListComponent } from './single-publication/comment-list/comment-list.component';
 import { CommentService } from './services/comment.service';
 import { CommentListItemComponent } from './single-publication/comment-list/comment-list-item/comment-list-item.component';
@@ -37,6 +37,7 @@ const appRoutes: Routes = [
   {path: 'publications/:id', canActivate: [AuthGuard], component: SinglePublicationComponent},
   {path: 'profile/:userName', canActivate: [AuthGuard], component: ProfileComponent},
   {path: 'profile/:username/modify', canActivate: [AuthGuard], component: ProfileFormComponent},
+  {path: 'profile/:userName/settings', canActivate: [AuthGuard], component: SettingsComponent},
   {path: 'auth', component: AuthComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: ProfileFormComponent},
@@ -51,7 +52,7 @@ const appRoutes: Routes = [
     SinglePublicationComponent,
     AuthComponent,
     LoginComponent,
-    SignupComponent,
+    SettingsComponent,
     CommentListComponent,
     CommentListItemComponent,
     HeaderComponent,

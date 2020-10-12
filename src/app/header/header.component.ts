@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService} from '../services/auth.service';
+import { ProfileService} from '../services/profile.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,7 +10,8 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private authService: AuthService ) { }
+  constructor(private authService: AuthService,
+              private profileService: ProfileService) { }
 
   isAuth: boolean;
   authSubscription: Subscription;
@@ -29,6 +31,10 @@ export class HeaderComponent implements OnInit {
         console.log(this.userName)
       }
     );
+  }
+
+  onSeeMine() {
+    this.profileService.seeMine = true;
   }
 
   onLogout() {
