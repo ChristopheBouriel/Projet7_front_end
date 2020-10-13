@@ -1,7 +1,8 @@
 <li [ngClass]="{'list-group-item': true}"
 *ngIf="!deleted">
     <div class="infos">
-    <p >De <a routerLink="/profile/{{commentUserName}}" (click)="onSeeProfile()"><span>{{commentUserName}}</span></a>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm' | lowercase}}</p>
+    <p >De <a *ngIf="!exOne" routerLink="/profile/{{commentUserName}}" (click)="onSeeProfile()"><span>{{commentUserName}}</span></a><span *ngIf="exOne">{{commentUserName}}</span>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm' | lowercase}}</p>
+    
     <a *ngIf="modified" (click)="onSeeDate()">Modifié</a>
     </div>
     <div *ngIf=!modifying class="comment-view">
@@ -12,7 +13,7 @@
     <form [formGroup]="modifyForm" *ngIf="!loading && modifying">
         <div class="form-group">
           <label for="comment">Modifier</label>
-          <textarea class="form-control" id="comment" formControlName="comment"  [(ngModel)]="commentContent"></textarea>
+          <textarea class="form-control" id="comment" formControlName="comment"></textarea>
         </div>
         
         <button mat-raised-button color="purple" (click)="onMakeModif()">Envoyer</button>

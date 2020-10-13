@@ -16,12 +16,14 @@ export class SettingsComponent implements OnInit {
 
   passwordForm: FormGroup;
   userNameForm: FormGroup;
+  userName: string;
   errorMsg: string;
   loading: boolean;
   notChanging: boolean;
   //isAuth: boolean;
   modPass: boolean;
   modName: boolean;
+  makeSure: boolean;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -39,6 +41,7 @@ export class SettingsComponent implements OnInit {
 
       this.route.params.subscribe(
         (params) => {
+          this.userName = params.userName;
           this.profileService.getProfileByUserName(params.userName)
         }
       )
@@ -66,8 +69,25 @@ this.userNameForm = this.formBuilder.group({
     this.notChanging = false;
   }
 
+  onWantToDelete() {
+    this.notChanging = false;
+    this.makeSure = true;
+  }
+
   onDeleteAccount() {
-    //êtes-vous sûr de vouloir... ?
+
+    this.authService.deleteAccount(this.userName).then(
+      () => {
+        this.authService.headMessage$.next('Votre compte a bien été supprimé');
+        this.makeSure = false;
+        this.authService.isAuth$.next(false);
+      }
+    ).catch(
+          (error) => {           
+            console.error(error);
+            this.errorMsg = error.message;
+          }
+        );
   }
 
   onModifyPassword() {    
@@ -76,6 +96,7 @@ this.userNameForm = this.formBuilder.group({
     this.authService.modifyPassword(password, email).then(
       () => {
         this.router.navigate(['profile/', this.profile[0].userName]);
+        this.authService.headMessage$.next('Votre mot de passe a bien été modifié');
       }
     ).catch(
           (error) => {           
@@ -89,9 +110,17 @@ this.userNameForm = this.formBuilder.group({
     const userName = this.userNameForm.get('newUserName').value;
     const email = this.profile[0].email;
     this.authService.modifyUserName(userName, email).then(
-      () => {
-        this.authService.userName$.next(userName)
-        this.router.navigate(['profile/', userName]);
+      (response) => {
+
+        if (response === 'User already exists') {
+          //this.router.navigate(['profile/', this.profile[0].userName]);
+          //this.loading = false;
+          this.errorMsg = 'Le nom est déjà pris';
+        } else if (response === 'Update done') {
+          this.authService.userName$.next(userName)
+          this.router.navigate(['profile/', userName]);
+          this.authService.headMessage$.next('Votre nom d\'utilisateur a bien été modifié')
+        };
       }
     ).catch(
           (error) => {
@@ -105,6 +134,9 @@ this.userNameForm = this.formBuilder.group({
     this.notChanging = true;
     this.modPass = false;
     this.modName = false;
+    this.errorMsg = '';
   }
   
 }
+
+

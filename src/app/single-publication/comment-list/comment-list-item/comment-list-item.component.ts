@@ -30,6 +30,7 @@ export class CommentListItemComponent implements OnInit {
   errorMsg: string;
   deleted: boolean;
   isAuthor: boolean;
+  exOne: boolean;
   modifying: boolean;
   modifyForm: FormGroup;
   initialComment: string;
@@ -45,11 +46,15 @@ export class CommentListItemComponent implements OnInit {
   ngOnInit() {
     if (this.commentUserName === this.authService.userName) {this.isAuthor = true}
     this.modifyForm = this.formBuilder.group({
-      comment: [null, Validators.required]});
+      comment: [this.commentContent, Validators.required]});
       this.initialComment = this.commentContent; 
 
       console.log(this.postId);
       this.publicationService.fromPost = this.postId;
+
+    if (this.commentUserName === 'utilisateur désinscrit') {
+      this.exOne = true;
+    }
       
   }
 
@@ -88,7 +93,6 @@ export class CommentListItemComponent implements OnInit {
     }
     
   }
-
     
   onMakeModif() {
     

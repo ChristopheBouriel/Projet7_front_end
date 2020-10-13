@@ -34,6 +34,7 @@ export class ProfileComponent implements OnInit {
   isMine: boolean;
   searching: boolean;
   gotUsersList: boolean;
+  ifBack: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -87,8 +88,10 @@ export class ProfileComponent implements OnInit {
     this.isMine = true;
     this.profileService.seeMine = false;
     this.profileService.getProfileByUserName(this.userName);
-    
+    this.ifBack = true;
     } else if (this.userProfile !== this.userName) {this.isMine = false;}
+    if (this.userProfile !== this.userName && this.ifBack === true) {this.profileService.getProfileByUserName(this.userProfile);
+    this.ifBack = false}
 
     if(this.searching===false) {this.noUser = '';}
     this.fromPost = this.publicationService.fromPost;

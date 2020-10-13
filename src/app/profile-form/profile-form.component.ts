@@ -90,18 +90,26 @@ export class ProfileFormComponent implements OnInit {
     if (this.editMode === false) {
       this.authService.signUp(firstname, lastname, username, password, dept, email, aboutMe).then(
       (response) => {
-        this.authService.loginUser(username, password).then(
-          () => {
-            this.loading = false;
-            this.router.navigate(['publications']);
-          }
-        ).catch(
-          (error) => {
-            this.loading = false;
-            console.error(error);
-            this.errorMsg = error.message;
-          }
-        );
+        if (response === 'User already exists') {
+          this.router.navigate(['signup']);
+          this.loading = false;
+          this.errorMsg = 'Le nom est déjà pris';
+        } else if (response === 'Création réussie') {
+          this.authService.headMessage$.next('Votre compte a bien été créé');
+          this.authService.loginUser(username, password).then(
+            () => {
+              this.loading = false;
+              this.router.navigate(['publications']);
+            }
+          ).catch(
+            (error) => {
+              this.loading = false;
+              console.error(error);
+              this.errorMsg = error.message;
+            }
+          );
+        }
+        
       }
     ).catch(
       (error) => {
@@ -114,6 +122,7 @@ export class ProfileFormComponent implements OnInit {
         dept, email, aboutMe).then(
           () => {
             this.loading = false;
+            this.authService.headMessage$.next('Votre profil a bien été modifié');
             this.router.navigate(['profile/', this.profile.userName]);
           }
         ).catch(

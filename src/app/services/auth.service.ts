@@ -13,13 +13,26 @@ export class AuthService {
 
     isAuth$ = new BehaviorSubject<boolean>(false);
     userName$ = new BehaviorSubject<string>('No one is connected');
+    headMessage$ = new BehaviorSubject<string>('');
     //isAuth: boolean=false;
 
     userId: string;
     userName: string;
 
+    signupMessage: string;
+
     constructor(private httpClient: HttpClient,
                 private router: Router) {}
+
+                clearMessage() {
+                  setTimeout(
+                    () => {
+                      this.headMessage$.next('');
+                    }, 2000
+                  )
+                ;
+                
+              }
 
 
   emitUserNameSubject( ) {
@@ -40,16 +53,18 @@ export class AuthService {
           email: email,
           aboutMe: aboutMe
       }).subscribe(
-          (response :{message: string }
-            
-            ) => {
-            //this.userId = response.userId;
-            //this.userName = response.userName;
-            //this.authToken = response.token;
-            this.isAuth$.next(true);
-            //this.isAuth=true;
-            
-            resolve(response);
+          (response :{message: string }) => {
+              if (response.message !== 'User already exists') {
+                this.isAuth$.next(true);
+                resolve(response.message);
+                //this.userId = response.userId;
+                //this.userName = response.userName;
+                //this.authToken = response.token;
+              }
+              else {
+                this.signupMessage = response.message;
+                resolve(response.message);
+              };          
           },
           (error) => {
             reject(error);
@@ -75,7 +90,7 @@ export class AuthService {
             resolve();
           },
           (error) => {
-            reject(error);
+            reject(error.error);
           }
         );
       });
@@ -110,6 +125,7 @@ export class AuthService {
         );
       })
     }
+    
 
     modifyUserName(userName: string, email: string) {
       return new Promise((resolve, reject) => {
@@ -117,11 +133,26 @@ export class AuthService {
           userName: userName,
           email: email          
       }).subscribe(
-          (response :{message: string }
-            
-            ) => {
-          
-            
+        (response :{message: string }) => {
+            console.log(response)
+            if (response.message !== 'User already exists') {
+              resolve(response.message);
+            } else {
+                this.signupMessage = response.message;
+                resolve(response.message);}
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    })
+  }
+
+
+    deleteAccount(userName: string) {
+      return new Promise((resolve, reject) => {
+        this.httpClient.post('http://localhost:3000/api/auth/deleteU', {userName: userName }).subscribe(
+          (response :{message: string }) => {
             resolve(response);
           },
           (error) => {

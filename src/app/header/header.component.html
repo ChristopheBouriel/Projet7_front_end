@@ -4,6 +4,7 @@
         <img src="../assets/images/groupo.png">
         <p class="ml-3 mt-5">SharePlace</p>
         </div>
+        <p *ngIf="showMessage === true"> {{headMessage}}</p>
         <div class="menu mt-5">
         <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="login">Connexion</a></div>
         <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="signup">Inscription</a></div>

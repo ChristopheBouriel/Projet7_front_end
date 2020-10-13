@@ -8,7 +8,9 @@
     <p>{{profile?.aboutMe}}</p>
 </div>
 
-<button *ngIf="!fromList && !searching && !fromUsersList" routerLink="/publications/{{fromPost}}">Retour publication</button>
+<p class="noUser mx-auto">{{noUser}}</p>
+
+<button *ngIf="!fromList && !searching && !fromUsersList && !isMine" routerLink="/publications/{{fromPost}}">Retour publication</button>
 <button *ngIf="!searching" routerLink="/publications">Retour liste</button>
 
 <button *ngIf="!searching" (click)="onGetList()">Rechercher</button>
@@ -45,7 +47,6 @@
 </div>
 
 <br/>
-<p class="mx-auto">{{noUser}}</p>
 <br/>
 
 <ul *ngIf="searching">
