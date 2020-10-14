@@ -14,22 +14,21 @@ export class CommentListComponent implements OnInit {
 
   comments: any[];
   commentsSubscription: Subscription;
+  userName: string;
 
   
   idCom:number;
 
   constructor(private commentService: CommentService,
-                      auth: AuthService) { }
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.commentsSubscription = this.commentService.commentsSubject.subscribe(
       (comments:any[]) => {
         this.comments = comments;
-        
       }
     );
     this.commentService.getAllComments(this.postId);
-    
     
   }
   

@@ -15,25 +15,17 @@ export class AuthService {
     userName$ = new BehaviorSubject<string>('No one is connected');
     headMessage$ = new BehaviorSubject<string>('');
     //isAuth: boolean=false;
-
-    userId: string;
-    userName: string;
-
-    signupMessage: string;
+    private userName: string;
+    private authToken: string;
+    //signupMessage: string;
 
     constructor(private httpClient: HttpClient,
                 private router: Router) {}
 
-                clearMessage() {
-                  setTimeout(
-                    () => {
-                      this.headMessage$.next('');
-                    }, 2000
-                  )
-                ;
-                
-              }
-
+  clearMessage() {
+      setTimeout(
+        () => {this.headMessage$.next('');}, 4000);
+    }
 
   emitUserNameSubject( ) {
         this.userName$.next(this.userName);
@@ -62,12 +54,12 @@ export class AuthService {
                 //this.authToken = response.token;
               }
               else {
-                this.signupMessage = response.message;
+                //this.signupMessage = response.message;
                 resolve(response.message);
               };          
           },
           (error) => {
-            reject(error);
+            reject(error.error);
           }
         );
       });
@@ -75,18 +67,15 @@ export class AuthService {
 
   loginUser(userName: string, password) {
       return new Promise((resolve, reject) => {
-        
         this.httpClient.post('http://localhost:3000/api/auth/login', {userName: userName, userPassword: password}).subscribe(
           (response :{userId: string, token: string, userName: string}
             ) => {
-            this.userId = response.userId;
             this.userName = response.userName;
             this.emitUserNameSubject();
             console.log(this.userName$)
-            //this.authToken = response.token;
+            this.authToken = response.token;
             this.isAuth$.next(true);
             //this.isAuth=true;
-            
             resolve();
           },
           (error) => {
@@ -96,14 +85,17 @@ export class AuthService {
       });
     }
 
-    getUserId() {
-      return this.userId;
+    getToken() {
+      return this.authToken;
     }
 
     getUserName() {
-      
+      this.userName$.subscribe(
+        (userName) => {
+          this.userName = userName;
+        }
+      )
       return this.userName;
-      //souscrire au subject ici -- ce sera peut-être suffisant
     }
 
     modifyPassword(password: string, email: string) {
@@ -137,8 +129,9 @@ export class AuthService {
             console.log(response)
             if (response.message !== 'User already exists') {
               resolve(response.message);
+              
             } else {
-                this.signupMessage = response.message;
+                this.userName$.next(userName);
                 resolve(response.message);}
         },
         (error) => {

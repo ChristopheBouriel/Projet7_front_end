@@ -119,7 +119,8 @@ this.userNameForm = this.formBuilder.group({
         } else if (response === 'Update done') {
           this.authService.userName$.next(userName)
           this.router.navigate(['profile/', userName]);
-          this.authService.headMessage$.next('Votre nom d\'utilisateur a bien été modifié')
+          this.authService.headMessage$.next('Votre nom d\'utilisateur a bien été modifié');
+          
         };
       }
     ).catch(

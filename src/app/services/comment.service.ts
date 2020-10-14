@@ -37,12 +37,10 @@ export class CommentService {
           );
     }
 
-    postComment(comment: string, userId: string, username: string, postId: number, date: string) {
-        console.log({comment, userId, postId, date})
-
+    postComment(comment: string, username: string, postId: number, date: string) {       
         return new Promise((resolve,reject) => {
             this.httpClient
-          .post('http://localhost:3000/api/comments/add', {content: comment, userId: userId, userName: username, postId: postId, date_comment: date})
+          .post('http://localhost:3000/api/comments/add', {content: comment, userName: username, postId: postId, date_comment: date})
           .subscribe((response)=> {
               resolve(response);
               this.getAllComments(postId);

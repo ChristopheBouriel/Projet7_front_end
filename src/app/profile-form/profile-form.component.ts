@@ -120,7 +120,8 @@ export class ProfileFormComponent implements OnInit {
     } else if (this.editMode === true) {
       this.profileService.modifyProfile(firstname, lastname, username, 
         dept, email, aboutMe).then(
-          () => {
+          (response) => {
+            console.log(response)
             this.loading = false;
             this.authService.headMessage$.next('Votre profil a bien été modifié');
             this.router.navigate(['profile/', this.profile.userName]);
@@ -129,7 +130,7 @@ export class ProfileFormComponent implements OnInit {
           (error) => {
             this.loading = false;
             console.error(error);
-            this.errorMsg = error.message;
+            this.errorMsg = error.error.message;
           }
         );
     }

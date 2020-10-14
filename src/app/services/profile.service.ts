@@ -82,10 +82,10 @@ export class ProfileService {
       }).subscribe(
     (response :{message: string }
       ) => {
-      resolve();
+      resolve(response.message);
     },
     (error) => {
-      reject(error);
+      reject(error.error);
     }
   );
 });

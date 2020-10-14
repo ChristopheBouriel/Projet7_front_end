@@ -95,14 +95,13 @@ export class SinglePublicationComponent implements OnInit {
 
   onComment() {
 
-    //this.loading = true;
+    this.loading = true;
     const comment = this.commentForm.get('comment').value;
-    const userId = this.authService.getUserId();
     const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
     console.log(dbDate);
-    this.commentService.postComment(comment, userId, username, this.postId, dbDate).then(
+    this.commentService.postComment(comment, username, this.postId, dbDate).then(
       (response) => {
         console.log(response);
         this.loading = false;
