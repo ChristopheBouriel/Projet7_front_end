@@ -94,4 +94,20 @@ export class PublicationService {
       })
   }
 
+  deletePublication(publication:number, userName:string) {
+
+    return new Promise((resolve, reject) => {
+        this.httpClient
+      .post('http://localhost:3000/api/publications/delete', { postId: publication, userName: userName })
+      .subscribe(
+        (response) => {
+          resolve(response)
+            },
+        (error) => {
+          reject(error.error);
+        }
+      );
+    })
+}
+
 }

@@ -1,4 +1,4 @@
-<mat-spinner class="mx-auto" *ngIf="loading"></mat-spinner>
+<mat-spinner style="margin:0 auto;" class="mx-auto" *ngIf="loading"></mat-spinner>
 <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
 <div [ngClass]="{'single-publication': true,
 'single-publication-like': likes === true
@@ -6,6 +6,8 @@
     <h2 [ngStyle]="{color: 'primary'}">{{title}}</h2>
     <p>Par {{publication?.userName}}</p>
     <p>Publié le {{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}</p>
+    <a *ngIf="publication?.modified" (click)="onSeeDate()">Modifié</a>
+    <p *ngIf="seeDate"> Dernière modification  le {{publication?.date_modif | date: 'd LLLL yyyy' | lowercase}} à {{publication?.date_modif | date: 'HH:mm' | lowercase}}</p>
     <div *ngIf=!modifying  class="publication-view">
         <p>{{content}}</p>
     </div>
@@ -24,7 +26,9 @@
         <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onCancelModif()">Annuler</button>
         <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onWantDelete()">Effacer</button>
         <p *ngIf="confirm">Etes-vous sûr(e) de vouloir supprimer cette publication</p>
-        <button *ngIf="confirm" mat-raised-button color="primary" (click)="ondelete()">Effacer</button>
+        <button *ngIf="confirm" class="mr-2" mat-raised-button color="primary" (click)="onCancelDelete()">Annuler</button>
+        <button *ngIf="confirm" mat-raised-button color="primary" (click)="onDelete()">Effacer</button>
+        
     </form>
     <br/>
     <div *ngIf=!modifying  class="post-buttons">
@@ -35,18 +39,9 @@
         <button class="mb-1 mr-0 text-center btn" routerLink="/publications">Retour à la liste</button>
         <button *ngIf="!isAuthor" class="mb-1 text-center btn" routerLink="/profile/{{publication?.userName}}">Voir profil</button>
         <button *ngIf="isAuthor" class="mb-1 text-center btn" (click)="onWantModify()">Modifier</button>
+        
     </div>
 </div>
-
-<!--
-<li [ngClass]="{'comment-group-item': true}">
-    <div class="see-comments">
-        <p>{{username}}</p>
-        <p>Date : {{commentDate | date: 'short' | lowercase}}</p>
-        <p>{{commentContent}}</p>
-    </div>
-</li>
--->
 
 <form [formGroup]="commentForm" *ngIf="!loading && commenting">
     <div class="form-group mt-3">

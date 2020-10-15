@@ -64,6 +64,10 @@ export class CommentListItemComponent implements OnInit {
     this.confirm = true;
   }
 
+  onCancelDelete() {
+    this.confirm = false;
+  }
+
   onDelete() {
     
     const publication = this.postId;

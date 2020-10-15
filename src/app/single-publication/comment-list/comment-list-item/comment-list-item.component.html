@@ -28,6 +28,6 @@
     *ngIf="isAuthor && !modifying && !confirm">Modifier</button>
 
     <p *ngIf="confirm">Etes-vous sûr(e) de vouloir supprimer ce commentaire</p>
-    <button *ngIf="confirm" mat-raised-button color="primary" (click)="onDelete()">Effacer</button>
-    
+    <button class="mr-2"  *ngIf="confirm" mat-raised-button color="primary" (click)="onDelete()">Effacer</button>
+    <button *ngIf="confirm" mat-raised-button color="primary" (click)="onCancelDelete()">Annuler</button>
 </li>

@@ -29,6 +29,7 @@ export class SinglePublicationComponent implements OnInit {
   isAuthor: boolean;
   initialTitle: string;
   initialContent: string;
+  seeDate: boolean=false;
   
 
   //postAnchor: string;
@@ -112,6 +113,18 @@ export class SinglePublicationComponent implements OnInit {
   
   }
 
+  onSeeDate() {
+    
+    if(this.seeDate===false) {
+      this.seeDate = true;
+      console.log(this.seeDate)
+    } else
+     {
+      this.seeDate = false;
+    }
+    
+  }
+
   onComment() {
 
     this.loading = true;
@@ -155,6 +168,10 @@ export class SinglePublicationComponent implements OnInit {
     this.confirm = true;
   }
 
+  onCancelDelete() {
+    this.confirm = false;
+  }
+
   onCancelModif() {
     this.modifying = false;
     this.modifyForm.patchValue({title: this.initialTitle, publication: this.initialContent});
@@ -185,7 +202,23 @@ export class SinglePublicationComponent implements OnInit {
   }
 
   onDelete() {
-
+    const userName = this.authService.getUserName();
+    const publication = this.postId;
+    console.log(publication);
+    this.publicationService.deletePublication( publication, userName).then(
+      (response) => {
+        console.log(response)
+        this.loading = false;
+        this.router.navigate(['publications']);
+        //this.deleted = true;
+        
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
   }
 
   onSeeProfile() {

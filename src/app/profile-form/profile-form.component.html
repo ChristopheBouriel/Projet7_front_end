@@ -1,6 +1,6 @@
 
 <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
 <form [formGroup]="profileForm" *ngIf="!loading">
     <div class="form-group">
         <label for="firstname">Prénom</label>

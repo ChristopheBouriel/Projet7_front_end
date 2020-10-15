@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.profileSubject.subscribe(
       (profile: Profile) => {
         this.profile = profile[0];
-        if (this.profile.aboutMe !== '') {
+        if (this.profile.aboutMe !== 'null') {
           this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
         }
       }
@@ -93,19 +93,19 @@ export class ProfileComponent implements OnInit {
     this.isMine = true;
     this.profileService.seeMine = false;
     this.profileService.getProfileByUserName(this.userName).then(
-      () => {
-        
-      this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
-    
-      }
-    )
+      () => this.checkAboutMe()
+    );
     
     this.ifBack = true;
     
     } else if (this.userProfile !== this.userName) {this.isMine = false;}
     if (this.userProfile !== this.userName && this.ifBack === true) {
-      this.profileService.getProfileByUserName(this.userProfile);
-      this.ifBack = false}    
+      this.profileService.getProfileByUserName(this.userProfile).then(
+        () => this.checkAboutMe()
+      );
+      this.ifBack = false}
+
+    
 
     if(this.searching===false) {this.noUser = '';}
     this.fromPost = this.publicationService.fromPost;
@@ -117,6 +117,12 @@ export class ProfileComponent implements OnInit {
       })      
     console.log(this.fromList);
     console.log('Là')
+  }
+
+  checkAboutMe() {
+    if (this.profile.aboutMe !== '') {
+      this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
+    } else { this.aboutMe = '' }
   }
 
   onGetList() {
