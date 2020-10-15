@@ -85,16 +85,15 @@ export class ProfileFormComponent implements OnInit {
     
     const dept = this.profileForm.get('department').value;
     const email = this.profileForm.get('email').value;
-    const aboutMe = this.profileForm.get('aboutMe').value;
+    let aboutMe = this.profileForm.get('aboutMe').value;
+    if (aboutMe === null) {
+      aboutMe = '';
+    }
     
     if (this.editMode === false) {
       this.authService.signUp(firstname, lastname, username, password, dept, email, aboutMe).then(
       (response) => {
-        if (response === 'User already exists') {
-          this.router.navigate(['signup']);
-          this.loading = false;
-          this.errorMsg = 'Le nom est déjà pris';
-        } else if (response === 'Création réussie') {
+        if (response === 'Création réussie') {
           this.authService.headMessage$.next('Votre compte a bien été créé');
           this.authService.loginUser(username, password).then(
             () => {
@@ -105,7 +104,7 @@ export class ProfileFormComponent implements OnInit {
             (error) => {
               this.loading = false;
               console.error(error);
-              this.errorMsg = error.message;
+              this.errorMsg = 'Désolé, nous n\'avons pas pu vous connecter';
             }
           );
         }
@@ -130,7 +129,7 @@ export class ProfileFormComponent implements OnInit {
           (error) => {
             this.loading = false;
             console.error(error);
-            this.errorMsg = error.error.message;
+            this.errorMsg = error.message;
           }
         );
     }

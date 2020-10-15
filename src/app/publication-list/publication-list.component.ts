@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PublicationService} from '../services/publication.service';
+import { AuthService } from '../services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-publication-list',
@@ -13,6 +15,10 @@ export class PublicationListComponent implements OnInit {
 
   publications: any[];
   publicationsSubscription: Subscription;
+  publicationForm: FormGroup;
+
+  loading: boolean;
+  posting: boolean;
 
   lastUpdate = new Promise((resolve, reject) => {
     const date = new Date();
@@ -23,7 +29,9 @@ export class PublicationListComponent implements OnInit {
     )
   });
   
-  constructor(private publicationService: PublicationService) {
+  constructor(private publicationService: PublicationService,
+              private formBuilder: FormBuilder,
+              private authService: AuthService) {
     
   }
 
@@ -35,6 +43,42 @@ export class PublicationListComponent implements OnInit {
       }
     );
     this.publicationService.getAllPublications();
+
+    this.publicationForm = this.formBuilder.group({
+      title: [null, Validators.required],
+      publication: [null, Validators.required]
+    });
+  }
+
+  onWantPost() {
+    this.posting = true;
+  }
+
+  onPost() {
+    this.loading = true;
+    const publication = this.publicationForm.get('publication').value;
+    const title = this.publicationForm.get('title').value;
+    const username = this.authService.getUserName();
+    const date = new Date().toISOString();
+    const dbDate = date.split('.')[0].replace('T',' ');
+    console.log(dbDate);
+    this.publicationService.postPublication(title, username, publication, dbDate).then(
+      (response) => {
+        console.log(response);
+        this.loading = false;
+        this.publicationForm.reset();
+        this.posting = false;
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        console.log(error);
+      }
+    );
+  }
+
+  onCancel() {
+    this.posting = false;
   }
   
   ngOnDestroy() {

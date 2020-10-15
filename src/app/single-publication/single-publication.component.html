@@ -1,21 +1,40 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner class="mx-auto" *ngIf="loading"></mat-spinner>
+<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
 <div [ngClass]="{'single-publication': true,
 'single-publication-like': likes === true
                 }" *ngIf="!loading">
-    <h4 [ngStyle]="{color: 'purple'}">{{publication?.title}}</h4>
+    <h2 [ngStyle]="{color: 'primary'}">{{title}}</h2>
     <p>Par {{publication?.userName}}</p>
     <p>Publié le {{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}</p>
-    <div class="publication-view">
-        <p>{{publication?.content}}</p>
+    <div *ngIf=!modifying  class="publication-view">
+        <p>{{content}}</p>
     </div>
+    <form [formGroup]="modifyForm" *ngIf="!loading && modifying">
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="text" class="form-control" id="title" formControlName="title">
+          </div>
+        <div class="form-group mt-3">
+          <label for="publication">Publication</label>
+          <textarea class="form-control" id="publication" formControlName="publication"></textarea>
+        </div>
+        
+        <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onMakeModif()">Envoyer</button>
+        <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
+        <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onCancelModif()">Annuler</button>
+        <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onWantDelete()">Effacer</button>
+        <p *ngIf="confirm">Etes-vous sûr(e) de vouloir supprimer cette publication</p>
+        <button *ngIf="confirm" mat-raised-button color="primary" (click)="ondelete()">Effacer</button>
+    </form>
     <br/>
-    <div class="post-buttons">
+    <div *ngIf=!modifying  class="post-buttons">
         <div>
         <button class="btn btn mb-1 mr-2" (click)="onLike()">Like it</button>
         <button class="btn btn mb-1" (click)="onWantComment()">Comment it</button>
         </div>
-        <button class="mb-1 text-center btn" routerLink="/publications">Retour à la liste</button>
-        <button class="mb-1 text-center btn" routerLink="/profile/{{publication?.userName}}">Voir profil</button>
+        <button class="mb-1 mr-0 text-center btn" routerLink="/publications">Retour à la liste</button>
+        <button *ngIf="!isAuthor" class="mb-1 text-center btn" routerLink="/profile/{{publication?.userName}}">Voir profil</button>
+        <button *ngIf="isAuthor" class="mb-1 text-center btn" (click)="onWantModify()">Modifier</button>
     </div>
 </div>
 
@@ -35,9 +54,9 @@
       <textarea class="form-control" id="comment" formControlName="comment"></textarea>
     </div>
     
-    <button mat-raised-button color="purple" [disabled]="commentForm.invalid" (click)="onComment()">Envoyer</button>
+    <button class="mr-2" mat-raised-button color="primary" [disabled]="commentForm.invalid" (click)="onComment()">Envoyer</button>
     <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>--> 
-    <button mat-raised-button color="purple" (click)="onCancel()">Annuler</button> 
+    <button mat-raised-button color="primary" (click)="onCancel()">Annuler</button> 
 </form>
 
 

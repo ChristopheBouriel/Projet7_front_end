@@ -17,13 +17,20 @@ import { Router } from '@angular/router';
 })
 export class SinglePublicationComponent implements OnInit {
 
-  //title: string = 'Title';
+  title: string;
   //date: string = 'Date';
-  //content: string;
+  content: string;
   //numberComments: number;
   likes: boolean;
   loading: boolean;
   commenting: boolean;
+  modifying: boolean;
+  confirm: boolean;
+  isAuthor: boolean;
+  initialTitle: string;
+  initialContent: string;
+  
+
   //postAnchor: string;
   postId: number;
   publication: Publication;
@@ -32,6 +39,7 @@ export class SinglePublicationComponent implements OnInit {
   fromProfile: string;
  
   commentForm: FormGroup;
+  modifyForm: FormGroup;
   errorMsg: string;
 
   constructor(private publicationService: PublicationService,
@@ -42,23 +50,37 @@ export class SinglePublicationComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.postId = this.route.snapshot.params['id'];
-
     this.loading = true;
-    //this.publicationSubscription = 
+    this.postId = this.route.snapshot.params['id'];
+    
     this.publicationService.publicationSubject.subscribe(
       (publication: Publication) => {
         this.publication = publication[0];
+        this.content = publication[0].content.replace(/&µ/gi,'\"');
+        this.title = publication[0].title.replace(/&µ/gi,'\"');
         //this.postAnchor = '/publications\#' + this.publication.id
         //console.log(this.postAnchor)
       }
     );
-    this.publicationService.getPublicationById(+this.postId);
+    this.publicationService.getPublicationById(+this.postId).then(
+      (response: any[]) => {
+        const userName = this.authService.getUserName();
+        if (response[0].userName === userName) {this.isAuthor = true}
+        console.log(response)
+        this.initialTitle = response[0].title.replace(/&µ/gi,'\"');
+        this.initialContent = response[0].content.replace(/&µ/gi,'\"');
+        this.modifyForm = this.formBuilder.group({
+          title: [this.initialTitle, Validators.required],
+          publication: [this.initialContent, Validators.required],
+        });
+      }
+    );
+
 
     this.commentForm = this.formBuilder.group({
       comment: [null, Validators.required] 
     });
-    
+
     this.publicationService.fromListSubject.subscribe(
       (fromList:boolean) => {
         this.fromList = fromList;
@@ -69,14 +91,11 @@ export class SinglePublicationComponent implements OnInit {
     (fromProfile) => {  this.fromProfile = fromProfile});
 
     //this.publicationService.fromListSubject.next(true);
-
-    console.log(this.fromList);
-    console.log(this.fromProfile);
-
     this.loading = false;
   }
 
   ngDoCheck() {
+    
     //this.publicationService.fromProfileSubject.next(this.authService.getUserName());
   }
 
@@ -107,11 +126,12 @@ export class SinglePublicationComponent implements OnInit {
         this.loading = false;
         this.commentForm.reset('comment');
         this.commenting = false;
+        this.errorMsg = '';
       }
     ).catch(
       (error) => {
         this.loading = false;
-        console.log(error);
+        this.errorMsg = error.message;        
       }
     );
   }
@@ -122,6 +142,50 @@ export class SinglePublicationComponent implements OnInit {
 
   onCancel() {
     this.commenting = false;
+    this.modifying = false;
+    this.errorMsg = '';
+    this.commentForm.reset('comment');
+  }
+
+  onWantModify() {
+    this.modifying = true;
+  }
+
+  onWantDelete() {
+    this.confirm = true;
+  }
+
+  onCancelModif() {
+    this.modifying = false;
+    this.modifyForm.patchValue({title: this.initialTitle, publication: this.initialContent});
+  }
+
+  onMakeModif() {
+    const title = this.modifyForm.get('title').value;
+    const content = this.modifyForm.get('publication').value;
+    //const userId = this.authService.getUserId();
+    //const username = this.authService.getUserName();
+    const date = new Date().toISOString();
+    const dbDate = date.split('.')[0].replace('T',' ');
+    const modified = 1;
+    this.publicationService.modifyPublication(content, title, modified, dbDate, this.postId).then(
+      (response) => {
+        console.log(response);
+        this.loading = false;        
+        //this.commentForm.reset('comment');        
+      }
+    )
+    .catch(
+      (error) => {
+        this.loading = false;
+        console.log(error);
+      }
+    ).then(() => {this.publicationService.getPublicationById(this.postId);
+                  this.modifying = false;})
+  }
+
+  onDelete() {
+
   }
 
   onSeeProfile() {

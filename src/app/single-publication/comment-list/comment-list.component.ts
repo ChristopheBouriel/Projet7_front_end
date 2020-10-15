@@ -15,21 +15,23 @@ export class CommentListComponent implements OnInit {
   comments: any[];
   commentsSubscription: Subscription;
   userName: string;
+  loading: boolean;
 
   
-  idCom:number;
+  //idCom:number;
 
   constructor(private commentService: CommentService,
               private authService: AuthService) { }
 
   ngOnInit() {
+    this.loading = true;
     this.commentsSubscription = this.commentService.commentsSubject.subscribe(
       (comments:any[]) => {
         this.comments = comments;
       }
     );
     this.commentService.getAllComments(this.postId);
-    
+    this.loading = false;
   }
   
   ngOnDestroy() {

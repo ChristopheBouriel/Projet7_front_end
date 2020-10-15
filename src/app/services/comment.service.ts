@@ -32,7 +32,7 @@ export class CommentService {
               this.emitCommentsSubject();
             },
             (error) => {
-              console.log('Erreur ! : ' + error);
+              console.log(error.error);
             }
           );
     }
@@ -41,11 +41,14 @@ export class CommentService {
         return new Promise((resolve,reject) => {
             this.httpClient
           .post('http://localhost:3000/api/comments/add', {content: comment, userName: username, postId: postId, date_comment: date})
-          .subscribe((response)=> {
-              resolve(response);
-              this.getAllComments(postId);
-          }),
-          (error) => {reject(error);}
+          .subscribe(
+            (response: {message: string})=> {
+            console.log(response.message)
+              resolve(response.message);
+              this.getAllComments(postId);              
+          },
+          (error) => {reject(error.error);
+                      console.log(error.error)})
         })
     }
 
@@ -59,7 +62,7 @@ export class CommentService {
               resolve(response)
                 },
             (error) => {
-              reject(error);
+              reject(error.error);
             }
           );
         })
@@ -76,7 +79,7 @@ export class CommentService {
               //this.getAllComments(postId);
                 },
             (error) => {
-              reject(error);
+              reject(error.error);
             }
           );
         })

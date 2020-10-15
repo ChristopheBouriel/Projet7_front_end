@@ -22,11 +22,14 @@ export class PublicationListItemComponent implements OnInit {
   @Input() index: number;
   @Input() id: number;
   
+  content: string;
+  title: string;
 
   constructor(private publicationService: PublicationService) { }
 
   ngOnInit(): void {
-    
+    this.content = this.publicationContent.replace(/&µ/gi,'\"');
+    this.title = this.publicationTitle.replace(/&µ/gi,'\"');
   }
 
   onSeePublication() {

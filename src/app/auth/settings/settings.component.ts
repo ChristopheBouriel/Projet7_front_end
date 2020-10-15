@@ -46,25 +46,23 @@ export class SettingsComponent implements OnInit {
         }
       )
 
-this.passwordForm = this.formBuilder.group({
-      newPassword: [null, Validators.required],
-    });
+      this.passwordForm = this.formBuilder.group({
+            newPassword: [null, Validators.required],
+          });
 
-this.userNameForm = this.formBuilder.group({
-      newUserName: [null, Validators.required],
-    });
+      this.userNameForm = this.formBuilder.group({
+            newUserName: [null, Validators.required],
+          });
 
-    this.notChanging = true;
+      this.notChanging = true;
   }
 
   onChangePassword() {
-
     this.modPass = true;
     this.notChanging = false;
   }
 
   onChangeUserName() {
-
     this.modName = true;
     this.notChanging = false;
   }
@@ -75,7 +73,6 @@ this.userNameForm = this.formBuilder.group({
   }
 
   onDeleteAccount() {
-
     this.authService.deleteAccount(this.userName).then(
       () => {
         this.authService.headMessage$.next('Votre compte a bien été supprimé');
@@ -111,16 +108,10 @@ this.userNameForm = this.formBuilder.group({
     const email = this.profile[0].email;
     this.authService.modifyUserName(userName, email).then(
       (response) => {
-
-        if (response === 'User already exists') {
-          //this.router.navigate(['profile/', this.profile[0].userName]);
-          //this.loading = false;
-          this.errorMsg = 'Le nom est déjà pris';
-        } else if (response === 'Update done') {
+        if (response === 'Update done') {
           this.authService.userName$.next(userName)
           this.router.navigate(['profile/', userName]);
           this.authService.headMessage$.next('Votre nom d\'utilisateur a bien été modifié');
-          
         };
       }
     ).catch(

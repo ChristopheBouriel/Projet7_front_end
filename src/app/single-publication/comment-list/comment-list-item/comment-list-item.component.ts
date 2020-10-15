@@ -32,6 +32,7 @@ export class CommentListItemComponent implements OnInit {
   isAuthor: boolean;
   exOne: boolean;
   modifying: boolean;
+  confirm: boolean;
   modifyForm: FormGroup;
   initialComment: string;
   seeDate: boolean=false;
@@ -47,8 +48,8 @@ export class CommentListItemComponent implements OnInit {
     const userName = this.authService.getUserName();
     if (this.commentUserName === userName) {this.isAuthor = true}
     this.modifyForm = this.formBuilder.group({
-      comment: [this.commentContent, Validators.required]});
-      this.initialComment = this.commentContent; 
+      comment: [this.commentContent.replace(/&µ/gi,'\"'), Validators.required]});
+      this.initialComment = this.commentContent.replace(/&µ/gi,'\"'); 
 
       console.log(this.postId);
       this.publicationService.fromPost = this.postId;
@@ -57,6 +58,10 @@ export class CommentListItemComponent implements OnInit {
       this.exOne = true;
     }
       
+  }
+
+  onWantDelete() {
+    this.confirm = true;
   }
 
   onDelete() {
@@ -81,6 +86,12 @@ export class CommentListItemComponent implements OnInit {
   
   onModify() {
     this.modifying = true;}
+
+  onCancelModif() {
+    this.modifying = false;
+    this.commentContent = this.initialComment;
+    this.modifyForm.patchValue({comment: this.initialComment});
+  }
 
 
   onSeeDate() {
@@ -107,9 +118,7 @@ export class CommentListItemComponent implements OnInit {
       (response) => {
         console.log(response);
         this.loading = false;
-        
         //this.commentForm.reset('comment');
-        
       }
     )
     .catch(
@@ -118,11 +127,6 @@ export class CommentListItemComponent implements OnInit {
         console.log(error);
       }
     ).then(() => (this.commentService.getAllComments(this.postId)));
-  }
-
-  onCancel() {
-    this.modifying = false;
-    this.commentContent = this.initialComment;
   }
 
   onSeeProfile() {

@@ -21,9 +21,15 @@ export class UserPublicationsComponent implements OnInit {
   @Input() index: number;
   @Input() id: number;
 
+  title: string;
+  content: string;
+
+
   constructor(private publicationService: PublicationService) { }
 
   ngOnInit(): void {
+    this.title = this.publicationTitle.replace(/&µ/gi,'\"');
+    this.content = this.publicationContent.replace(/&µ/gi,'\"');
   }
 
   onGoToPublication() {

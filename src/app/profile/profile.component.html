@@ -5,7 +5,7 @@
     <p>{{profile?.lastname}}</p>
     <p>{{profile?.service}}</p>
     <p>{{profile?.email}}</p>
-    <p>{{profile?.aboutMe}}</p>
+    <p *ngIf="aboutMe">{{aboutMe}}</p>
 </div>
 
 <p class="noUser mx-auto">{{noUser}}</p>
@@ -41,7 +41,7 @@
     
     <button (click)="onBackFromList()">Retour au profil</button>
     
-    <button mat-raised-button color="purple" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
+    <button mat-raised-button color="primary" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
     <input type="search" #inputUserName name="search">
     
 </div>

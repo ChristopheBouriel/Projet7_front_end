@@ -6,7 +6,7 @@
     <a *ngIf="modified" (click)="onSeeDate()">Modifié</a>
     </div>
     <div *ngIf=!modifying class="comment-view">
-        <p>{{commentContent}}</p>
+        <p>{{initialComment}}</p>
     </div>
     <!--<p>{{i}}</p>-->
     <p *ngIf="seeDate"> Dernière modification  le {{modifDate | date: 'd LLLL yyyy' | lowercase}} à {{modifDate | date: 'HH:mm' | lowercase}}</p>
@@ -16,15 +16,18 @@
           <textarea class="form-control" id="comment" formControlName="comment"></textarea>
         </div>
         
-        <button mat-raised-button color="purple" (click)="onMakeModif()">Envoyer</button>
+        <button class="mr-2" mat-raised-button color="primary" (click)="onMakeModif()">Envoyer</button>
         <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
-        <button mat-raised-button color="purple" (click)="onCancel()">Annuler</button>
+        <button mat-raised-button color="primary" (click)="onCancelModif()">Annuler</button>
     </form>
     
 
-    <button mat-raised-button color="purple" (click)="onDelete()" 
-    *ngIf="isAuthor && !modifying">Effacer</button>
-    <button mat-raised-button color="purple" (click)="onModify()" 
-    *ngIf="isAuthor && !modifying">Modifier</button>
+    <button class="mr-2" mat-raised-button color="primary" (click)="onWantDelete()" 
+    *ngIf="isAuthor && !modifying && !confirm">Effacer</button>
+    <button mat-raised-button color="primary" (click)="onModify()" 
+    *ngIf="isAuthor && !modifying && !confirm">Modifier</button>
+
+    <p *ngIf="confirm">Etes-vous sûr(e) de vouloir supprimer ce commentaire</p>
+    <button *ngIf="confirm" mat-raised-button color="primary" (click)="onDelete()">Effacer</button>
     
 </li>

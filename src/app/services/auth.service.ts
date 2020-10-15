@@ -46,17 +46,8 @@ export class AuthService {
           aboutMe: aboutMe
       }).subscribe(
           (response :{message: string }) => {
-              if (response.message !== 'User already exists') {
-                this.isAuth$.next(true);
-                resolve(response.message);
-                //this.userId = response.userId;
-                //this.userName = response.userName;
-                //this.authToken = response.token;
-              }
-              else {
-                //this.signupMessage = response.message;
-                resolve(response.message);
-              };          
+              
+              resolve(response.message);       
           },
           (error) => {
             reject(error.error);
@@ -112,7 +103,7 @@ export class AuthService {
             resolve(response);
           },
           (error) => {
-            reject(error);
+            reject(error.error);
           }
         );
       })
@@ -127,15 +118,12 @@ export class AuthService {
       }).subscribe(
         (response :{message: string }) => {
             console.log(response)
-            if (response.message !== 'User already exists') {
-              resolve(response.message);
-              
-            } else {
-                this.userName$.next(userName);
-                resolve(response.message);}
+            
+                resolve(response.message);
         },
         (error) => {
-          reject(error);
+          reject(error.error);
+          //this.userName$.next(userName);
         }
       );
     })
@@ -149,7 +137,7 @@ export class AuthService {
             resolve(response);
           },
           (error) => {
-            reject(error);
+            reject(error.error);
           }
         );
       })

@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
   publications: Publication[];
   shortProfiles: ShortProfile[];
   usersNameList: string[] = new Array;
+  aboutMe: string;
 
   fromPost: number;
 
@@ -62,6 +63,9 @@ export class ProfileComponent implements OnInit {
     this.profileService.profileSubject.subscribe(
       (profile: Profile) => {
         this.profile = profile[0];
+        if (this.profile.aboutMe !== '') {
+          this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
+        }
       }
     );
 
@@ -72,7 +76,7 @@ export class ProfileComponent implements OnInit {
     );
     
     this.profileService.getProfileByUserName(this.userProfile);
-
+    
     this.profileService.searchingSubject.subscribe(
       (search:boolean) => {
         this.searching = search;
@@ -85,13 +89,23 @@ export class ProfileComponent implements OnInit {
   ngDoCheck() {
     this.userProfile = this.route.snapshot.params['userName'];
     if (this.userProfile === this.userName && this.profileService.seeMine === true) {
+      
     this.isMine = true;
     this.profileService.seeMine = false;
-    this.profileService.getProfileByUserName(this.userName);
+    this.profileService.getProfileByUserName(this.userName).then(
+      () => {
+        
+      this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
+    
+      }
+    )
+    
     this.ifBack = true;
+    
     } else if (this.userProfile !== this.userName) {this.isMine = false;}
-    if (this.userProfile !== this.userName && this.ifBack === true) {this.profileService.getProfileByUserName(this.userProfile);
-    this.ifBack = false}
+    if (this.userProfile !== this.userName && this.ifBack === true) {
+      this.profileService.getProfileByUserName(this.userProfile);
+      this.ifBack = false}    
 
     if(this.searching===false) {this.noUser = '';}
     this.fromPost = this.publicationService.fromPost;
@@ -120,11 +134,13 @@ export class ProfileComponent implements OnInit {
     this.profileService.getUsersList();
     this.searching = true;
     this.fromUsersList = true;
+
     console.log(this.usersNameList)
   }
 
   onBackFromList() {
     this.searching = false;
+    
     
   }
 
