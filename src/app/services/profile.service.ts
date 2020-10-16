@@ -37,14 +37,11 @@ export class ProfileService {
           .get('http://localhost:3000/api/profiles/' + userName)
             .subscribe(
               (response) => {
-
                 const resp = Object.values(response);
                 this.profile = resp[0];                
                 console.log(this.profile);
-
                 this.userPublications = resp[1];
                 console.log(this.userPublications);
-
                 resolve(this.profile);
                 this.emitProfileSubject();
                 this.userPublicationsSubject.next(this.userPublications);

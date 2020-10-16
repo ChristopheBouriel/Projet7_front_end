@@ -53,7 +53,6 @@ export class CommentService {
     }
 
     deleteComment(id:number, publication:number) {
-
         return new Promise((resolve, reject) => {
             this.httpClient
           .post('http://localhost:3000/api/comments/delete', {id: id, postId: publication})
@@ -69,7 +68,6 @@ export class CommentService {
     }
 
     modifyComment(comment: string, id: number, modified: number, dbDate: string, postId: number) {
-
         return new Promise((resolve, reject) => {
             this.httpClient
           .put('http://localhost:3000/api/comments/modify', {content: comment, commentId: id, modified: modified, date_modif: dbDate})

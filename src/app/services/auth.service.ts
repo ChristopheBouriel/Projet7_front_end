@@ -7,17 +7,14 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 
-
-
 export class AuthService {
 
     isAuth$ = new BehaviorSubject<boolean>(false);
     userName$ = new BehaviorSubject<string>('No one is connected');
     headMessage$ = new BehaviorSubject<string>('');
-    //isAuth: boolean=false;
+    
     private userName: string;
     private authToken: string;
-    //signupMessage: string;
 
     constructor(private httpClient: HttpClient,
                 private router: Router) {}
@@ -45,8 +42,7 @@ export class AuthService {
           email: email,
           aboutMe: aboutMe
       }).subscribe(
-          (response :{message: string }) => {
-              
+          (response :{message: string }) => {              
               resolve(response.message);       
           },
           (error) => {
@@ -65,8 +61,7 @@ export class AuthService {
             this.emitUserNameSubject();
             console.log(this.userName$)
             this.authToken = response.token;
-            this.isAuth$.next(true);
-            //this.isAuth=true;
+            this.isAuth$.next(true);            
             resolve();
           },
           (error) => {
@@ -90,16 +85,12 @@ export class AuthService {
     }
 
     modifyPassword(password: string, email: string) {
-
       return new Promise((resolve, reject) => {
-
         this.httpClient.post('http://localhost:3000/api/auth/changeP', {
           userPassword: password,
           email: email          
       }).subscribe(
-          (response :{message: string }
-            
-            ) => {
+          (response :{message: string }) => {
             resolve(response);
           },
           (error) => {
@@ -109,7 +100,6 @@ export class AuthService {
       })
     }
     
-
     modifyUserName(userName: string, email: string) {
       return new Promise((resolve, reject) => {
         this.httpClient.post('http://localhost:3000/api/auth/changeU', {
@@ -117,18 +107,14 @@ export class AuthService {
           email: email          
       }).subscribe(
         (response :{message: string }) => {
-            console.log(response)
-            
                 resolve(response.message);
         },
         (error) => {
           reject(error.error);
-          //this.userName$.next(userName);
         }
       );
     })
   }
-
 
     deleteAccount(userName: string) {
       return new Promise((resolve, reject) => {
@@ -144,13 +130,9 @@ export class AuthService {
     }
 
     logout() {
-      //this.authToken = null;
-      //this.userId = null;
+      //this.authToken = null;      
       this.isAuth$.next(false);
       this.router.navigate(['login']);
     }
   }
-
-
-
   

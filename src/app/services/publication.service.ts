@@ -65,7 +65,6 @@ export class PublicationService {
     }
 
     postPublication(title: string, username: string, publication: string, date: string) {
-
       return new Promise((resolve, reject) => {
         this.httpClient
         .post('http://localhost:3000/api/publications/add', { title: title, content: publication, userName: username, date_publication: date})
@@ -78,14 +77,12 @@ export class PublicationService {
     }
 
     modifyPublication(content: string, title: string, modified: number, dbDate: string, postId: number) {
-
       return new Promise((resolve, reject) => {
           this.httpClient
         .put('http://localhost:3000/api/publications/modify', {postId: postId, content: content, title: title, modified: modified, date_modif: dbDate})
         .subscribe(
           (response) => {
-            resolve(response);
-            
+            resolve(response);            
               },
           (error) => {
             reject(error);
@@ -95,7 +92,6 @@ export class PublicationService {
   }
 
   deletePublication(publication:number, userName:string) {
-
     return new Promise((resolve, reject) => {
         this.httpClient
       .post('http://localhost:3000/api/publications/delete', { postId: publication, userName: userName })

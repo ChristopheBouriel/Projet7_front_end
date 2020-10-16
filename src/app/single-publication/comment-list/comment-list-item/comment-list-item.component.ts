@@ -95,6 +95,7 @@ export class CommentListItemComponent implements OnInit {
     this.modifying = false;
     this.commentContent = this.initialComment;
     this.modifyForm.patchValue({comment: this.initialComment});
+    this.errorMsg = '';
   }
 
 
@@ -123,14 +124,16 @@ export class CommentListItemComponent implements OnInit {
         console.log(response);
         this.loading = false;
         //this.commentForm.reset('comment');
+        this.commentService.getAllComments(this.postId);
       }
     )
     .catch(
       (error) => {
         this.loading = false;
-        console.log(error);
+        this.errorMsg = error.message;
       }
-    ).then(() => (this.commentService.getAllComments(this.postId)));
+    )
+    //.then(() => ());
   }
 
   onSeeProfile() {
