@@ -81,7 +81,7 @@ export class CommentListItemComponent implements OnInit {
     
     const publication = this.postId;
     console.log(publication);
-    this.commentService.deleteComment(this.id, publication).then(
+    this.commentService.deleteComment(this.id, publication, this.commentUserName).then(
       (response) => {
         console.log(response)
         this.loading = false;
@@ -124,16 +124,16 @@ export class CommentListItemComponent implements OnInit {
     
     const comment = this.modifyForm.get('comment').value;
     //const userId = this.authService.getUserId();
-    //const username = this.authService.getUserName();
+    const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
     const modified = 1;
-    this.commentService.modifyComment(comment, this.id, modified, dbDate, this.postId).then(
+    this.commentService.modifyComment(comment, this.id, modified, dbDate, this.postId, username).then(
       (response) => {
         console.log(response);
         this.loading = false;
         //this.commentForm.reset('comment');
-        this.commentService.getAllComments(this.postId);
+        this.commentService.getAllComments(this.postId, username);
       }
     )
     .catch(
@@ -166,7 +166,7 @@ export class CommentListItemComponent implements OnInit {
       (response) => {
         console.log(response)
         this.loading = false;
-        this.commentService.getAllComments(this.postId);      
+        this.commentService.getAllComments(this.postId, userName);      
       }
     ).catch(
       (error) => {

@@ -183,11 +183,11 @@ export class SinglePublicationComponent implements OnInit {
     const title = this.modifyForm.get('title').value;
     const content = this.modifyForm.get('publication').value;
     //const userId = this.authService.getUserId();
-    //const username = this.authService.getUserName();
+    const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
     const modified = 1;
-    this.publicationService.modifyPublication(content, title, modified, dbDate, this.postId).then(
+    this.publicationService.modifyPublication(content, title, modified, dbDate, this.postId, username).then(
       (response) => {
         console.log(response);
         this.loading = false;        

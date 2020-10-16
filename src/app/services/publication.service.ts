@@ -77,10 +77,10 @@ export class PublicationService {
       })
     }
 
-    modifyPublication(content: string, title: string, modified: number, dbDate: string, postId: number) {
+    modifyPublication(content: string, title: string, modified: number, dbDate: string, postId: number, userName: string) {
       return new Promise((resolve, reject) => {
           this.httpClient
-        .put('http://localhost:3000/api/publications/modify', {postId: postId, content: content, title: title, modified: modified, date_modif: dbDate})
+        .put('http://localhost:3000/api/publications/modify', {postId: postId, content: content, title: title, modified: modified, date_modif: dbDate, userName: userName})
         .subscribe(
           (response) => {
             resolve(response);            

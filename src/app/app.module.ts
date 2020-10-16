@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+//import { HttpClientModule,  } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { PublicationListComponent } from './publication-list/publication-list.component';
 import { PublicationListItemComponent } from './publication-list/publication-list-item/publication-list-item.component';
@@ -24,7 +24,7 @@ import { CommentListItemComponent } from './single-publication/comment-list/comm
 import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserPublicationsComponent } from './profile/user-publications/user-publications.component';
-
+import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { LOCALE_ID } from '@angular/core';
 
 import { registerLocaleData } from '@angular/common';
@@ -79,7 +79,8 @@ const appRoutes: Routes = [
     ProfileService,
     AuthService,
     AuthGuard,
-    { provide: LOCALE_ID, useValue: "fr" }
+    { provide: LOCALE_ID, useValue: "fr" },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
 })

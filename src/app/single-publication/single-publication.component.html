@@ -34,6 +34,7 @@
     <div *ngIf="moderator">
       <button *ngIf="!moderated && !isAuthor" mat-raised-button color="accent" class="mr-2 mb-2" (click)="onModerate()">Modérer</button>
       <button *ngIf="moderated && !isAuthor" mat-stroked-button color="accent" class="mb-2" (click)="onModerate()">Rétablir</button>
+      
     </div>
     <div *ngIf=!modifying  class="post-buttons">
         <div>

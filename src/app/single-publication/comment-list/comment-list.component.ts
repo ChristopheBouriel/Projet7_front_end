@@ -14,7 +14,7 @@ export class CommentListComponent implements OnInit {
 
   comments: any[];
   commentsSubscription: Subscription;
-  userName: string;
+  //userName: string;
   loading: boolean;
 
   
@@ -30,7 +30,8 @@ export class CommentListComponent implements OnInit {
         this.comments = comments;
       }
     );
-    this.commentService.getAllComments(this.postId);
+    const userName = this.authService.getUserName();
+    this.commentService.getAllComments(this.postId, userName);
     this.loading = false;
   }
   

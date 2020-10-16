@@ -1,11 +1,17 @@
 <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
 <div class="show-profile" *ngIf="!searching">
-    <p>{{profile?.userName}}</p>
-    <p>{{profile?.firstname}}</p>
-    <p>{{profile?.lastname}}</p>
-    <p>{{profile?.service}}</p>
-    <p>{{profile?.email}}</p>
-    <p *ngIf="aboutMe">{{aboutMe}}</p>
+
+    <div id="zero"><p>Nom d'utilisateur : <span>{{profile?.userName}}</span></p></div>
+    <div id="first">
+        <p>Prénom : <span>{{profile?.firstname}}</span></p>
+        <p>Nom : <span>{{profile?.lastname}}</span></p>
+    </div>
+    <div id="second">
+        <p>Service : <span>{{profile?.service}}</span></p>
+        <p>e-mail : <span>{{profile?.email}}</span></p>
+    </div>
+    
+    <div id="aboutMe" *ngIf="aboutMe"><p>A propos de moi : <span>{{aboutMe}}</span></p></div>
 </div>
 
 <p class="noUser mx-auto">{{noUser}}</p>

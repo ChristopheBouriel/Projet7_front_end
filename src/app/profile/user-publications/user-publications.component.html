@@ -11,7 +11,7 @@
             <p *ngIf="publicationModerated === 1" class="moderatedBackground">Ce contenu a été masqué suite à modération</p>
         </div>
     </div>
-    <div class="see-it" *ngIf="publicationModerated !== 1">
+    <div class="see-it" *ngIf="publicationModerated !== 1 || isAuthor">
         <a  (click)="onSeePublication()">Voir</a>
         <p>Commentaires : {{publicationNumberComments}}</p>
 

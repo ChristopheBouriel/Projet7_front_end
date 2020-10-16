@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { PublicationService} from '../../services/publication.service';
+import { AuthService} from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 
@@ -25,14 +26,21 @@ export class UserPublicationsComponent implements OnInit {
 
   title: string;
   content: string;
+  isAuthor: boolean;
 
 
   constructor(private publicationService: PublicationService,
+              private authService: AuthService,
               private router: Router) { }
 
   ngOnInit(): void {
     this.title = this.publicationTitle.replace(/&µ/gi,'\"');
     this.content = this.publicationContent.replace(/&µ/gi,'\"');
+    this.authService.userName$.subscribe(
+      (userName) => {
+        if (this.publicationUserName === userName) {this.isAuthor = true}
+      }
+    )
   }
 
   onSeePublication() {

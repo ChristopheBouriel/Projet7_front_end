@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.profileSubject.subscribe(
       (profile: Profile) => {
         this.profile = profile[0];
-        if (this.profile.aboutMe !== 'null') {
+        if (this.profile.aboutMe !== '') {
           this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
         }
       }
@@ -98,7 +98,10 @@ export class ProfileComponent implements OnInit {
     
     this.ifBack = true;
     
-    } else if (this.userProfile !== this.userName) {this.isMine = false;}
+    } else if (this.userProfile !== this.userName) {
+      this.isMine = false;
+      this.checkAboutMe();
+    }
     if (this.userProfile !== this.userName && this.ifBack === true) {
       this.profileService.getProfileByUserName(this.userProfile).then(
         () => this.checkAboutMe()

@@ -22,9 +22,9 @@ export class CommentService {
         
     }
 
-    getAllComments(postId: number) {
+    getAllComments(postId: number, userName:string) {
         this.httpClient
-          .post<Comment[]>('http://localhost:3000/api/comments', {publicationId: postId})
+          .post<Comment[]>('http://localhost:3000/api/comments', {publicationId: postId, userName: userName})
           .subscribe(
             (response) => {
               this.comments = response;
@@ -45,17 +45,17 @@ export class CommentService {
             (response: {message: string})=> {
             console.log(response.message)
               resolve(response.message);
-              this.getAllComments(postId);              
+              this.getAllComments(postId, username);              
           },
           (error) => {reject(error.error);
                       console.log(error.error)})
         })
     }
 
-    deleteComment(id:number, publication:number) {
+    deleteComment(id:number, publication:number, userName: string) {
         return new Promise((resolve, reject) => {
             this.httpClient
-          .post('http://localhost:3000/api/comments/delete', {id: id, postId: publication})
+          .post('http://localhost:3000/api/comments/delete', {id: id, postId: publication, userName: userName})
           .subscribe(
             (response) => {
               resolve(response)
@@ -67,10 +67,10 @@ export class CommentService {
         })
     }
 
-    modifyComment(comment: string, id: number, modified: number, dbDate: string, postId: number) {
+    modifyComment(comment: string, id: number, modified: number, dbDate: string, postId: number, userName: string) {
         return new Promise((resolve, reject) => {
             this.httpClient
-          .put('http://localhost:3000/api/comments/modify', {content: comment, commentId: id, modified: modified, date_modif: dbDate})
+          .put('http://localhost:3000/api/comments/modify', {content: comment, commentId: id, modified: modified, date_modif: dbDate, userName: userName})
           .subscribe(
             (response) => {
               resolve(response);

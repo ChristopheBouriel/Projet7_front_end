@@ -16,25 +16,45 @@
     margin-right: 10px;
     font-size: 1rem;
     height: auto;
+    // ?
     :focus {
-        border: solid 2px ;
-        
-        
+        border: solid 2px ;       
         color:rgb(169, 55, 144)
     }
 }
-
-/*input[type=search] {
-    color: rgb(80, 55, 169);
-    border-radius: 15px;
-    border: solid 2px ;
-    padding: 5px 10px 5px 10p;
-}*/
 
 .noUser {
     color: red;
 }
 
 .show-profile {
-    white-space: pre-line;
+    background-color: lavender;
+    border: solid 1px rgb(80, 37, 235);
+    div {
+        font-weight: 600;
+        color: rgb(58, 58, 228);
+        white-space: pre-line;
+        border-radius: 5px;
+        background-color: rgb(255, 255, 255);
+        padding: 10px;
+        
+        
+    }
+    span {
+        font-weight: initial;
+        color: rgb(87, 87, 87);
+    }
+#zero {
+            margin: 20px 20px 10px 20px;
+        }
+        #first {
+            margin: 5px 20px 10px 20px;
+        }
+        #second {
+            margin: 5px 20px 10px 20px;
+        }
+        #aboutMe {
+            margin: 5px 20px 20px 20px;
+            min-height: 80px;
+        }
 }
