@@ -2,13 +2,14 @@
 <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
 
 <div *ngIf="notChanging === true">
-<button (click)="onChangePassword()">Changer le mot de passe</button>
-<button (click)="onChangeUserName()">Changer le nom d'utilisateur</button>
-<button (click)="onWantToDelete()">Se désinscrire</button>
+<button mat-raised-button color="primary" class="mr-2" (click)="onChangePassword()">Changer le mot de passe</button>
+<button mat-raised-button color="primary" class="mr-2" (click)="onChangeUserName()">Changer le nom d'utilisateur</button>
+<button mat-raised-button color="primary" (click)="onWantToDelete()">Se désinscrire</button>
 </div>
 <div *ngIf="makeSure">
   <p>Voulez-vous vraiment vous désinscrire ?</p>
-  <button (click)="onDeleteAccount()">Confirmer</button>
+  <button mat-raised-button color="primary" class="mr-2" (click)="onDeleteAccount()">Confirmer</button>
+  <button mat-raised-button color="primary" (click)="onCancel()">Annuler</button>
 </div>
 
 

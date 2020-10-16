@@ -79,6 +79,7 @@ export class PublicationListComponent implements OnInit {
 
   onCancel() {
     this.posting = false;
+    this.publicationForm.reset();
   }
   
   ngOnDestroy() {

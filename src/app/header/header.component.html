@@ -6,9 +6,10 @@
         </div>
         <p *ngIf="showMessage === true"> {{headMessage}}</p>
         <div class="menu mt-5">
+        <div routerLinkActive="active" *ngIf="isAdmin"><a routerLink="pannel">Admin</a></div>
         <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="login">Connexion</a></div>
         <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="signup">Inscription</a></div>
-        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="publications">Dernières publications</a></div>
+        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="publications">Liste</a></div>
         <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="/profile/{{userName}}" (click)="onSeeMine()">Mon profil</a></div>
         <div routerLinkActive="active" *ngIf="isAuth"><a (click)="onLogout()">Déconnexion</a></div>
         </div>

@@ -126,6 +126,7 @@ export class SettingsComponent implements OnInit {
     this.notChanging = true;
     this.modPass = false;
     this.modName = false;
+    this.makeSure = false;
     this.errorMsg = '';
   }
   

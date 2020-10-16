@@ -10,12 +10,12 @@
 
 <p class="noUser mx-auto">{{noUser}}</p>
 
-<button *ngIf="!fromList && !searching && !fromUsersList && !isMine" routerLink="/publications/{{fromPost}}">Retour publication</button>
-<button *ngIf="!searching" routerLink="/publications">Retour liste</button>
+<button mat-raised-button color="primary" class="mr-2" *ngIf="!fromList && !searching && !fromUsersList && !isMine" routerLink="/publications/{{fromPost}}">Retour publication</button>
+<button mat-raised-button color="primary" class="mr-2" *ngIf="!searching" routerLink="/publications">Retour liste</button>
 
-<button *ngIf="!searching" (click)="onGetList()">Rechercher</button>
-<button *ngIf="isMine && !searching" routerLink="modify">Modifier Profil</button>
-<button *ngIf="isMine && !searching" routerLink="settings">Paramètres</button>
+<button mat-raised-button color="primary" class="mr-2" *ngIf="!searching" (click)="onGetList()">Rechercher</button>
+<button mat-raised-button color="primary" class="mr-2" *ngIf="isMine && !searching" routerLink="modify">Modifier Profil</button>
+<button mat-raised-button color="primary" *ngIf="isMine && !searching" routerLink="settings">Paramètres</button>
 
 <br/>
 <br/>
@@ -30,6 +30,7 @@
             [publicationLikes]="publication.likes"
             [publicationNumberComments]="publication.numberComments"
             [publicationUserName]="publication.userName"
+            [publicationModerated]="publication.moderated"
             [fromProfile]="fromProfile"
             [index]="i" 
             [id]="publication.id">
@@ -39,10 +40,10 @@
 
 <div class="search" *ngIf="searching">
     
-    <button (click)="onBackFromList()">Retour au profil</button>
+    <button mat-raised-button class="mr-2" color="primary" (click)="onBackFromList()">Retour au profil</button>
     
-    <button mat-raised-button color="primary" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
-    <input type="search" #inputUserName name="search">
+    <button mat-raised-button color="primary" class="mr-2" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
+    <input id="window"  #inputUserName name="search">
     
 </div>
 

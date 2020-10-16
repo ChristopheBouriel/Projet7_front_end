@@ -9,4 +9,5 @@ export class Publication {
         userName: string;
         modified: string;
         date_modif: string;
+        moderated: number;
 }

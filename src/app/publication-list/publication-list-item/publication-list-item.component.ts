@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { PublicationService} from '../../services/publication.service';
+import { AuthService} from '../../services/auth.service';
 
 
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
@@ -18,18 +19,30 @@ export class PublicationListItemComponent implements OnInit {
   @Input() publicationNumberComments: number;
   @Input() publicationLikes;
   @Input() publicationUserName;
+  @Input() publicationModerated: number;
   @Input() fromProfile;
   @Input() index: number;
   @Input() id: number;
   
   content: string;
   title: string;
+  moderator: boolean;
+  //moderated: boolean;
 
-  constructor(private publicationService: PublicationService) { }
+  constructor(private publicationService: PublicationService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.content = this.publicationContent.replace(/&µ/gi,'\"');
     this.title = this.publicationTitle.replace(/&µ/gi,'\"');
+
+    this.authService.isAdmin$.subscribe(
+      (isAdmin) => {
+        this.moderator = isAdmin;
+      }
+    )
+    
+    
   }
 
   onSeePublication() {

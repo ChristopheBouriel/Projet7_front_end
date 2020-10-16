@@ -20,6 +20,7 @@ export class CommentListItemComponent implements OnInit {
   @Input() commentDate: string;
   @Input() modifDate: string;
   @Input() modified: number;
+  @Input() commentModerated: number;
   @Input() index: number;
   @Input() postId: number;
   
@@ -36,6 +37,8 @@ export class CommentListItemComponent implements OnInit {
   modifyForm: FormGroup;
   initialComment: string;
   seeDate: boolean=false;
+  moderated: boolean;
+  moderator: boolean;
 
 
   constructor(private commentService: CommentService,
@@ -57,6 +60,12 @@ export class CommentListItemComponent implements OnInit {
     if (this.commentUserName === 'utilisateur désinscrit') {
       this.exOne = true;
     }
+
+    this.authService.isAdmin$.subscribe(
+      (isAdmin) => {
+        this.moderator = isAdmin;
+      }
+    )
       
   }
 
@@ -139,6 +148,32 @@ export class CommentListItemComponent implements OnInit {
   onSeeProfile() {
     this.publicationService.fromListSubject.next(false);
     console.log('Ici')
+  }
+
+  onModerate() {
+    let state;
+    const userName = this.authService.getUserName();
+    const commentId = this.id;
+    if (this.commentModerated === 0) {
+      this.moderated = true;
+      console.log(this.moderated);
+      state = 1;
+    } else {this.moderated = false;
+      console.log(this.moderated)
+            state = 0}
+    
+    this.commentService.moderateComment( commentId, userName, state).then(
+      (response) => {
+        console.log(response)
+        this.loading = false;
+        this.commentService.getAllComments(this.postId);      
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
   }
 
 }

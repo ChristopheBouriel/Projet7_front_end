@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
     isAuth$ = new BehaviorSubject<boolean>(false);
+    isAdmin$ = new BehaviorSubject<boolean>(false);
     userName$ = new BehaviorSubject<string>('No one is connected');
     headMessage$ = new BehaviorSubject<string>('');
     
@@ -55,9 +56,14 @@ export class AuthService {
   loginUser(userName: string, password) {
       return new Promise((resolve, reject) => {
         this.httpClient.post('http://localhost:3000/api/auth/login', {userName: userName, userPassword: password}).subscribe(
-          (response :{userId: string, token: string, userName: string}
+          (response :{admin: number, token: string, userName: string}
             ) => {
             this.userName = response.userName;
+            const checkAdmin = response.admin;
+            console.log(checkAdmin)
+            if (checkAdmin===1) {
+              this.isAdmin$.next(true);
+            }
             this.emitUserNameSubject();
             console.log(this.userName$)
             this.authToken = response.token;
@@ -132,6 +138,7 @@ export class AuthService {
     logout() {
       //this.authToken = null;      
       this.isAuth$.next(false);
+      this.isAdmin$.next(false);
       this.router.navigate(['login']);
     }
   }

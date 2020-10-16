@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { PublicationService} from '../../services/publication.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class UserPublicationsComponent implements OnInit {
   @Input() publicationNumberComments: number;
   @Input() publicationLikes;
   @Input() publicationUserName;
+  @Input() publicationModerated;
   @Input() fromProfile;
   @Input() index: number;
   @Input() id: number;
@@ -25,14 +27,16 @@ export class UserPublicationsComponent implements OnInit {
   content: string;
 
 
-  constructor(private publicationService: PublicationService) { }
+  constructor(private publicationService: PublicationService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.title = this.publicationTitle.replace(/&µ/gi,'\"');
     this.content = this.publicationContent.replace(/&µ/gi,'\"');
   }
 
-  onGoToPublication() {
+  onSeePublication() {
     this.publicationService.fromListSubject.next(false);
+    this.router.navigate(['publications', this.id]);
   }
 }

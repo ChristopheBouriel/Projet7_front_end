@@ -3,5 +3,6 @@ export class Comment {
     userId: string;
     postId: number;
     date_comment: string;
-    content: string;   
+    content: string;
+    moderated: string; 
 }

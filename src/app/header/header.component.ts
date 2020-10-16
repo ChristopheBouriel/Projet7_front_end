@@ -14,7 +14,9 @@ export class HeaderComponent implements OnInit {
               private profileService: ProfileService) { }
 
   isAuth: boolean;
+  isAdmin: boolean;
   authSubscription: Subscription;
+  adminSubscription: Subscription;
   userNameSubscription: Subscription;
   userName: string;
   headMessage: string;
@@ -25,6 +27,12 @@ export class HeaderComponent implements OnInit {
     this.authSubscription = this.authService.isAuth$.subscribe(
       (auth) => {
         this.isAuth = auth;
+      }
+    );
+
+    this.adminSubscription = this.authService.isAdmin$.subscribe(
+      (admin) => {
+        this.isAdmin = admin;
       }
     );
 
@@ -61,7 +69,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
-    //this.userNameSubscription.unsubscribe();
+    this.userNameSubscription.unsubscribe();
+    this.adminSubscription.unsubscribe();
   }
 
   

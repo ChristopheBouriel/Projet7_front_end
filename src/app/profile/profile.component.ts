@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Router } from '@angular/router';
+
 import { Profile, ShortProfile } from '../models/profile';
 import { Publication } from '../models/publication';
 import { ProfileService} from '../services/profile.service';
@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
   ifBack: boolean;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
+              
               private profileService: ProfileService,
               private publicationService: PublicationService,
               private authService: AuthService) { }

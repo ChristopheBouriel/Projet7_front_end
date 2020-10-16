@@ -18,27 +18,24 @@ import { Router } from '@angular/router';
 export class SinglePublicationComponent implements OnInit {
 
   title: string;
-  //date: string = 'Date';
   content: string;
-  //numberComments: number;
   likes: boolean;
   loading: boolean;
   commenting: boolean;
   modifying: boolean;
   confirm: boolean;
   isAuthor: boolean;
+  moderator: boolean;
   initialTitle: string;
   initialContent: string;
   seeDate: boolean=false;
-  
-
+  moderated: boolean;
   //postAnchor: string;
   postId: number;
   publication: Publication;
 
   fromList: boolean;
-  fromProfile: string;
- 
+  fromProfile: string; 
   commentForm: FormGroup;
   modifyForm: FormGroup;
   errorMsg: string;
@@ -59,6 +56,7 @@ export class SinglePublicationComponent implements OnInit {
         this.publication = publication[0];
         this.content = publication[0].content.replace(/&µ/gi,'\"');
         this.title = publication[0].title.replace(/&µ/gi,'\"');
+        this.moderated = publication[0].moderated;
         //this.postAnchor = '/publications\#' + this.publication.id
         //console.log(this.postAnchor)
       }
@@ -76,6 +74,11 @@ export class SinglePublicationComponent implements OnInit {
         });
       }
     );
+    this.authService.isAdmin$.subscribe(
+      (isAdmin) => {
+        this.moderator = isAdmin;
+      }
+    )
 
 
     this.commentForm = this.formBuilder.group({
@@ -126,7 +129,6 @@ export class SinglePublicationComponent implements OnInit {
   }
 
   onComment() {
-
     this.loading = true;
     const comment = this.commentForm.get('comment').value;
     const username = this.authService.getUserName();
@@ -189,16 +191,18 @@ export class SinglePublicationComponent implements OnInit {
       (response) => {
         console.log(response);
         this.loading = false;        
-        //this.commentForm.reset('comment');        
+        //this.commentForm.reset('comment');    
+            this.publicationService.getPublicationById(this.postId);
+                  this.modifying = false;
+                  this.errorMsg = '';
       }
     )
     .catch(
       (error) => {
         this.loading = false;
-        console.log(error);
+        this.errorMsg = error.message;
       }
-    ).then(() => {this.publicationService.getPublicationById(this.postId);
-                  this.modifying = false;})
+    )
   }
 
   onDelete() {
@@ -211,7 +215,6 @@ export class SinglePublicationComponent implements OnInit {
         this.loading = false;
         this.router.navigate(['publications']);
         //this.deleted = true;
-        
       }
     ).catch(
       (error) => {
@@ -223,7 +226,30 @@ export class SinglePublicationComponent implements OnInit {
 
   onSeeProfile() {
     this.publicationService.fromListSubject.next(false);
-    console.log('Ici')
+  }
+
+  onModerate() {
+    let state;
+    const userName = this.authService.getUserName();
+    const publication = this.postId;
+    if (this.publication.moderated === 0) {
+      this.moderated = true;
+      state = 1;
+    } else {this.moderated = false;
+            state = 0}
+    console.log(publication);
+    this.publicationService.moderatePublication( publication, userName, state).then(
+      (response) => {
+        console.log(response)
+        this.loading = false;
+        this.router.navigate(['publications']);       
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
   }
 
 }

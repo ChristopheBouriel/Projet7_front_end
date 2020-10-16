@@ -18,9 +18,9 @@
           </div>
         <div class="form-group mt-3">
           <label for="publication">Publication</label>
-          <textarea class="form-control" id="publication" formControlName="publication"></textarea>
+          <textarea pattern="[A-Z\u00C0-\u00D6\u00D8-\u00DF]{0,1}[0-9a-zA-Z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u024F\n \x22!?:(),\.\'-]{0,4000}" class="form-control" id="publication" formControlName="publication"></textarea>
         </div>
-        
+        <div class="my-2" *ngIf="modifyForm.invalid">Un caractère non autorisé a été saisi ou un champ est vide</div>
         <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onMakeModif()">Envoyer</button>
         <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
         <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onCancelModif()">Annuler</button>
@@ -31,6 +31,10 @@
         
     </form>
     <br/>
+    <div *ngIf="moderator">
+      <button *ngIf="!moderated && !isAuthor" mat-raised-button color="accent" class="mr-2 mb-2" (click)="onModerate()">Modérer</button>
+      <button *ngIf="moderated && !isAuthor" mat-stroked-button color="accent" class="mb-2" (click)="onModerate()">Rétablir</button>
+    </div>
     <div *ngIf=!modifying  class="post-buttons">
         <div>
         <button class="btn btn mb-1 mr-2" (click)="onLike()">Like it</button>
@@ -46,9 +50,9 @@
 <form [formGroup]="commentForm" *ngIf="!loading && commenting">
     <div class="form-group mt-3">
       <label for="comment">Commenter</label>
-      <textarea pattern="[A-Z\u00C0-\u00D6\u00D8-\u00DF]{0,1}[0-9a-zA-Z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u024F \x22!?:(),\.\'-]{1,4000}" class="form-control" id="comment" formControlName="comment"></textarea>
+      <textarea pattern="[A-Z\u00C0-\u00D6\u00D8-\u00DF ]{0,1}[0-9a-zA-Z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u024F \x22!?:(),\.\'-]{0,4000}" class="form-control" id="comment" formControlName="comment"></textarea>
     </div>
-    
+    <div class="my-2" *ngIf="commentForm.invalid">Un caractère non autorisé a été saisi</div>
     <button class="mr-2" mat-raised-button color="primary" [disabled]="commentForm.invalid" (click)="onComment()">Envoyer</button>
     <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>--> 
     <button mat-raised-button color="primary" (click)="onCancel()">Annuler</button> 
