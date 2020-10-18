@@ -1,0 +1,9 @@
+<ul >
+    <app-notifications-list *ngFor="let notification of notifications; let j = index"
+        [title]="notification.title"
+        [moderated]="notification.moderated"
+        [id]="notification.id"
+        >
+
+    </app-notifications-list>
+</ul>

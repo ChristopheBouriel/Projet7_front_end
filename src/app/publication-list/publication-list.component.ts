@@ -19,34 +19,24 @@ export class PublicationListComponent implements OnInit {
 
   loading: boolean;
   posting: boolean;
+  errorMsg: string;
 
-  lastUpdate = new Promise((resolve, reject) => {
-    const date = new Date();
-    setTimeout(
-      () => {
-        resolve(date);
-      }, 2000
-    )
-  });
   
   constructor(private publicationService: PublicationService,
               private formBuilder: FormBuilder,
-              private authService: AuthService) {
-    
-  }
+              private authService: AuthService) {}
 
   ngOnInit() {
     this.publicationsSubscription = this.publicationService.publicationsSubject.subscribe(
       (publications:any[]) => {
-        this.publications = publications;
-        
+        this.publications = publications;        
       }
     );
     this.publicationService.getAllPublications();
 
     this.publicationForm = this.formBuilder.group({
-      title: [null, Validators.required],
-      publication: [null, Validators.required]
+      title: [null],
+      publication: [null]
     });
   }
 
@@ -72,7 +62,7 @@ export class PublicationListComponent implements OnInit {
     ).catch(
       (error) => {
         this.loading = false;
-        console.log(error);
+        this.errorMsg = error.message;
       }
     );
   }

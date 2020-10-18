@@ -27,12 +27,12 @@ export class ProfileComponent implements OnInit {
 
   fromPost: number;
 
-  fromUsersList: boolean;
+  fromUsersList: boolean = false;
   noUser: string = '';
   
-  fromList: boolean ;
+  fromList: boolean = false ;
   userName: string;
-  isMine: boolean;
+  isMine: boolean = false;
   searching: boolean;
   gotUsersList: boolean;
   ifBack: boolean;
@@ -55,8 +55,11 @@ export class ProfileComponent implements OnInit {
     this.userProfile = this.route.snapshot.params['userName'];
     
     this.publicationService.fromProfileSubject.next(this.userProfile);
-    
-    //this.fromList = this.publicationService.fromList;
+    this.publicationService.fromListSubject.subscribe(
+      (fromList) => {
+        this.fromList = fromList;
+      }
+    )
 
     if (this.userProfile === this.userName) {this.isMine = true;}
      

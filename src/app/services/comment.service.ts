@@ -39,6 +39,7 @@ export class CommentService {
 
     postComment(comment: string, username: string, postId: number, date: string) {       
         return new Promise((resolve,reject) => {
+          
             this.httpClient
           .post('http://localhost:3000/api/comments/add', {content: comment, userName: username, postId: postId, date_comment: date})
           .subscribe(
@@ -86,7 +87,7 @@ export class CommentService {
     moderateComment(commentId:number, userName:string, moderate: number) {
       return new Promise((resolve, reject) => {
         this.httpClient
-      .post('http://localhost:3000/api/moderate/comment', { commentId: commentId, userName: userName, moderated: moderate })
+      .put('http://localhost:3000/api/moderate/comment', { commentId: commentId, userName: userName, moderated: moderate })
       .subscribe(
         (response) => {
           resolve(response)

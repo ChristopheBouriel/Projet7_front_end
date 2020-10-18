@@ -1,6 +1,5 @@
 export class Publication {
         id: number;
-        //userId: string;
         date_publication: string;
         title: string;
         content: string;
@@ -10,4 +9,5 @@ export class Publication {
         modified: string;
         date_modif: string;
         moderated: number;
+        viewed: number;
 }

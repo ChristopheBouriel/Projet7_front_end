@@ -54,7 +54,7 @@ export class ProfileFormComponent implements OnInit {
       username: [null, Validators.required],
       password: [null, Validators.required],
       department: [null, Validators.required],
-      email: [null, Validators.required],
+      email: [null],
       aboutMe: [null],
     });
   }
@@ -67,7 +67,7 @@ export class ProfileFormComponent implements OnInit {
       username: [profile.userName, Validators.required],
       password: [null],
       department: [profile.service, Validators.required],
-      email: [profile.email, Validators.required],
+      email: [profile.email],
       aboutMe: [profile.aboutMe],
     });
     this.loading = false;

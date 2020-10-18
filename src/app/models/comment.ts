@@ -1,8 +1,9 @@
 export class Comment {
     id: number;
-    userId: string;
+    modified: number;
     postId: number;
     date_comment: string;
     content: string;
     moderated: string; 
+    userName: string;
 }

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PublicationService} from '../services/publication.service';
 import { ActivatedRoute } from '@angular/router';
 import { Publication } from '../models/publication';
-import { CommentService } from '../services/comment.service'
+import { ProfileService } from '../services/profile.service';
+import { CommentService } from '../services/comment.service';
 import { Subscription } from 'rxjs';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -44,6 +45,7 @@ export class SinglePublicationComponent implements OnInit {
               private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private commentService: CommentService,
+              private profileService: ProfileService,
               private authService: AuthService,
               private router: Router) { }
 
@@ -72,6 +74,11 @@ export class SinglePublicationComponent implements OnInit {
           title: [this.initialTitle, Validators.required],
           publication: [this.initialContent, Validators.required],
         });
+        if (this.isAuthor === true) {
+          const username = this.authService.getUserName();
+          const viewed = 1;
+          this.publicationService.markAsRead(this.postId, username, viewed);
+          } else {console.log(this.isAuthor)}
       }
     );
     this.authService.isAdmin$.subscribe(
@@ -80,6 +87,8 @@ export class SinglePublicationComponent implements OnInit {
       }
     )
 
+    
+    
 
     this.commentForm = this.formBuilder.group({
       comment: [null, Validators.required] 
@@ -125,8 +134,9 @@ export class SinglePublicationComponent implements OnInit {
      {
       this.seeDate = false;
     }
-    
   }
+
+  
 
   onComment() {
     this.loading = true;
@@ -142,6 +152,8 @@ export class SinglePublicationComponent implements OnInit {
         this.commentForm.reset('comment');
         this.commenting = false;
         this.errorMsg = '';
+        const viewed = 0;
+        this.publicationService.markAsRead(this.publication.id, username, viewed);
       }
     ).catch(
       (error) => {

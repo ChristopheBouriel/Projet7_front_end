@@ -42,7 +42,7 @@
         <button class="btn btn mb-1" (click)="onWantComment()">Comment it</button>
         </div>
         <button class="mb-1 mr-0 text-center btn" routerLink="/publications">Retour à la liste</button>
-        <button *ngIf="!isAuthor" class="mb-1 text-center btn" routerLink="/profile/{{publication?.userName}}">Voir profil</button>
+        <button *ngIf="!isAuthor" class="mb-1 text-center btn" routerLink="/profile/{{publication?.userName}}" (click)="onSeeProfile()">Voir profil</button>
         <button *ngIf="isAuthor" class="mb-1 text-center btn" (click)="onWantModify()">Modifier</button>
         
     </div>

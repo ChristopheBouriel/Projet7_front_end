@@ -110,7 +110,25 @@ export class PublicationService {
   moderatePublication(publication:number, userName:string, moderate: number) {
     return new Promise((resolve, reject) => {
       this.httpClient
-    .post('http://localhost:3000/api/moderate/publication', { postId: publication, userName: userName, moderated: moderate })
+    .put('http://localhost:3000/api/moderate/publication', { postId: publication, userName: userName, moderated: moderate })
+    .subscribe(
+      (response) => {
+        resolve(response)
+          },
+      (error) => {
+        reject(error.error);
+      }
+    );
+  })
+  }
+
+  markAsRead(publication:number, userName:string, viewed: number) {
+    console.log(publication);
+    console.log(userName);
+    console.log(viewed);
+    return new Promise((resolve, reject) => {
+    this.httpClient
+    .put('http://localhost:3000/api/publications/read', { postId: publication, userName: userName, viewed: viewed })
     .subscribe(
       (response) => {
         resolve(response)

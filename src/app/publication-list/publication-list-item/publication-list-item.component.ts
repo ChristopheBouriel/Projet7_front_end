@@ -59,5 +59,3 @@ export class PublicationListItemComponent implements OnInit {
   //goToPublication() {this.router.navigate(['/publications', this.id], { relativeTo: this.route });}
 }
 
-
-// si on vient des liens des commentaires on le dit

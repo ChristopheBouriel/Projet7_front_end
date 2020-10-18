@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   userName: string;
   headMessage: string;
   showMessage: boolean;
+  errorMsg: string;
   
 
   ngOnInit() {
@@ -63,7 +64,18 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    const date = new Date().toISOString();
+    const dbDate = date.split('.')[0].replace('T',' ');
+    this.authService.logout(this.userName, dbDate).then(
+      () => {
+        this.headMessage = 'Vous êtes déconnecté'
+      }
+    ).catch(
+      (error) => {
+       
+        this.errorMsg = error.message;
+      }
+    );
     //this.isAuth=false;
   }
 

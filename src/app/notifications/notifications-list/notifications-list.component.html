@@ -1,0 +1,16 @@
+<li [ngClass]="{'list-group-item': true,
+                'warning': moderated === 1,
+                'commented': moderated === 0}">
+    <div class="notification-message">
+        <div *ngIf="!moderated">
+            <p [ngStyle]="{color: ' rgb(82, 105, 183)'}">Votre publication <a (click)="onSeePublication()">
+            <span>{{title}}</span></a> a été commentée</p>
+        </div>
+        <div *ngIf="moderated">
+            <p [ngStyle]="{color: ' rgb(82, 105, 183)'}">Votre publication <a (click)="onSeePublication()">
+            <span>{{title}}</span></a> a été modérée</p>
+        </div>
+        
+        
+    </div>   
+</li>

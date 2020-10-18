@@ -31,6 +31,8 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { UsersListComponent } from './profile/users-list/users-list.component';
 import { ProfileFormComponent } from './profile-form/profile-form.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { NotificationsListComponent } from './notifications/notifications-list/notifications-list.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -42,6 +44,7 @@ const appRoutes: Routes = [
   {path: 'profile/:username/modify', canActivate: [AuthGuard], component: ProfileFormComponent},
   {path: 'profile/:userName/settings', canActivate: [AuthGuard], component: SettingsComponent},
   {path: 'auth', component: AuthComponent},
+  {path: 'notifications', component: NotificationsComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: ProfileFormComponent},
   {path: '', pathMatch: 'full', redirectTo: 'auth'},
@@ -62,7 +65,9 @@ const appRoutes: Routes = [
     ProfileComponent,
     UserPublicationsComponent,
     UsersListComponent,
-    ProfileFormComponent
+    ProfileFormComponent,
+    NotificationsComponent,
+    NotificationsListComponent
   ],
   imports: [
     BrowserModule,

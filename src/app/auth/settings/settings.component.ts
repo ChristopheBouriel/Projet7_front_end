@@ -89,8 +89,8 @@ export class SettingsComponent implements OnInit {
 
   onModifyPassword() {    
     const password = this.passwordForm.get('newPassword').value;    
-    const email = this.profile[0].email;    
-    this.authService.modifyPassword(password, email).then(
+    const userName = this.profile[0].userName;    
+    this.authService.modifyPassword(password, userName).then(
       () => {
         this.router.navigate(['profile/', this.profile[0].userName]);
         this.authService.headMessage$.next('Votre mot de passe a bien été modifié');
@@ -104,13 +104,13 @@ export class SettingsComponent implements OnInit {
   }
 
   onModifyUserName() {    
-    const userName = this.userNameForm.get('newUserName').value;
-    const email = this.profile[0].email;
-    this.authService.modifyUserName(userName, email).then(
+    const newUserName = this.userNameForm.get('newUserName').value;
+    //const email = this.profile[0].email;
+    this.authService.modifyUserName(newUserName).then(
       (response) => {
         if (response === 'Update done') {
-          this.authService.userName$.next(userName)
-          this.router.navigate(['profile/', userName]);
+          this.authService.userName$.next(newUserName)
+          this.router.navigate(['profile/', newUserName]);
           this.authService.headMessage$.next('Votre nom d\'utilisateur a bien été modifié');
         };
       }

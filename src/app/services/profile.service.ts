@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Profile } from '../models/profile';
 import { Publication} from '../models/publication';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, EmptyError } from 'rxjs';
 
 
 @Injectable()
@@ -12,11 +12,13 @@ export class ProfileService {
     //profilesSubject = new Subject<Profile[]>();
     profileSubject = new Subject<Profile>();
     userPublicationsSubject = new Subject<Publication[]>();
+    notificationsSubject = new Subject<Notification[]>();
     usersListSubject = new Subject();
     searchingSubject = new BehaviorSubject(false);
 
     //private profiles: Profile[];
     private profile: Profile;
+    private notifications: Notification[];
     private userPublications: Publication[];
     //fromUsersList: boolean;
 
@@ -30,6 +32,11 @@ export class ProfileService {
         this.profileSubject.next(this.profile);
         console.log(this.profile);
     }
+
+    emitNotificationsSubject( ) {
+      this.notificationsSubject.next(this.notifications.slice());
+      console.log(this.notifications.slice())
+  }
 
     getProfileByUserName(userName: string) {
         return new Promise((resolve, reject) => {
@@ -53,23 +60,26 @@ export class ProfileService {
         })
     }
 
-    getUsersList() {
+  getUsersList() {
+    return new Promise((resolve, reject) => {
         this.httpClient
           .get('http://localhost:3000/api/auth/list')
           .subscribe(
             (response) => {
               this.usersListSubject.next(response);
+              resolve()
             },
             (error) => {
-              console.log('Erreur ! : ' + error);
+              reject(error);
             }
           );
+    })
     }
 
-    modifyProfile(firstname: string, lastname: string, userName: string, 
+  modifyProfile(firstname: string, lastname: string, userName: string, 
   dept: string, email: string, aboutMe: string) {
       return new Promise((resolve, reject) => {
-        this.httpClient.post('http://localhost:3000/api/profiles/modify', {
+        this.httpClient.put('http://localhost:3000/api/profiles/modify', {
           firstname: firstname,
           lastname: lastname,
           userName: userName,
@@ -85,8 +95,27 @@ export class ProfileService {
       reject(error.error);
     }
   );
-});
+  });
     }
+
+  getNews(userName: string) {
+    return new Promise((resolve, reject) => {
+    this.httpClient
+          .get<Notification[]>('http://localhost:3000/api/profiles/notifications/' + userName)
+          .subscribe(
+            (response: Notification[]) => {
+              this.notifications = response;
+              this.emitNotificationsSubject();
+              console.log(this.notifications)
+              resolve();
+            },
+            (error) => {
+              
+              reject(error);
+            }
+          );
+    });
+  }
+
+
 }
-
-

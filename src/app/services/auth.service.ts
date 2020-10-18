@@ -16,6 +16,7 @@ export class AuthService {
     
     private userName: string;
     private authToken: string;
+    lastLogin: string;
 
     constructor(private httpClient: HttpClient,
                 private router: Router) {}
@@ -56,7 +57,7 @@ export class AuthService {
   loginUser(userName: string, password) {
       return new Promise((resolve, reject) => {
         this.httpClient.post('http://localhost:3000/api/auth/login', {userName: userName, userPassword: password}).subscribe(
-          (response :{admin: number, token: string, userName: string}
+          (response :{admin: number, token: string, userName: string, lastLogin:string}
             ) => {
             this.userName = response.userName;
             const checkAdmin = response.admin;
@@ -67,7 +68,9 @@ export class AuthService {
             this.emitUserNameSubject();
             console.log(this.userName$)
             this.authToken = response.token;
-            this.isAuth$.next(true);            
+            this.isAuth$.next(true);
+            this.lastLogin = response.lastLogin;
+            console.log(this.lastLogin) 
             resolve();
           },
           (error) => {
@@ -90,11 +93,11 @@ export class AuthService {
       return this.userName;
     }
 
-    modifyPassword(password: string, email: string) {
+    modifyPassword(password: string, userName: string) {
       return new Promise((resolve, reject) => {
-        this.httpClient.post('http://localhost:3000/api/auth/changeP', {
+        this.httpClient.put('http://localhost:3000/api/auth/changeP', {
           userPassword: password,
-          email: email          
+          userName: userName          
       }).subscribe(
           (response :{message: string }) => {
             resolve(response);
@@ -106,11 +109,12 @@ export class AuthService {
       })
     }
     
-    modifyUserName(userName: string, email: string) {
+    modifyUserName(newUserName: string) {
       return new Promise((resolve, reject) => {
-        this.httpClient.post('http://localhost:3000/api/auth/changeU', {
-          userName: userName,
-          email: email          
+        const currentUserName = this.getUserName();
+        this.httpClient.put('http://localhost:3000/api/auth/changeU', {
+          newUserName: newUserName,
+          userName: currentUserName          
       }).subscribe(
         (response :{message: string }) => {
                 resolve(response.message);
@@ -135,11 +139,22 @@ export class AuthService {
       })
     }
 
-    logout() {
-      //this.authToken = null;      
-      this.isAuth$.next(false);
-      this.isAdmin$.next(false);
-      this.router.navigate(['login']);
+    logout(userName: string, dateLogout: string) {
+
+      return new Promise((resolve, reject) => {
+        this.httpClient.put('http://localhost:3000/api/auth/logout', {userName: userName, dateLogout: dateLogout }).subscribe(
+          (response :{message: string }) => {
+            resolve(response);
+            this.authToken = null;      
+            this.isAuth$.next(false);
+            this.isAdmin$.next(false);
+            this.router.navigate(['']);
+          },
+          (error) => {
+            reject(error.error);
+          }
+        );
+      })      
     }
   }
   
