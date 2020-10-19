@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Profile } from '../models/profile';
 import { Publication} from '../models/publication';
-import { Subject, BehaviorSubject, EmptyError } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 
 @Injectable()
@@ -12,14 +12,17 @@ export class ProfileService {
     //profilesSubject = new Subject<Profile[]>();
     profileSubject = new Subject<Profile>();
     userPublicationsSubject = new Subject<Publication[]>();
-    notificationsSubject = new Subject<Notification[]>();
+    postNotifSubject = new Subject();
+    commentNotifSubject = new Subject();
     usersListSubject = new Subject();
     searchingSubject = new BehaviorSubject(false);
 
     //private profiles: Profile[];
     private profile: Profile;
-    private notifications: Notification[];
+    //private notifications: Notification[];
     private userPublications: Publication[];
+    private postNotif;
+    private commentNotif;
     //fromUsersList: boolean;
 
     seeMine: boolean;
@@ -33,10 +36,15 @@ export class ProfileService {
         console.log(this.profile);
     }
 
-    emitNotificationsSubject( ) {
-      this.notificationsSubject.next(this.notifications.slice());
-      console.log(this.notifications.slice())
-  }
+    emitPostNotifSubject( ) {
+      this.postNotifSubject.next(this.postNotif);
+      console.log(this.postNotif.slice())
+    }
+
+    emitCommentNotifSubject( ) {
+    this.commentNotifSubject.next(this.commentNotif);
+    console.log(this.commentNotif.slice())
+    }
 
     getProfileByUserName(userName: string) {
         return new Promise((resolve, reject) => {
@@ -60,6 +68,32 @@ export class ProfileService {
         })
     }
 
+
+    getNews(userName: string) {
+      return new Promise((resolve, reject) => {
+      this.httpClient
+            .get('http://localhost:3000/api/profiles/notifications/' + userName)
+            .subscribe(
+              (response) => {
+                const resp = Object.values(response);
+                this.postNotif = resp[0];
+                this.commentNotif = resp[1];
+                console.log(this.postNotif);
+                console.log(this.commentNotif);
+                //this.notifications = response;
+                this.emitPostNotifSubject();
+                this.emitCommentNotifSubject();
+                //console.log(this.notifications)
+                resolve();
+              },
+              (error) => {
+                
+                reject(error);
+              }
+            );
+      });
+    }
+
   getUsersList() {
     return new Promise((resolve, reject) => {
         this.httpClient
@@ -75,6 +109,8 @@ export class ProfileService {
           );
     })
     }
+
+  
 
   modifyProfile(firstname: string, lastname: string, userName: string, 
   dept: string, email: string, aboutMe: string) {
@@ -97,25 +133,4 @@ export class ProfileService {
   );
   });
     }
-
-  getNews(userName: string) {
-    return new Promise((resolve, reject) => {
-    this.httpClient
-          .get<Notification[]>('http://localhost:3000/api/profiles/notifications/' + userName)
-          .subscribe(
-            (response: Notification[]) => {
-              this.notifications = response;
-              this.emitNotificationsSubject();
-              console.log(this.notifications)
-              resolve();
-            },
-            (error) => {
-              
-              reject(error);
-            }
-          );
-    });
-  }
-
-
 }

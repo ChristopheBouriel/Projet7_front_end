@@ -1,0 +1,21 @@
+<ul >
+    <app-admin-list *ngFor="let newPost of newPosts; let l = index"
+        [title]="newPost.title"
+        [moderated]="newPost.moderated"
+        [id]="newPost.id"
+        >
+
+    </app-admin-list>
+    <app-admin-list *ngFor="let newComment of newComments; let m = index"
+        [postId]="newComment.postId"
+        [titlePost]="newComment.title"
+        [commentId]="newComment.id"
+        >
+
+    </app-admin-list>
+    
+
+</ul>
+
+ <div *ngIf="!gotPostNotifs && !gotCommentNotifs">Vous n'avez pas de notifications</div>
+

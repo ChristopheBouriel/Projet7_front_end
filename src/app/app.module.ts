@@ -33,6 +33,8 @@ import { UsersListComponent } from './profile/users-list/users-list.component';
 import { ProfileFormComponent } from './profile-form/profile-form.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsListComponent } from './notifications/notifications-list/notifications-list.component';
+import { AdminComponent } from './admin/admin.component';
+import { AdminListComponent } from './admin/admin-list/admin-list.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -43,6 +45,7 @@ const appRoutes: Routes = [
   {path: 'profile/:userName', canActivate: [AuthGuard], component: ProfileComponent},
   {path: 'profile/:username/modify', canActivate: [AuthGuard], component: ProfileFormComponent},
   {path: 'profile/:userName/settings', canActivate: [AuthGuard], component: SettingsComponent},
+  {path: 'admin', component: AdminComponent},
   {path: 'auth', component: AuthComponent},
   {path: 'notifications', component: NotificationsComponent},
   {path: 'login', component: LoginComponent},
@@ -67,7 +70,9 @@ const appRoutes: Routes = [
     UsersListComponent,
     ProfileFormComponent,
     NotificationsComponent,
-    NotificationsListComponent
+    NotificationsListComponent,
+    AdminComponent,
+    AdminListComponent
   ],
   imports: [
     BrowserModule,

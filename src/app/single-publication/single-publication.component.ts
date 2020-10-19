@@ -78,7 +78,7 @@ export class SinglePublicationComponent implements OnInit {
           const username = this.authService.getUserName();
           const viewed = 1;
           this.publicationService.markAsRead(this.postId, username, viewed);
-          } else {console.log(this.isAuthor)}
+          }
       }
     );
     this.authService.isAdmin$.subscribe(
@@ -86,9 +86,6 @@ export class SinglePublicationComponent implements OnInit {
         this.moderator = isAdmin;
       }
     )
-
-    
-    
 
     this.commentForm = this.formBuilder.group({
       comment: [null, Validators.required] 
@@ -121,12 +118,10 @@ export class SinglePublicationComponent implements OnInit {
       this.likes=false;
       //this.publicationService.getPublicationById(+id).likes = 0;
     }
-    console.log(this.likes)
-  
+    console.log(this.likes);  
   }
 
-  onSeeDate() {
-    
+  onSeeDate() {    
     if(this.seeDate===false) {
       this.seeDate = true;
       console.log(this.seeDate)
@@ -135,8 +130,6 @@ export class SinglePublicationComponent implements OnInit {
       this.seeDate = false;
     }
   }
-
-  
 
   onComment() {
     this.loading = true;
@@ -152,8 +145,10 @@ export class SinglePublicationComponent implements OnInit {
         this.commentForm.reset('comment');
         this.commenting = false;
         this.errorMsg = '';
-        const viewed = 0;
+        if (this.isAuthor !== true) {
+          const viewed = 0;
         this.publicationService.markAsRead(this.publication.id, username, viewed);
+        }        
       }
     ).catch(
       (error) => {

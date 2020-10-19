@@ -11,11 +11,14 @@ export class NotificationsListComponent implements OnInit {
   @Input() id: number;
   @Input() moderated: number;
   @Input() title: string;
+  @Input() postId: string;
+  @Input() commentId: string;
+  @Input() titlePost: string;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    
+
   }
 
   onSeePublication() {

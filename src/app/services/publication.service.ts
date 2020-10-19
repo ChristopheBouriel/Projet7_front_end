@@ -41,7 +41,7 @@ export class PublicationService {
               this.emitPublicationsSubject();
             },
             (error) => {
-              console.log('Erreur ! : ' + error);
+              console.log('Erreur ! : ' + error.error);
             }
           );
     }

@@ -13,10 +13,14 @@ export class AuthService {
     isAdmin$ = new BehaviorSubject<boolean>(false);
     userName$ = new BehaviorSubject<string>('No one is connected');
     headMessage$ = new BehaviorSubject<string>('');
+    newPostSubject = new Subject();
+    newCommentSubject = new Subject();
     
     private userName: string;
     private authToken: string;
-    lastLogin: string;
+    private newPosts;
+    private newComments;
+    lastLogout: string;
 
     constructor(private httpClient: HttpClient,
                 private router: Router) {}
@@ -30,6 +34,17 @@ export class AuthService {
         this.userName$.next(this.userName);
         console.log(this.userName);
     }
+
+    emitNewPostSubject( ) {
+      this.newPostSubject.next(this.newPosts);
+      console.log(this.newPosts.slice())
+    }
+
+    emitNewCommentSubject( ) {
+    this.newCommentSubject.next(this.newComments);
+    console.log(this.newComments.slice())
+    }
+
   
   signUp(firstname: string, lastname: string, userName: string, password:string, 
         dept: string, email: string, aboutMe: string) {
@@ -57,20 +72,19 @@ export class AuthService {
   loginUser(userName: string, password) {
       return new Promise((resolve, reject) => {
         this.httpClient.post('http://localhost:3000/api/auth/login', {userName: userName, userPassword: password}).subscribe(
-          (response :{admin: number, token: string, userName: string, lastLogin:string}
+          (response :{admin: number, token: string, userName: string, lastLogout:string}
             ) => {
             this.userName = response.userName;
             const checkAdmin = response.admin;
-            console.log(checkAdmin)
             if (checkAdmin===1) {
               this.isAdmin$.next(true);
+              this.lastLogout = response.lastLogout.split('.')[0].replace('T',' ');
+              //this.getModeratorNews();
             }
             this.emitUserNameSubject();
             console.log(this.userName$)
             this.authToken = response.token;
             this.isAuth$.next(true);
-            this.lastLogin = response.lastLogin;
-            console.log(this.lastLogin) 
             resolve();
           },
           (error) => {
@@ -78,6 +92,31 @@ export class AuthService {
           }
         );
       });
+    }
+
+    getModeratorNews() {
+      return new Promise((resolve, reject) => {
+        this.httpClient.post('http://localhost:3000/api/moderate/news', {
+          lastLogout: this.lastLogout,
+          userName: this.userName          
+      }).subscribe(
+          (response) => {
+            const resp = Object.values(response);
+                this.newPosts = resp[0];
+                this.newComments = resp[1];
+                console.log(this.newPosts);
+                console.log(this.newComments);
+                //this.notifications = response;
+                this.emitNewPostSubject();
+                this.emitNewCommentSubject();
+                //console.log(this.notifications)
+                resolve();
+          },
+          (error) => {
+            reject(error.error);
+          }
+        );
+      })
     }
 
     getToken() {
@@ -144,7 +183,7 @@ export class AuthService {
       return new Promise((resolve, reject) => {
         this.httpClient.put('http://localhost:3000/api/auth/logout', {userName: userName, dateLogout: dateLogout }).subscribe(
           (response :{message: string }) => {
-            resolve(response);
+            resolve();
             this.authToken = null;      
             this.isAuth$.next(false);
             this.isAdmin$.next(false);
