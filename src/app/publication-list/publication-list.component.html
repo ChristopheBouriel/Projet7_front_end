@@ -1,11 +1,11 @@
+<div class="row">
+  <div class="col-xs-10 col-lg-8 mx-auto">
+
 <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
 <div class="top">
     <h2>Les dernières publications</h2>
     <button mat-raised-button color="primary" *ngIf="!posting" (click)="onWantPost()">Publier</button>
 </div>
-
-<!--<p>Mis à jour : {{ lastUpdate | async | date: 'EEEE d LLLL yyyy'}}</p>-->
-
 
 <form [formGroup]="publicationForm" *ngIf="!loading && posting">
     <div class="form-group">
@@ -36,3 +36,6 @@
           [id]="publication.id">
     </app-publication-list-item>
 </ul>
+
+  </div>
+</div>

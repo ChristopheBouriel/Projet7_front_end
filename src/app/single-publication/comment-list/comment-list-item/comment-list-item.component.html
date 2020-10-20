@@ -1,7 +1,7 @@
 <li [ngClass]="{'list-group-item': true}"
-*ngIf="!deleted">
+*ngIf="!deleted" class="col-10 mx-auto my-0">
     <div class="infos">
-    <p >De <a *ngIf="!exOne" routerLink="/profile/{{commentUserName}}" (click)="onSeeProfile()"><span>{{commentUserName}}</span></a><span *ngIf="exOne">{{commentUserName}}</span>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm' | lowercase}}</p>
+    <p >De <a *ngIf="!exOne" routerLink="/profile/{{commentUserName}}" (click)="onSeeProfile()"><span>{{commentUserName}}</span></a><span *ngIf="exOne">{{commentUserName}}</span>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm':'UTC+4' | lowercase}}</p>
     
     <a *ngIf="modified" (click)="onSeeDate()">Modifié</a>
     </div>
@@ -11,7 +11,7 @@
         <p *ngIf="commentModerated===1" class="moderatedBackground">Ce contenu a été masqué suite à modération</p>
     </div>
 
-    <p *ngIf="seeDate"> Dernière modification  le {{modifDate | date: 'd LLLL yyyy' | lowercase}} à {{modifDate | date: 'HH:mm' | lowercase}}</p>
+    <p *ngIf="seeDate"> Dernière modification  le {{modifDate | date: 'd LLLL yyyy' | lowercase}} à {{modifDate | date: 'HH:mm':'GMT+4' | lowercase}}</p>
     <form [formGroup]="modifyForm" *ngIf="!loading && modifying">
         <div class="form-group">
           <label for="comment">Modifier</label>

@@ -1,28 +1,32 @@
-<mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
-<div class="show-profile" *ngIf="!searching">
+<div class="row">
+    <div class="col-xs-10 col-md-8 mx-auto">
 
-    <div id="zero"><p>Nom d'utilisateur : <span>{{profile?.userName}}</span></p></div>
-    <div id="first">
-        <p>Prénom : <span>{{profile?.firstname}}</span></p>
-        <p>Nom : <span>{{profile?.lastname}}</span></p>
+    <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+    <div class="show-profile" *ngIf="!searching">
+
+        <div id="zero"><p>Nom d'utilisateur : <span>{{profile?.userName}}</span></p></div>
+        <div id="first">
+            <p>Prénom : <span>{{profile?.firstname}}</span></p>
+            <p>Nom : <span>{{profile?.lastname}}</span></p>
+        </div>
+        <div id="second">
+            <p>Service : <span>{{profile?.service}}</span></p>
+            <p>e-mail : <span>{{profile?.email}}</span></p>
+        </div>
+        
+        <div id="aboutMe" *ngIf="aboutMe"><p>A propos de moi : <span>{{aboutMe}}</span></p></div>
     </div>
-    <div id="second">
-        <p>Service : <span>{{profile?.service}}</span></p>
-        <p>e-mail : <span>{{profile?.email}}</span></p>
+
+    <p class="noUser mx-auto">{{noUser}}</p>
+    <div class="row mx-auto">
+        <button mat-raised-button color="primary" class="mr-2 my-1" *ngIf="!fromList && !searching && !fromUsersList && !isMine" routerLink="/publications/{{fromPost}}">Retour publication</button>
+        <button mat-raised-button color="primary" class="mr-2 my-1" *ngIf="!searching" routerLink="/publications">Retour liste</button>
+        <button mat-raised-button color="primary" class="mr-2 my-1" *ngIf="!searching" (click)="onGetList()">Rechercher</button>
     </div>
-    
-    <div id="aboutMe" *ngIf="aboutMe"><p>A propos de moi : <span>{{aboutMe}}</span></p></div>
-</div>
-
-<p class="noUser mx-auto">{{noUser}}</p>
-
-<button mat-raised-button color="primary" class="mr-2" *ngIf="!fromList && !searching && !fromUsersList && !isMine" routerLink="/publications/{{fromPost}}">Retour publication</button>
-<button mat-raised-button color="primary" class="mr-2" *ngIf="!searching" routerLink="/publications">Retour liste</button>
-
-<button mat-raised-button color="primary" class="mr-2" *ngIf="!searching" (click)="onGetList()">Rechercher</button>
-<button mat-raised-button color="primary" class="mr-2" *ngIf="isMine && !searching" routerLink="modify">Modifier Profil</button>
-<button mat-raised-button color="primary" *ngIf="isMine && !searching" routerLink="settings">Paramètres</button>
-
+    <div class="row mx-auto">
+        <button mat-raised-button color="primary" class="mr-2 my-1" *ngIf="isMine && !searching" routerLink="modify">Modifier Profil</button>
+        <button mat-raised-button color="primary" class="mr-2 my-1" *ngIf="isMine && !searching" routerLink="settings">Paramètres</button>
+    </div>
 <br/>
 <br/>
 
@@ -45,23 +49,28 @@
 </div>
 
 <div class="search" *ngIf="searching">
+    <div class="row">
+        <p class="text-center col-7 mb-2 mx-auto">Liste des utilisateurs</p>
+        <button mat-raised-button class="col-4 mb-2 ml-1 text-center mx-auto" color="primary" (click)="onBackFromList()">Retour au profil</button>
+    </div>    
+</div>
+<br/>
+<br/>
+<div class="users-list" *ngIf="searching">
     
-    <button mat-raised-button class="mr-2" color="primary" (click)="onBackFromList()">Retour au profil</button>
-    
-    <button mat-raised-button color="primary" class="mr-2" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
-    <input id="window"  #inputUserName name="search">
-    
+    <div class="row">             
+            <input id="window" class="col-7 mb-2 mx-auto"  #inputUserName name="search">
+            <button mat-raised-button color="primary" class="mb-2 ml-1 mx-auto col-4" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
+    </div>
+    <ul class="list-group">        
+        <app-users-list *ngFor="let shortProfile of shortProfiles; let j = index"
+            [userName]="shortProfile.userName"
+            [firstname]="shortProfile.firstname"
+            [lastname]="shortProfile.lastname"
+            [service]="shortProfile.service">
+        </app-users-list>
+    </ul>
 </div>
 
-<br/>
-<br/>
-
-<ul *ngIf="searching">
-    <app-users-list *ngFor="let shortProfile of shortProfiles; let j = index"
-        [userName]="shortProfile.userName"
-        [firstname]="shortProfile.firstname"
-        [lastname]="shortProfile.lastname"
-        [service]="shortProfile.service">
-
-    </app-users-list>
-</ul>
+    </div>
+</div>

@@ -57,7 +57,9 @@ export class HeaderComponent implements OnInit {
     )
   }
 
-  
+  onCheckNews() {
+    this.authService.getModeratorNews();  
+  }
 
   onSeeMine() {
     this.profileService.seeMine = true;

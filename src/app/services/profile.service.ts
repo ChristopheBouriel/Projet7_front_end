@@ -86,8 +86,7 @@ export class ProfileService {
                 //console.log(this.notifications)
                 resolve();
               },
-              (error) => {
-                
+              (error) => {                
                 reject(error);
               }
             );
@@ -108,9 +107,7 @@ export class ProfileService {
             }
           );
     })
-    }
-
-  
+    }  
 
   modifyProfile(firstname: string, lastname: string, userName: string, 
   dept: string, email: string, aboutMe: string) {

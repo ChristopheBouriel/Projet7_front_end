@@ -1,5 +1,5 @@
 <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
-<ul class="list-group">
+<ul class="list-group row mt-3">
     <app-comment-list-item  *ngFor="let comment of comments; let i = index"
           [commentUserName]="comment.userName"
           [commentContent]="comment.content"

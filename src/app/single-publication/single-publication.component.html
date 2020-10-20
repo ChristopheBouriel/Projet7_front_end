@@ -1,3 +1,6 @@
+<div class="row">
+  <div class="col-xs-10 col-md-9 col-lg-8 mx-auto">
+
 <mat-spinner style="margin:0 auto;" class="mx-auto" *ngIf="loading"></mat-spinner>
 <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
 <div [ngClass]="{'single-publication': true,
@@ -5,9 +8,9 @@
                 }" *ngIf="!loading">
     <h2 [ngStyle]="{color: 'primary'}">{{title}}</h2>
     <p>Par {{publication?.userName}}</p>
-    <p>Publié le {{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}</p>
-    <a *ngIf="publication?.modified" (click)="onSeeDate()">Modifié</a>
-    <p *ngIf="seeDate"> Dernière modification  le {{publication?.date_modif | date: 'd LLLL yyyy' | lowercase}} à {{publication?.date_modif | date: 'HH:mm' | lowercase}}</p>
+    <p>Publié le {{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}<span><a *ngIf="publication?.modified" (click)="onSeeDate()">Modifié</a></span></p>
+    
+    <p *ngIf="seeDate" class="mb-2"> Dernière modification  le {{publication?.date_modif | date: 'd LLLL yyyy' | lowercase}} à {{publication?.date_modif | date: 'HH:mm' | lowercase}}</p>
     <div *ngIf=!modifying  class="publication-view">
         <p>{{content}}</p>
     </div>
@@ -22,7 +25,6 @@
         </div>
         <div class="my-2" *ngIf="modifyForm.invalid">Un caractère non autorisé a été saisi ou un champ est vide</div>
         <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onMakeModif()">Envoyer</button>
-        <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
         <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onCancelModif()">Annuler</button>
         <button *ngIf="!confirm" class="mr-2" mat-raised-button color="primary" (click)="onWantDelete()">Effacer</button>
         <p *ngIf="confirm">Etes-vous sûr(e) de vouloir supprimer cette publication</p>
@@ -31,20 +33,19 @@
         
     </form>
     <br/>
-    <div *ngIf="moderator">
-      <button *ngIf="!moderated && !isAuthor" mat-raised-button color="accent" class="mr-2 mb-2" (click)="onModerate()">Modérer</button>
-      <button *ngIf="moderated && !isAuthor" mat-stroked-button color="accent" class="mb-2" (click)="onModerate()">Rétablir</button>
+    <div *ngIf="moderator" class="row">
+      <button *ngIf="!moderated && !isAuthor" mat-raised-button color="accent" class="col-3 mb-2 ml-3 mx-auto" (click)="onModerate()">Modérer</button>
+      <button *ngIf="moderated && !isAuthor" mat-stroked-button color="accent" class="col-3 mb-2 ml-3 mx-auto" (click)="onModerate()">Rétablir</button>
       
     </div>
-    <div *ngIf=!modifying  class="post-buttons">
-        <div>
-        <button class="btn btn mb-1 mr-2" (click)="onLike()">Like it</button>
-        <button class="btn btn mb-1" (click)="onWantComment()">Comment it</button>
-        </div>
-        <button class="mb-1 mr-0 text-center btn" routerLink="/publications">Retour à la liste</button>
-        <button *ngIf="!isAuthor" class="mb-1 text-center btn" routerLink="/profile/{{publication?.userName}}" (click)="onSeeProfile()">Voir profil</button>
-        <button *ngIf="isAuthor" class="mb-1 text-center btn" (click)="onWantModify()">Modifier</button>
-        
+    <div *ngIf=!modifying  class="post-buttons row">
+    <!--  <div>-->
+    <!--  <button class="btn btn mb-1 mr-2" (click)="onLike()">Like it</button>--> 
+        <button class="col-11 col-sm-3 mx-auto text-center" (click)="onWantComment()">Commenter</button>
+    <!--  <div>-->
+        <button class="col-11 col-sm-3 mx-auto text-center" routerLink="/publications">Retour liste</button>
+        <button *ngIf="!isAuthor" class="col-11 col-sm-3 mx-auto text-center" routerLink="/profile/{{publication?.userName}}" (click)="onSeeProfile()">Voir profil</button>
+        <button *ngIf="isAuthor" class="col-11 col-sm-3 mx-auto text-center" (click)="onWantModify()">Modifier</button>        
     </div>
 </div>
 
@@ -55,12 +56,14 @@
     </div>
     <div class="my-2" *ngIf="commentForm.invalid">Un caractère non autorisé a été saisi</div>
     <button class="mr-2" mat-raised-button color="primary" [disabled]="commentForm.invalid" (click)="onComment()">Envoyer</button>
-    <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>--> 
     <button mat-raised-button color="primary" (click)="onCancel()">Annuler</button> 
 </form>
 
 
 <app-comment-list [postId]="postId"></app-comment-list>
+
+  </div>
+</div>
 
 
 

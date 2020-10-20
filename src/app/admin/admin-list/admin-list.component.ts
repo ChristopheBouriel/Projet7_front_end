@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-list',
@@ -13,10 +14,20 @@ export class AdminListComponent implements OnInit {
   @Input() postId: string;
   @Input() commentId: string;
   @Input() titlePost: string;
+  @Input() postUserName: string;
+  @Input() commentUserName: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onSeePublication() {
+    this.router.navigate(['publications', this.id]);
+  }
+
+  onSeePublicationCom() {
+    this.router.navigate(['publications', this.postId]);
   }
 
 }

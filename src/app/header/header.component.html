@@ -1,19 +1,26 @@
-<div class="row">
-    <div class="bannier col-xs-12 col-sm-10 mx-auto">
-        <div class="job-place">
-        <img src="../assets/images/groupo.png">
-        <p class="ml-3 mt-5">SharePlace</p>
+<div class="row  my-5 mx-1 mx-auto">
+    <div class="bannier col-xs-12 col-lg-10 mx-auto">
+        <div class="job-place row no-gutters">
+            <div>
+                <img src="../assets/images/groupo.png" alt="Logo Groupomania">
+            </div>
+            <div>
+                <p class="ml-3 mt-5">SharePlace</p>
+            </div>            
         </div>
+        <br/>
+        <br/>       
+        <nav class="menu row no-gutters my-1 ">           
+            <a class="col-xs-12 col-sm-5 mx-auto mx-md-0 mr-md-1 col-md-3 mb-1 text-center" routerLinkActive="active" *ngIf="!isAuth" routerLink="login">Connexion</a>
+            <a class="col-xs-12 col-sm-5 mx-auto mx-md-0 col-md-3 mb-1 text-center" routerLinkActive="active" *ngIf="!isAuth" routerLink="signup">Inscription</a>
+
+            <a class="col-xs-12 col-sm-5 mx-auto mx-md-1 col-md-2 mb-1 text-center" routerLinkActive="active" *ngIf="isAuth" routerLink="notifications">Notifications</a>
+            <a class="col-xs-12 col-sm-5 mx-auto mx-md-1 col-md-2 mb-1 text-center" routerLinkActive="active" *ngIf="isAuth" routerLink="/profile/{{userName}}" (click)="onSeeMine()">Mon profil</a>
+            <a class="col-xs-12 col-sm-5 mb-sm-4 mb-md-1 mx-auto mx-md-1 col-md-2 mb-1 text-center" routerLinkActive="active" *ngIf="isAuth" routerLink="publications">Liste</a>
+            <a class="col-xs-12 col-sm-5 mb-sm-4 mb-md-1 mx-auto mx-md-1 col-md-2 mb-1 text-center" routerLinkActive="active" *ngIf="isAuth" (click)="onLogout()">Déconnexion</a>
+            <a class="col-xs-12 col-sm-11 mb-sm-4 mb-md-1 mx-auto mx-md-0 col-md-2 mb-1 text-center" routerLinkActive="active" *ngIf="isAdmin" routerLink="admin" (click)="onCheckNews()">Admin</a>
+        </nav>
         <p *ngIf="showMessage === true"> {{headMessage}}</p>
         <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
-        <div class="menu mt-5">
-        <div routerLinkActive="active" *ngIf="isAdmin"><a routerLink="admin">Admin</a></div>
-        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="notifications">Notifications</a></div>
-        <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="login">Connexion</a></div>
-        <div routerLinkActive="active" *ngIf="!isAuth"><a routerLink="signup">Inscription</a></div>
-        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="publications">Liste</a></div>
-        <div routerLinkActive="active" *ngIf="isAuth"><a routerLink="/profile/{{userName}}" (click)="onSeeMine()">Mon profil</a></div>
-        <div routerLinkActive="active" *ngIf="isAuth"><a (click)="onLogout()">Déconnexion</a></div>
-        </div>
     </div>
-</div>    
+</div>

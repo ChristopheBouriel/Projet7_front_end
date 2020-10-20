@@ -51,7 +51,7 @@ export class CommentListItemComponent implements OnInit {
     const userName = this.authService.getUserName();
     if (this.commentUserName === userName) {this.isAuthor = true}
     this.modifyForm = this.formBuilder.group({
-      comment: [this.commentContent.replace(/&µ/gi,'\"'), Validators.required]});
+      comment: [this.commentContent.replace(/&µ/gi,'\"')]});
       this.initialComment = this.commentContent.replace(/&µ/gi,'\"'); 
 
       console.log(this.postId);
