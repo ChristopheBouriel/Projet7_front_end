@@ -21,6 +21,20 @@
     color: red;
 }
 
+.controls {
+    button {
+    font-size: 0.7rem;
+}
+}
+
+.search p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: solid 2px rgb(80, 37, 235);
+    border-radius: 5px;
+    height: auto;
+}
+
 .show-profile {
     background-color: lavender;
     border: solid 1px rgb(80, 37, 235);

@@ -1,20 +1,20 @@
-<ul >
-    <app-notifications-list *ngFor="let postNotif of postNotifs; let j = index"
-        [title]="postNotif.title"
-        [moderated]="postNotif.moderated"
-        [id]="postNotif.id"
-        >
+<div class="frame">
+    <div class="row">
+        <ul class="list-group col-8 col-md-7 mx-auto my-1">
+            <app-notifications-list *ngFor="let postNotif of postNotifs; let j = index"
+                [title]="postNotif.title"
+                [moderated]="postNotif.moderated"
+                [id]="postNotif.id"
+                >
 
-    </app-notifications-list>
-    <app-notifications-list *ngFor="let commentNotif of commentNotifs; let k = index"
-        [postId]="commentNotif.postId"
-        [titlePost]="commentNotif.title"
-        [commentId]="commentNotif.id"
-        >
-
-    </app-notifications-list>
-    
-
-</ul>
-
- <div *ngIf="!gotPostNotifs && !gotCommentNotifs">Vous n'avez pas de notifications</div>
+            </app-notifications-list>
+            <app-notifications-list *ngFor="let commentNotif of commentNotifs; let k = index"
+                [postId]="commentNotif.postId"
+                [titlePost]="commentNotif.title"
+                [commentId]="commentNotif.id"
+                >
+            </app-notifications-list>
+        </ul>
+    </div>
+    <div *ngIf="!gotPostNotifs && !gotCommentNotifs" class="text-center">Vous n'avez pas de notifications</div>
+</div>

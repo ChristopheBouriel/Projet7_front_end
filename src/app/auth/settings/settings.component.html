@@ -15,7 +15,7 @@
     </div>
 
 
-    <form [formGroup]="passwordForm" *ngIf="modPass">
+    <form [formGroup]="passwordForm" *ngIf="modPass"  class="col-8 col-md-7 mx-auto my-3">
         <div class="form-group">
           <label for="mot de passe">Saisissez votre mot de passe</label>
           <input type="password" class="form-control" id="newPassword" formControlName="newPassword">
@@ -26,7 +26,7 @@
         <button mat-raised-button color="primary" (click)="onCancel()">Annuler</button>
     </form>
 
-    <form [formGroup]="userNameForm" *ngIf="modName">
+    <form [formGroup]="userNameForm" *ngIf="modName"  class="col-8 col-md-7 mx-auto my-3">
         <div class="form-group">
           <label for="nom utilisateur">Saisissez votre nom d'utilisateur</label>
           <input type="text" class="form-control" id="newUserName" formControlName="newUserName">
