@@ -3,7 +3,7 @@
     <div class="infos">
     <p >De <a *ngIf="!exOne" routerLink="/profile/{{commentUserName}}" (click)="onSeeProfile()"><span>{{commentUserName}}</span></a><span *ngIf="exOne">{{commentUserName}}</span>, le {{commentDate | date: 'd LLLL yyyy' | lowercase}} à {{commentDate | date: 'HH:mm':'UTC+4' | lowercase}}</p>
     
-    <a *ngIf="modified" (click)="onSeeDate()">Modifié</a>
+    <a *ngIf="modified" routerLink="publications/{{postId}}" (click)="onSeeDate()">Modifié</a>
     </div>
     
     <div *ngIf=!modifying class="comment-view">
@@ -20,8 +20,6 @@
         <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
         <div class="my-2" *ngIf="modifyForm.invalid">Un caractère non autorisé a été saisi</div>
         <button class="mr-2" mat-raised-button color="primary" [disabled]="modifyForm.invalid" (click)="onMakeModif()">Envoyer</button>
-        
-        <!--<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>-->
         <button mat-raised-button color="primary" (click)="onCancelModif()">Annuler</button>
     </form>
     
@@ -30,10 +28,8 @@
         <button *ngIf="commentModerated && !isAuthor" mat-stroked-button color="accent" class="mb-2" (click)="onModerate()">Rétablir</button>
     </div>
 
-    <button class="mr-2" mat-raised-button color="primary" (click)="onWantDelete()" 
-    *ngIf="isAuthor && !modifying && !confirm">Effacer</button>
-    <button mat-raised-button color="primary" (click)="onModify()" 
-    *ngIf="isAuthor && !modifying && !confirm">Modifier</button>
+    <button class="mr-2" mat-raised-button color="primary" (click)="onWantDelete()" *ngIf="isAuthor && !modifying && !confirm">Effacer</button>
+    <button mat-raised-button color="primary" (click)="onModify()" *ngIf="isAuthor && !modifying && !confirm">Modifier</button>
 
     <p *ngIf="confirm">Etes-vous sûr(e) de vouloir supprimer ce commentaire</p>
     <button class="mr-2"  *ngIf="confirm" mat-raised-button color="primary" (click)="onDelete()">Effacer</button>

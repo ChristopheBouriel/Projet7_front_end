@@ -11,7 +11,6 @@ button {
 }
 
 .list-group-item {
-
     margin-bottom: 10px;
     .overview {
         border: solid 1px;
@@ -25,9 +24,7 @@ button {
         p {
             font-style: italic;  
         }
-    }
-    
-    
+    }    
 
     .see-it {
         display: flex;
@@ -60,3 +57,4 @@ a, a:hover{
     outline: none;
 
 }
+

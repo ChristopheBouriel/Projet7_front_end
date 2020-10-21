@@ -11,12 +11,20 @@
         padding: 10px;
         margin:5px;
     }
+
+    a:hover {
+        background-color: rgb(17, 184, 235)
+    }
+
+    a:focus {
+        //border: solid 3px black;
+        background-color: rgb(17, 184, 235)
+    }
 }
 
 .bannier {
-    background-color: white;
-    
-    border: solid rgb(80, 51, 210) 2px;
+    background-color: white;    
+    border: solid rgb(80, 51, 210) 3px;
 }
 
 .job-place {

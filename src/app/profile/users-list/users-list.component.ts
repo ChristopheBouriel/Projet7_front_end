@@ -16,7 +16,7 @@ export class UsersListComponent implements OnInit {
   constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    //this.profileService.fromUsersList = true;
+
   }
 
   onSeeProfile() {

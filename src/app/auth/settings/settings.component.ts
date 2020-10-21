@@ -13,14 +13,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class SettingsComponent implements OnInit {
 
   profile: Profile;
-
   passwordForm: FormGroup;
   userNameForm: FormGroup;
   userName: string;
   errorMsg: string;
   loading: boolean;
   notChanging: boolean;
-  //isAuth: boolean;
   modPass: boolean;
   modName: boolean;
   makeSure: boolean;
@@ -105,7 +103,6 @@ export class SettingsComponent implements OnInit {
 
   onModifyUserName() {    
     const newUserName = this.userNameForm.get('newUserName').value;
-    //const email = this.profile[0].email;
     this.authService.modifyUserName(newUserName).then(
       (response) => {
         if (response === 'Update done') {

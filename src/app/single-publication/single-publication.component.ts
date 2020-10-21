@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PublicationService} from '../services/publication.service';
 import { ActivatedRoute } from '@angular/router';
 import { Publication } from '../models/publication';
-import { ProfileService } from '../services/profile.service';
 import { CommentService } from '../services/comment.service';
-import { Subscription } from 'rxjs';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
@@ -16,6 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './single-publication.component.html',
   styleUrls: ['./single-publication.component.scss']
 })
+
 export class SinglePublicationComponent implements OnInit {
 
   title: string;
@@ -31,21 +29,19 @@ export class SinglePublicationComponent implements OnInit {
   initialContent: string;
   seeDate: boolean=false;
   moderated: boolean;
-  //postAnchor: string;
   postId: number;
-  publication: Publication;
-
   fromList: boolean;
   fromProfile: string; 
   commentForm: FormGroup;
   modifyForm: FormGroup;
   errorMsg: string;
 
+  publication: Publication;  
+
   constructor(private publicationService: PublicationService,
               private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private commentService: CommentService,
-              private profileService: ProfileService,
               private authService: AuthService,
               private router: Router) { }
 
@@ -59,15 +55,12 @@ export class SinglePublicationComponent implements OnInit {
         this.content = publication[0].content.replace(/&µ/gi,'\"');
         this.title = publication[0].title.replace(/&µ/gi,'\"');
         this.moderated = publication[0].moderated;
-        //this.postAnchor = '/publications\#' + this.publication.id
-        //console.log(this.postAnchor)
       }
     );
     this.publicationService.getPublicationById(+this.postId).then(
       (response: any[]) => {
         const userName = this.authService.getUserName();
-        if (response[0].userName === userName) {this.isAuthor = true}
-        console.log(response)
+        if (response[0].userName === userName) {this.isAuthor = true;}
         this.initialTitle = response[0].title.replace(/&µ/gi,'\"');
         this.initialContent = response[0].content.replace(/&µ/gi,'\"');
         this.modifyForm = this.formBuilder.group({
@@ -95,40 +88,26 @@ export class SinglePublicationComponent implements OnInit {
       (fromList:boolean) => {
         this.fromList = fromList;
       })
-    console.log(this.fromList)
 
     this.publicationService.fromProfileSubject.subscribe(
     (fromProfile) => {  this.fromProfile = fromProfile});
 
-    //this.publicationService.fromListSubject.next(true);
     this.loading = false;
   }
 
-  ngDoCheck() {
-    
-    //this.publicationService.fromProfileSubject.next(this.authService.getUserName());
-  }
-
-  onLike() {
-    //const id = this.route.snapshot.params['id'];
-    if(this.likes === false) {
-      this.likes=true;
-      //this.publicationService.getPublicationById(+id).likes = 1;
-    } else {
-      this.likes=false;
-      //this.publicationService.getPublicationById(+id).likes = 0;
-    }
-    console.log(this.likes);  
-  }
+  //onLike() {
+  //  if(this.likes === false) {
+  //    this.likes=true;
+  //  } else {
+  //  this.likes=false;}  
+  //}
 
   onSeeDate() {    
     if(this.seeDate===false) {
       this.seeDate = true;
-      console.log(this.seeDate)
-    } else
-     {
+    } else{
       this.seeDate = false;
-    }
+      }
   }
 
   onComment() {
@@ -137,17 +116,15 @@ export class SinglePublicationComponent implements OnInit {
     const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
-    console.log(dbDate);
     this.commentService.postComment(comment, username, this.postId, dbDate).then(
       (response) => {
-        console.log(response);
         this.loading = false;
         this.commentForm.reset('comment');
         this.commenting = false;
         this.errorMsg = '';
         if (this.isAuthor !== true) {
           const viewed = 0;
-        this.publicationService.markAsRead(this.publication.id, username, viewed);
+          this.publicationService.markAsRead(this.publication.id, username, viewed);
         }        
       }
     ).catch(
@@ -189,16 +166,13 @@ export class SinglePublicationComponent implements OnInit {
   onMakeModif() {
     const title = this.modifyForm.get('title').value;
     const content = this.modifyForm.get('publication').value;
-    //const userId = this.authService.getUserId();
     const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
     const modified = 1;
     this.publicationService.modifyPublication(content, title, modified, dbDate, this.postId, username).then(
       (response) => {
-        console.log(response);
-        this.loading = false;        
-        //this.commentForm.reset('comment');    
+        this.loading = false;           
             this.publicationService.getPublicationById(this.postId);
                   this.modifying = false;
                   this.errorMsg = '';
@@ -215,13 +189,10 @@ export class SinglePublicationComponent implements OnInit {
   onDelete() {
     const userName = this.authService.getUserName();
     const publication = this.postId;
-    console.log(publication);
     this.publicationService.deletePublication( publication, userName).then(
       (response) => {
-        console.log(response)
         this.loading = false;
         this.router.navigate(['publications']);
-        //this.deleted = true;
       }
     ).catch(
       (error) => {
@@ -244,7 +215,6 @@ export class SinglePublicationComponent implements OnInit {
       state = 1;
     } else {this.moderated = false;
             state = 0}
-    console.log(publication);
     this.publicationService.moderatePublication( publication, userName, state).then(
       (response) => {
         console.log(response)

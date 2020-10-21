@@ -18,18 +18,15 @@ export class ProfileComponent implements OnInit {
 
   userProfile: string;
   loading: boolean;
-
   profile: Profile;
   publications: Publication[];
   shortProfiles: ShortProfile[];
   usersNameList: string[] = new Array;
   aboutMe: string;
-
+  email: boolean;
   fromPost: number;
-
   fromUsersList: boolean = false;
-  noUser: string = '';
-  
+  noUser: string = '';  
   fromList: boolean = false ;
   userName: string;
   isMine: boolean = false;
@@ -37,23 +34,19 @@ export class ProfileComponent implements OnInit {
   gotUsersList: boolean;
   ifBack: boolean;
 
-  constructor(private route: ActivatedRoute,
-              
+  constructor(private route: ActivatedRoute,              
               private profileService: ProfileService,
               private publicationService: PublicationService,
               private authService: AuthService) { }
 
   ngOnInit() {
-    this.loading = true;
-    
+    this.loading = true;    
     this.authService.userName$.subscribe(
       (userName) => {
         this.userName = userName;
-        console.log(userName);
       });
       
-    this.userProfile = this.route.snapshot.params['userName'];
-    
+    this.userProfile = this.route.snapshot.params['userName'];    
     this.publicationService.fromProfileSubject.next(this.userProfile);
     this.publicationService.fromListSubject.subscribe(
       (fromList) => {
@@ -68,6 +61,9 @@ export class ProfileComponent implements OnInit {
         this.profile = profile[0];
         if (this.profile.aboutMe !== '') {
           this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
+        }
+        if (this.profile.email !== '') {
+          this.email = true;
         }
       }
     );
@@ -91,44 +87,39 @@ export class ProfileComponent implements OnInit {
 
   ngDoCheck() {
     this.userProfile = this.route.snapshot.params['userName'];
-    if (this.userProfile === this.userName && this.profileService.seeMine === true) {
-      
-    this.isMine = true;
-    this.profileService.seeMine = false;
-    this.profileService.getProfileByUserName(this.userName).then(
-      () => this.checkAboutMe()
-    );
-    
-    this.ifBack = true;
-    
+    if (this.userProfile === this.userName && this.profileService.seeMine === true) {      
+      this.isMine = true;
+      this.profileService.seeMine = false;
+      this.profileService.getProfileByUserName(this.userName).then(
+        () => this.checkAboutMe()
+      );      
+      this.ifBack = true;    
     } else if (this.userProfile !== this.userName) {
-      this.isMine = false;
-      this.checkAboutMe();
-    }
+        this.isMine = false;
+        this.checkAboutMe();
+      }
+
     if (this.userProfile !== this.userName && this.ifBack === true) {
       this.profileService.getProfileByUserName(this.userProfile).then(
         () => this.checkAboutMe()
       );
-      this.ifBack = false}
-
-    
+      this.ifBack = false;
+    }
 
     if(this.searching===false) {this.noUser = '';}
+
     this.fromPost = this.publicationService.fromPost;
-    console.log(this.fromPost);
   
     this.publicationService.fromListSubject.subscribe(
       (fromList:boolean) => {
         this.fromList = fromList;
-      })      
-    console.log(this.fromList);
-    console.log('Là')
+      })
   }
 
   checkAboutMe() {
     if (this.profile.aboutMe !== '') {
       this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
-    } else { this.aboutMe = '' }
+    } else { this.aboutMe = '';}
   }
 
   onGetList() {
@@ -146,22 +137,17 @@ export class ProfileComponent implements OnInit {
     this.profileService.getUsersList();
     this.searching = true;
     this.fromUsersList = true;
-
-    console.log(this.usersNameList)
   }
 
   onBackFromList() {
-    this.searching = false;
-    
-    
+    this.searching = false;    
   }
 
   onSearch(inputUserName) {
     const check = this.usersNameList.includes(inputUserName);
     if(check) {
       this.profileService.getProfileByUserName(inputUserName);
-    console.log(inputUserName)
-    this.searching = false;
+      this.searching = false;
     } else {
       this.noUser = 'Utilisateur inconnu';
     }

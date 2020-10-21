@@ -25,16 +25,16 @@ import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserPublicationsComponent } from './profile/user-publications/user-publications.component';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
-import { LOCALE_ID } from '@angular/core';
-
-import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
 import { UsersListComponent } from './profile/users-list/users-list.component';
 import { ProfileFormComponent } from './profile-form/profile-form.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsListComponent } from './notifications/notifications-list/notifications-list.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminListComponent } from './admin/admin-list/admin-list.component';
+
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -51,6 +51,7 @@ const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: ProfileFormComponent},
   {path: '', pathMatch: 'full', redirectTo: 'auth'},
+  //{ path: '**', redirectTo: 'auth' }
 ];
 
 @NgModule({

@@ -12,8 +12,5 @@
     <div class="see-it" *ngIf="publicationModerated !== 1 || moderator">
         <a [routerLink]="[id]" (click)="onSeePublication()">Voir</a>
         <p>Commentaires : {{publicationNumberComments}}</p>
-
-
-        <!--<button (click)="goToPublication">Voir</button>-->
     </div>
 </li>

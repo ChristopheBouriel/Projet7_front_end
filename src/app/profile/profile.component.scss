@@ -23,16 +23,19 @@
 
 .controls {
     button {
-    font-size: 0.7rem;
-}
+    font-size: 0.75rem;
+    }
 }
 
 .search p {
     font-size: 1.5rem;
-    font-weight: 700;
-    border: solid 2px rgb(80, 37, 235);
+    font-weight: 600;
+    font-style: italic;
+    border: solid 3px rgb(80, 37, 235);
     border-radius: 5px;
-    height: auto;
+    padding: 7px 10px 7px 10px;
+    background-color: lavender;
+    color: rgb(82, 82, 82)
 }
 
 .show-profile {
@@ -65,4 +68,10 @@
             margin: 5px 20px 20px 20px;
             min-height: 80px;
         }
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 600;
 }

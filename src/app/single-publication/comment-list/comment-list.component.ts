@@ -14,11 +14,8 @@ export class CommentListComponent implements OnInit {
 
   comments: any[];
   commentsSubscription: Subscription;
-  //userName: string;
   loading: boolean;
 
-  
-  //idCom:number;
 
   constructor(private commentService: CommentService,
               private authService: AuthService) { }

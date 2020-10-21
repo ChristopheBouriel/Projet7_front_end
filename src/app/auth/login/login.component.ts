@@ -29,11 +29,8 @@ export class LoginComponent implements OnInit {
       password: [null, Validators.required]
     });
 
-
     this.authSubscription = this.authService.isAuth$.subscribe(
       (auth) => {this.isAuth = auth;});
-      //this.isAuth = this.authService.isAuth;
-      console.log(this.isAuth)
   }
 
   onLogin() {
@@ -44,7 +41,6 @@ export class LoginComponent implements OnInit {
       () => {
         console.log('There')
         this.loading = false;
-        //this.isAuth = true;
         this.router.navigate(['publications']);
       }
     ).catch(
@@ -57,6 +53,6 @@ export class LoginComponent implements OnInit {
     
   }
   
-  //ngOnDestroy() {this.authSubscription.unsubscribe();}
+  ngOnDestroy() {this.authSubscription.unsubscribe();}
 
 }

@@ -20,7 +20,7 @@ export class AdminComponent implements OnInit {
     this.authService.userName$.subscribe(
       (userName) => {
         this.userName = userName}
-    )
+    );
 
     this.authService.newPostSubject.subscribe(
         (newPosts: any[]) => {
@@ -36,9 +36,7 @@ export class AdminComponent implements OnInit {
       console.log(this.newComments)
       if (newComments[0]) {this.gotCommentNotifs = true}     
     }
-  );
-
-     
+    );     
   }
 
 }

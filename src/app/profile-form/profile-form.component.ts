@@ -28,7 +28,6 @@ export class ProfileFormComponent implements OnInit {
     this.loading = true;
     this.route.params.subscribe(
       (params) => {
-        console.log(params)
         if (!params.username) {
           this.editMode = false;
           this.initEmptyForm();
@@ -78,17 +77,15 @@ export class ProfileFormComponent implements OnInit {
     this.loading = true;
     const firstname = this.profileForm.get('firstname').value;
     const lastname = this.profileForm.get('lastname').value;
-    const username = this.profileForm.get('username').value;
-    
-      const password = this.profileForm.get('password').value;
-    
-    
+    const username = this.profileForm.get('username').value;    
+    const password = this.profileForm.get('password').value;   
     const dept = this.profileForm.get('department').value;
-    const email = this.profileForm.get('email').value;
+    //const email = this.profileForm.get('email').value;
     let aboutMe = this.profileForm.get('aboutMe').value;
-    if (aboutMe === null) {
-      aboutMe = '';
-    }
+    let email = this.profileForm.get('email').value;
+
+    if (aboutMe === null) {aboutMe = '';}
+    if (email === null) {email = '';}
     
     if (this.editMode === false) {
       this.authService.signUp(firstname, lastname, username, password, dept, email, aboutMe).then(
@@ -107,8 +104,7 @@ export class ProfileFormComponent implements OnInit {
               this.errorMsg = 'Désolé, nous n\'avons pas pu vous connecter';
             }
           );
-        }
-        
+        }        
       }
     ).catch(
       (error) => {
@@ -132,8 +128,7 @@ export class ProfileFormComponent implements OnInit {
             this.errorMsg = error.message;
           }
         );
-    }
-    
+    }    
   }
 
 }

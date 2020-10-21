@@ -32,24 +32,19 @@ export class AuthService {
 
   emitUserNameSubject( ) {
         this.userName$.next(this.userName);
-        console.log(this.userName);
     }
 
-    emitNewPostSubject( ) {
+  emitNewPostSubject( ) {
       this.newPostSubject.next(this.newPosts);
-      console.log(this.newPosts.slice())
     }
 
-    emitNewCommentSubject( ) {
-    this.newCommentSubject.next(this.newComments);
-    console.log(this.newComments.slice())
-    }
+  emitNewCommentSubject( ) {
+    this.newCommentSubject.next(this.newComments);    }
 
   
   signUp(firstname: string, lastname: string, userName: string, password:string, 
         dept: string, email: string, aboutMe: string) {
       return new Promise((resolve, reject) => {
-        console.log({firstname, lastname, email})
         this.httpClient.post('http://localhost:3000/api/auth/signup', {
           firstname: firstname,
           lastname: lastname,
@@ -79,10 +74,8 @@ export class AuthService {
             if (checkAdmin===1) {
               this.isAdmin$.next(true);
               this.lastLogout = response.lastLogout.split('.')[0].replace('T',' ');
-              //this.getModeratorNews();
             }
             this.emitUserNameSubject();
-            console.log(this.userName$)
             this.authToken = response.token;
             this.isAuth$.next(true);
             resolve();
@@ -106,10 +99,8 @@ export class AuthService {
                 this.newComments = resp[1];
                 console.log(this.newPosts);
                 console.log(this.newComments);
-                //this.notifications = response;
                 this.emitNewPostSubject();
                 this.emitNewCommentSubject();
-                //console.log(this.notifications)
                 resolve();
           },
           (error) => {
@@ -156,7 +147,7 @@ export class AuthService {
           userName: currentUserName          
       }).subscribe(
         (response :{message: string }) => {
-                resolve(response.message);
+          resolve(response);
         },
         (error) => {
           reject(error.error);
@@ -179,7 +170,6 @@ export class AuthService {
     }
 
     logout(userName: string, dateLogout: string) {
-
       return new Promise((resolve, reject) => {
         this.httpClient.put('http://localhost:3000/api/auth/logout', {userName: userName, dateLogout: dateLogout }).subscribe(
           (response :{message: string }) => {

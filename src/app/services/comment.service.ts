@@ -9,17 +9,13 @@ import { Router } from '@angular/router';
 export class CommentService {
 
     commentsSubject = new Subject<Comment[]>();
-    
-
-    private comments: Comment[];
-    
+    private comments: Comment[];    
 
     constructor(private httpClient: HttpClient,
                 private router: Router) { }
 
     emitCommentsSubject( ) {
-        this.commentsSubject.next(this.comments.slice());
-        
+        this.commentsSubject.next(this.comments.slice());        
     }
 
     getAllComments(postId: number, userName:string) {
@@ -28,7 +24,6 @@ export class CommentService {
           .subscribe(
             (response) => {
               this.comments = response;
-              console.log(this.comments)
               this.emitCommentsSubject();
             },
             (error) => {
@@ -38,18 +33,17 @@ export class CommentService {
     }
 
     postComment(comment: string, username: string, postId: number, date: string) {       
-        return new Promise((resolve,reject) => {
-          
+        return new Promise((resolve,reject) => {          
             this.httpClient
           .post('http://localhost:3000/api/comments/add', {content: comment, userName: username, postId: postId, date_comment: date})
           .subscribe(
             (response: {message: string})=> {
-            console.log(response.message)
               resolve(response.message);
               this.getAllComments(postId, username);              
           },
-          (error) => {reject(error.error);
-                      console.log(error.error)})
+          (error) => {
+            reject(error.error);
+          })
         })
     }
 
@@ -75,7 +69,6 @@ export class CommentService {
           .subscribe(
             (response) => {
               resolve(response);
-              //this.getAllComments(postId);
                 },
             (error) => {
               reject(error.error);

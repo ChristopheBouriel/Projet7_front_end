@@ -15,9 +15,8 @@ export class PublicationService {
 
     private publications: Publication[];
     private publication: Publication;
-    lastSeenInList: number;
 
-    //fromList: boolean;
+    lastSeenInList: number;
     fromPost: number;
     fromProfile: string;
 
@@ -37,11 +36,10 @@ export class PublicationService {
           .subscribe(
             (response) => {
               this.publications = response;
-              console.log(this.publications)
               this.emitPublicationsSubject();
             },
             (error) => {
-              console.log('Erreur ! : ' + error.error);
+              console.log(error.error);
             }
           );
     }
@@ -58,7 +56,7 @@ export class PublicationService {
               resolve(response)
             },
             (error) => {
-              reject(error);
+              reject(error.error);
             }
           );
       })
@@ -72,7 +70,9 @@ export class PublicationService {
               resolve(response);
               this.getAllPublications();
           },
-          (error) => {reject(error.error);}
+          (error) => {
+            reject(error.error);
+          }
           )
       })
     }
@@ -123,9 +123,6 @@ export class PublicationService {
   }
 
   markAsRead(publication:number, userName:string, viewed: number) {
-    console.log(publication);
-    console.log(userName);
-    console.log(viewed);
     return new Promise((resolve, reject) => {
     this.httpClient
     .put('http://localhost:3000/api/publications/read', { postId: publication, userName: userName, viewed: viewed })

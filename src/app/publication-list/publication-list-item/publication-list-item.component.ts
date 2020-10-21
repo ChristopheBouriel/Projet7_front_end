@@ -1,10 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 import { PublicationService} from '../../services/publication.service';
 import { AuthService} from '../../services/auth.service';
-
-
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-publication-list-item',
@@ -27,7 +23,6 @@ export class PublicationListItemComponent implements OnInit {
   content: string;
   title: string;
   moderator: boolean;
-  //moderated: boolean;
 
   constructor(private publicationService: PublicationService,
               private authService: AuthService) { }
@@ -40,22 +35,16 @@ export class PublicationListItemComponent implements OnInit {
       (isAdmin) => {
         this.moderator = isAdmin;
       }
-    )
-    
-    
+    )   
   }
 
   onSeePublication() {
     this.publicationService.fromListSubject.next(true);
-    //this.publicationService.fromList = true;
-    //this.publicationService.fromProfileSubject.next(this.fromProfile);
-
   }
 
   onSeeProfile() {
     this.publicationService.fromListSubject.next(true);
   }
 
-  //goToPublication() {this.router.navigate(['/publications', this.id], { relativeTo: this.route });}
 }
 

@@ -8,3 +8,12 @@
     color: rgb(221, 55, 9);
 }
 
+.see-it a:focus {
+    //border: solid 3px black;
+    background-color: rgb(17, 184, 235)
+}
+
+.overview a:focus {
+    border: solid 1px  rgb(17, 184, 235);
+    padding: 2px;
+}

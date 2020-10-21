@@ -18,19 +18,23 @@ li {
     span {
         font-weight: bold;
     }
+
+    a:focus {
+        border: solid 1px  rgb(17, 184, 235);
+        padding: 2px;
+    }
 }
 
 .comment-view {
     border: solid #b47a7a 1px;
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.975);
-       
-        font-size: 1.1rem;
-        padding: 10px;
-        margin-bottom: 10px;
-        p {
-            white-space: pre-line;
-        }
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.975);       
+    font-size: 1.1rem;
+    padding: 10px;
+    margin-bottom: 10px;
+    p {
+        white-space: pre-line;
+    }
 }
 
 .list-group-item .moderatedBackground {
@@ -38,14 +42,3 @@ li {
     text-align: center;
     color: rgb(221, 55, 9);
 }
-
-/*button {
-    background-color: rgb(80, 55, 169);
-    padding: 5px 10px 5px 10px;
-    color: white;
-    border-radius: 15px;
-    margin-right: 10px;
-    font-size: 1rem;
-    box-shadow: none;
-    border: none;
-}*/

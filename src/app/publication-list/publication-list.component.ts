@@ -12,15 +12,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PublicationListComponent implements OnInit {
 
   isAuth = false;
-
   publications: any[];
   publicationsSubscription: Subscription;
   publicationForm: FormGroup;
-
   loading: boolean;
   posting: boolean;
   errorMsg: string;
-
   
   constructor(private publicationService: PublicationService,
               private formBuilder: FormBuilder,
@@ -33,7 +30,6 @@ export class PublicationListComponent implements OnInit {
       }
     );
     this.publicationService.getAllPublications();
-
     this.publicationForm = this.formBuilder.group({
       title: [null],
       publication: [null]
@@ -51,10 +47,8 @@ export class PublicationListComponent implements OnInit {
     const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
-    console.log(dbDate);
     this.publicationService.postPublication(title, username, publication, dbDate).then(
       (response) => {
-        console.log(response);
         this.loading = false;
         this.publicationForm.reset();
         this.posting = false;

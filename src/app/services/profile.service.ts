@@ -9,7 +9,6 @@ import { Subject, BehaviorSubject } from 'rxjs';
 
 export class ProfileService {
 
-    //profilesSubject = new Subject<Profile[]>();
     profileSubject = new Subject<Profile>();
     userPublicationsSubject = new Subject<Publication[]>();
     postNotifSubject = new Subject();
@@ -17,33 +16,25 @@ export class ProfileService {
     usersListSubject = new Subject();
     searchingSubject = new BehaviorSubject(false);
 
-    //private profiles: Profile[];
     private profile: Profile;
-    //private notifications: Notification[];
     private userPublications: Publication[];
     private postNotif;
     private commentNotif;
-    //fromUsersList: boolean;
 
     seeMine: boolean;
 
     constructor(private httpClient: HttpClient) { }
 
-    //emitprofilesSubject( ) {this.profilesSubject.next(this.profiles.slice());}
-
     emitProfileSubject( ) {
         this.profileSubject.next(this.profile);
-        console.log(this.profile);
     }
 
     emitPostNotifSubject( ) {
       this.postNotifSubject.next(this.postNotif);
-      console.log(this.postNotif.slice())
     }
 
     emitCommentNotifSubject( ) {
-    this.commentNotifSubject.next(this.commentNotif);
-    console.log(this.commentNotif.slice())
+      this.commentNotifSubject.next(this.commentNotif);
     }
 
     getProfileByUserName(userName: string) {
@@ -54,9 +45,7 @@ export class ProfileService {
               (response) => {
                 const resp = Object.values(response);
                 this.profile = resp[0];                
-                console.log(this.profile);
                 this.userPublications = resp[1];
-                console.log(this.userPublications);
                 resolve(this.profile);
                 this.emitProfileSubject();
                 this.userPublicationsSubject.next(this.userPublications);
@@ -78,12 +67,8 @@ export class ProfileService {
                 const resp = Object.values(response);
                 this.postNotif = resp[0];
                 this.commentNotif = resp[1];
-                console.log(this.postNotif);
-                console.log(this.commentNotif);
-                //this.notifications = response;
                 this.emitPostNotifSubject();
                 this.emitCommentNotifSubject();
-                //console.log(this.notifications)
                 resolve();
               },
               (error) => {                

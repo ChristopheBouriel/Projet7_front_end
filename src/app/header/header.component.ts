@@ -78,7 +78,6 @@ export class HeaderComponent implements OnInit {
         this.errorMsg = error.message;
       }
     );
-    //this.isAuth=false;
   }
 
   ngOnDestroy() {
@@ -86,7 +85,5 @@ export class HeaderComponent implements OnInit {
     this.userNameSubscription.unsubscribe();
     this.adminSubscription.unsubscribe();
   }
-
-  
 
 }

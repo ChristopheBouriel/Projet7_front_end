@@ -4,3 +4,17 @@ li {
     list-style-type: none;   
     margin-bottom: 10px; 
 }
+
+.profile-link a:focus {
+    border: solid 1px  rgb(17, 184, 235);
+    padding: 2px;
+}
+
+p {
+    font-weight: 600;
+}
+
+span {
+    font-style: italic;
+    font-weight: normal;
+}

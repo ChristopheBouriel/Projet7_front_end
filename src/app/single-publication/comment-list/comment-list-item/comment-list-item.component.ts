@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 import { CommentService} from '../../../services/comment.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { PublicationService} from '../../../services/publication.service';
-
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-comment-list-item',
@@ -22,8 +20,7 @@ export class CommentListItemComponent implements OnInit {
   @Input() modified: number;
   @Input() commentModerated: number;
   @Input() index: number;
-  @Input() postId: number;
-  
+  @Input() postId: number;  
   @Input() id: number;
 
 
@@ -53,8 +50,6 @@ export class CommentListItemComponent implements OnInit {
     this.modifyForm = this.formBuilder.group({
       comment: [this.commentContent.replace(/&µ/gi,'\"')]});
       this.initialComment = this.commentContent.replace(/&µ/gi,'\"'); 
-
-      console.log(this.postId);
       this.publicationService.fromPost = this.postId;
 
     if (this.commentUserName === 'utilisateur désinscrit') {
@@ -65,8 +60,7 @@ export class CommentListItemComponent implements OnInit {
       (isAdmin) => {
         this.moderator = isAdmin;
       }
-    )
-      
+    )      
   }
 
   onWantDelete() {
@@ -77,16 +71,12 @@ export class CommentListItemComponent implements OnInit {
     this.confirm = false;
   }
 
-  onDelete() {
-    
+  onDelete() {    
     const publication = this.postId;
-    console.log(publication);
     this.commentService.deleteComment(this.id, publication, this.commentUserName).then(
       (response) => {
-        console.log(response)
         this.loading = false;
         this.deleted = true;
-        //this.router.navigate(['publications', this.id]);
       }
     ).catch(
       (error) => {
@@ -95,7 +85,6 @@ export class CommentListItemComponent implements OnInit {
       }
     );
   }
-
   
   onModify() {
     this.modifying = true;}
@@ -107,32 +96,23 @@ export class CommentListItemComponent implements OnInit {
     this.errorMsg = '';
   }
 
-
   onSeeDate() {
-    
     if(this.seeDate===false) {
       this.seeDate = true;
-      console.log(this.seeDate)
-    } else
-     {
+    } else {
       this.seeDate = false;
-    }
-    
+      }    
   }
     
-  onMakeModif() {
-    
+  onMakeModif() {    
     const comment = this.modifyForm.get('comment').value;
-    //const userId = this.authService.getUserId();
     const username = this.authService.getUserName();
     const date = new Date().toISOString();
     const dbDate = date.split('.')[0].replace('T',' ');
     const modified = 1;
     this.commentService.modifyComment(comment, this.id, modified, dbDate, this.postId, username).then(
       (response) => {
-        console.log(response);
         this.loading = false;
-        //this.commentForm.reset('comment');
         this.commentService.getAllComments(this.postId, username);
       }
     )
@@ -142,12 +122,10 @@ export class CommentListItemComponent implements OnInit {
         this.errorMsg = error.message;
       }
     )
-    //.then(() => ());
   }
 
   onSeeProfile() {
     this.publicationService.fromListSubject.next(false);
-    console.log('Ici')
   }
 
   onModerate() {
@@ -156,15 +134,12 @@ export class CommentListItemComponent implements OnInit {
     const commentId = this.id;
     if (this.commentModerated === 0) {
       this.moderated = true;
-      console.log(this.moderated);
       state = 1;
     } else {this.moderated = false;
-      console.log(this.moderated)
-            state = 0}
+            state = 0;}
     
     this.commentService.moderateComment( commentId, userName, state).then(
       (response) => {
-        console.log(response)
         this.loading = false;
         this.commentService.getAllComments(this.postId, userName);      
       }
