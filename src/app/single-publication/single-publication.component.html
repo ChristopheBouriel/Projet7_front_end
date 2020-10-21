@@ -9,7 +9,7 @@
         <h2 [ngStyle]="{color: 'primary'}">{{title}}</h2>
         <p>Par <span>{{publication?.userName}}</span></p>
         <p>Publié le {{publication?.date_publication | date: 'EEEE d LLLL yyyy'}}</p>
-        <a *ngIf="publication?.modified" class="mb-2" routerLinkActive="active" routerLink="publications/{{postId}}" (click)="onSeeDate()">Modifié</a>
+        <a *ngIf="publication?.modified" class="mb-2" routerLinkActive="active" routerLink="/publications/{{postId}}" (click)="onSeeDate()">Modifié</a>
         <p *ngIf="seeDate" class="mb-2"> Dernière modification  le {{publication?.date_modif | date: 'd LLLL yyyy' | lowercase}} à {{publication?.date_modif | date: 'HH:mm' | lowercase}}</p>
         <div *ngIf=!modifying  class="publication-view">
             <p>{{content}}</p>

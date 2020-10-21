@@ -79,7 +79,6 @@ export class SettingsComponent implements OnInit {
       }
     ).catch(
           (error) => {           
-            console.error(error);
             this.errorMsg = error.message;
           }
         );
@@ -95,7 +94,6 @@ export class SettingsComponent implements OnInit {
       }
     ).catch(
           (error) => {           
-            console.error(error);
             this.errorMsg = error.message;
           }
         );
@@ -113,7 +111,6 @@ export class SettingsComponent implements OnInit {
       }
     ).catch(
           (error) => {
-            console.error(error);
             this.errorMsg = error.message;
           }
         );

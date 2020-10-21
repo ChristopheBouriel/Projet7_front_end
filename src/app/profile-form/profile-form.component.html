@@ -25,11 +25,11 @@
           </div>
           <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" class="form-control" id="email" formControlName="email">
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Facultatif">
           </div>
           <div class="form-group">
             <label for="aboutMe">A propos de moi</label>
-            <textarea class="form-control" id="aboutMe" rows="3" formControlName="aboutMe"></textarea>
+            <textarea class="form-control" id="aboutMe" rows="3" formControlName="aboutMe" placeholder="Facultatif"></textarea>
           </div>
         <button mat-raised-button color="primary" [disabled]="profileForm.invalid" (click)="onSubmit()">Envoyer</button>
     </form>

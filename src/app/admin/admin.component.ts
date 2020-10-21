@@ -25,7 +25,6 @@ export class AdminComponent implements OnInit {
     this.authService.newPostSubject.subscribe(
         (newPosts: any[]) => {
         this.newPosts = newPosts;
-        console.log(this.newPosts)
         if (newPosts[0]) {this.gotPostNotifs = true}
       }
     );
@@ -33,7 +32,6 @@ export class AdminComponent implements OnInit {
     this.authService.newCommentSubject.subscribe(
       (newComments: any[]) => {
       this.newComments = newComments;
-      console.log(this.newComments)
       if (newComments[0]) {this.gotCommentNotifs = true}     
     }
     );     

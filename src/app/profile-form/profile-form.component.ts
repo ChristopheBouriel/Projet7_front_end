@@ -46,7 +46,6 @@ export class ProfileFormComponent implements OnInit {
   }
 
   initEmptyForm() {
-    console.log('new')
     this.profileForm = this.formBuilder.group({
       firstname: [null, Validators.required],
       lastname: [null, Validators.required],
@@ -59,7 +58,6 @@ export class ProfileFormComponent implements OnInit {
   }
 
   initModifyForm(profile) {
-    console.log(profile.firstname)
     this.profileForm = this.formBuilder.group({
       firstname: [profile.firstname, Validators.required],
       lastname: [profile.lastname, Validators.required],
@@ -100,7 +98,6 @@ export class ProfileFormComponent implements OnInit {
           ).catch(
             (error) => {
               this.loading = false;
-              console.error(error);
               this.errorMsg = 'Désolé, nous n\'avons pas pu vous connecter';
             }
           );
@@ -116,7 +113,6 @@ export class ProfileFormComponent implements OnInit {
       this.profileService.modifyProfile(firstname, lastname, username, 
         dept, email, aboutMe).then(
           (response) => {
-            console.log(response)
             this.loading = false;
             this.authService.headMessage$.next('Votre profil a bien été modifié');
             this.router.navigate(['profile/', this.profile.userName]);
@@ -124,7 +120,6 @@ export class ProfileFormComponent implements OnInit {
         ).catch(
           (error) => {
             this.loading = false;
-            console.error(error);
             this.errorMsg = error.message;
           }
         );

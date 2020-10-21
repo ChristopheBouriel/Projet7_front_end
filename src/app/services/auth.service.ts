@@ -97,8 +97,6 @@ export class AuthService {
             const resp = Object.values(response);
                 this.newPosts = resp[0];
                 this.newComments = resp[1];
-                console.log(this.newPosts);
-                console.log(this.newComments);
                 this.emitNewPostSubject();
                 this.emitNewCommentSubject();
                 resolve();

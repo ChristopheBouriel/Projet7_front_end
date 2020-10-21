@@ -217,7 +217,6 @@ export class SinglePublicationComponent implements OnInit {
             state = 0}
     this.publicationService.moderatePublication( publication, userName, state).then(
       (response) => {
-        console.log(response)
         this.loading = false;
         this.router.navigate(['publications']);       
       }

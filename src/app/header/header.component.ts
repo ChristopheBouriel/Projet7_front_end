@@ -40,8 +40,6 @@ export class HeaderComponent implements OnInit {
     this.userNameSubscription = this.authService.userName$.subscribe(
       (userName: string) => {
         this.userName = userName;
-        
-        console.log(this.userName);
       }
     );
   }

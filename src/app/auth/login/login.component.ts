@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.get('password').value;
     this.authService.loginUser(username, password).then(
       () => {
-        console.log('There')
         this.loading = false;
         this.router.navigate(['publications']);
       }
@@ -47,10 +46,8 @@ export class LoginComponent implements OnInit {
       (error) => {
         this.loading = false;
         this.errorMsg = error.error;
-        console.log(error);
       }
-    );
-    
+    );    
   }
   
   ngOnDestroy() {this.authSubscription.unsubscribe();}

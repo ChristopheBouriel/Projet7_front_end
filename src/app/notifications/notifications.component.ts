@@ -28,7 +28,6 @@ export class NotificationsComponent implements OnInit {
     this.profileService.postNotifSubject.subscribe(
         (postNotifs: any[]) => {
         this.postNotifs = postNotifs;
-        console.log(this.postNotifs)
         if (postNotifs[0]) {this.gotPostNotifs = true}
       }
     );
@@ -36,7 +35,6 @@ export class NotificationsComponent implements OnInit {
     this.profileService.commentNotifSubject.subscribe(
       (commentNotifs: any[]) => {
       this.commentNotifs = commentNotifs;
-      console.log(this.commentNotifs)
       if (commentNotifs[0]) {this.gotCommentNotifs = true}     
     }
   );
