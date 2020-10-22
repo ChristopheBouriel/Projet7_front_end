@@ -145,7 +145,7 @@ export class AuthService {
           userName: currentUserName          
       }).subscribe(
         (response :{message: string }) => {
-          resolve(response);
+          resolve(response.message);
         },
         (error) => {
           reject(error.error);

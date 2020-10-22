@@ -119,7 +119,11 @@ export class ProfileComponent implements OnInit {
   checkAboutMe() {
     if (this.profile.aboutMe !== '') {
       this.aboutMe = this.profile.aboutMe.replace(/&µ/gi,'\"');
-    } else { this.aboutMe = '';}
+    } else { this.aboutMe = '';};
+
+    if (this.profile.email !== '') {
+      this.email = true;
+    } else {this.email = false;}
   }
 
   onGetList() {
