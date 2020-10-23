@@ -23,6 +23,10 @@ li {
         border: solid 1px  rgb(17, 184, 235);
         padding: 2px;
     }
+
+    a{
+        color: rgb(41, 41, 41);
+    }
 }
 
 .comment-view {
@@ -38,7 +42,12 @@ li {
 }
 
 .list-group-item .moderatedBackground {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
     color: rgb(221, 55, 9);
 }
+
+.mod span {
+    color: black;
+}
+

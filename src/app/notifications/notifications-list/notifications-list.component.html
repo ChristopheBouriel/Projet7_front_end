@@ -6,17 +6,17 @@
             <p [ngStyle]="{color: ' rgb(82, 105, 183)'}">Votre publication <a (click)="onSeePublication()">
             <span>{{title}}</span></a> a été commentée</p>
         </div>
-        <div *ngIf="moderated">
-            <p [ngStyle]="{color: ' rgb(82, 105, 183)'}">Votre publication <a (click)="onSeePublication()">
+        <div *ngIf="moderated" class="notification-message-mod">
+            <p [ngStyle]="{color: ' rgb(255, 255, 255)'}">Votre publication <a (click)="onSeePublication()">
             <span>{{title}}</span></a> a été modérée</p>
         </div>        
     </div>   
 </li>
 
 <li *ngIf="postId" [ngClass]="{'list-group-item': true, 'warning': true }">
-    <div class="notification-message">
+    <div class="notification-message-mod">
         <div >
-            <p [ngStyle]="{color: ' rgb(82, 105, 183)'}">Votre commentaire sur la publication <a (click)="onSeePublication()">
+            <p [ngStyle]="{color: ' rgb(255, 255, 255)'}">Votre commentaire sur la publication <a (click)="onSeePublication()">
             <span>{{titlePost}}</span></a> a été modéré</p>
         </div>        
     </div>   

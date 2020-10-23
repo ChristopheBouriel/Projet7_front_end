@@ -5,7 +5,6 @@ import { Publication } from '../models/publication';
 import { ProfileService} from '../services/profile.service';
 import { PublicationService} from '../services/publication.service';
 import { AuthService} from '../services/auth.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',

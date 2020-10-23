@@ -30,7 +30,7 @@
         <br/>
 
         <div *ngIf="!searching">
-            <h3 *ngIf="publications?.length">Publications : </h3>
+            <h2 *ngIf="publications?.length">Publications : </h2>
             <ul class="list-group">
                 <app-user-publications  *ngFor="let publication of publications; let i = index"
                     [publicationTitle]="publication.title"
@@ -49,16 +49,17 @@
 
         <div class="search" *ngIf="searching">
             <div class="row">
-                <p class="text-center align-self-center col-7 mb-2 mx-auto">Liste des utilisateurs</p>
+                <h2 class="text-center align-self-center col-7 mb-2 mx-auto">Liste des utilisateurs</h2>
                 <button mat-raised-button class="col-4 mb-2 ml-1 text-center mx-auto" color="primary" (click)="onBackFromList()">Retour au profil</button>
             </div>    
         </div>
         <br/>
         <br/>
         <div class="users-list" *ngIf="searching">
-            
-            <div class="row">             
-                    <input id="window" class="col-7 mb-2 mx-auto"  #inputUserName name="search">
+            <label for="search-window">Entrer un nom d'utilisateur ci-dessous</label>
+            <div class="row">
+                                
+                    <input id="search-window" class="col-7 mb-2 mx-auto"  #inputUserName name="search">
                     <button mat-raised-button color="primary" class="mb-2 ml-1 mx-auto col-4" type="submit" (click)="onSearch(inputUserName.value)">Chercher</button>
             </div>
             <ul class="list-group">        
